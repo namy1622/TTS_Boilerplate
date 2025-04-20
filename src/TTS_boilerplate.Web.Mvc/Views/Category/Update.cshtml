@@ -1,0 +1,37 @@
+﻿@using TTS_boilerplate.Web.Models.Common.Modals
+@model TTS_boilerplate.Web.Models.Category.CategoryViewModel
+@{
+    Layout =  null;
+}
+
+@await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Update Category"))
+
+<form name="CategoryUpdateForm" role="form" class="form-horizontal">
+    <input type="hidden" name="Id" value="@Model.category.Id" />
+
+    <div class="modal-body">
+        <ul class="nav nav-tabs" role="tablist">
+           @*  <li class="nav-item">
+
+            </li> *@
+        </ul>
+    </div>
+
+    <div class="tab-content mt-4">
+        <div role="tabpanel" class="tab-pane container active" >
+            <div class="form-group row required">
+                <label class="col-md-3 row-form-label" for="namecategory">Name Category</label>
+                <div class="col-md-9">
+                    <input type="text" id="namecategory" class="form-control" name="NameCategory" value="@Model.category.NameCategory" required maxlength="64" />
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</form>
+
+<script
+    src="~/view-resources/Views/Category/update.js"
+    asp-asp-append-version="true"
+>
+</script>

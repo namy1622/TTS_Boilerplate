@@ -1,0 +1,239 @@
+﻿@using TTS_boilerplate.Authorization
+@model TTS_boilerplate.Web.Models.Products.IndexViewModel
+@{
+    }
+
+<div class="mb-2 container">
+    <h2 class="ml-5 text-bold">@L("Product List")</h2>
+
+  
+    <div class="row g-2 ">
+        <div class=" row " id="ProductList">
+            @foreach(var product in Model.ProductList)
+            {
+                <div class="col-lg-2 col-md-3 col-sm-4  ">
+                    <div class="card  shadow-sm card__product" style="padding:0">
+                        <div class="card-body" style="padding:0px;">
+                            <div class=" ">
+                                <img src="@product.ProductImagePath" 
+                                     name="ProductImage"
+                                     class="card-img-top card__img"
+                                     alt="@product.ProductImagePath" />
+                                <span class="badge rounded-pill position-absolute top-0 end-0 bg-danger text-white ">
+                                    99%
+                                </span>
+                                <span class="badge rounded-pill position-absolute top-0 start-0 bg-danger text-white ">
+                                    99%
+                                </span>
+                            </div>
+
+                            <div class="hi ">
+                                <div class="row ">
+                                    <div class="col-12 text-start d-flex flex-column">
+                                        <h5 class="card-title  card__name">@product.NameProduct</h5>
+                                        <p class="text-muted mb-0">@product.NameCategory</p>
+                                        <p class="text-muted card__price">@product.Price VND</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal">
+                        <div class="modal__card">
+                            <i class="ri-close-large-line modal__close"></i>
+
+                            <img src="@product.ProductImagePath" alt="image" class="modal__img">
+
+                            <div>
+                                <h3 class="modal__name">@product.NameProduct</h3>
+                                <p class="modal__info">
+                                    Mô tả: @product.DescriptionProduct
+                                </p>
+                                <span class="modal__price">@product.Price VND</span>
+                            </div>
+
+                            <div class="modal__buttons">
+                                <button class="modal__button modal__button-ghost">Buy Now</button>
+                                <button class="modal__button">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            }
+           
+        </div>
+    </div>
+
+
+</div>
+
+
+
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/view-resources/Views/products/index.js"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/products/index.min.js"></script>
+    </environment>
+}
+
+<style>
+    .position-relative {
+        overflow: hidden; /* Đảm bảo badge không tràn ra ngoài */
+    }
+
+    .badge {
+        top: 5px; /* Cách mép trên 10px */
+        right: 5px; /* Cách mép phải 10px */
+        padding: 5px 10px;
+        font-size: 0.9rem;
+    }
+    .card-img-top {
+        width: 100%; /* Đảm bảo ảnh đầy đủ chiều rộng của thẻ cha */
+        height: 170px; /* Chiều cao cố định */
+        object-fit: fill; /* Cắt ảnh để vừa khung, không méo */
+        object-position: center; /* Căn giữa ảnh */
+    }
+
+
+    .card {
+        /* display: flex; */
+        flex-direction: column;
+         height: 90%;
+    }
+
+    .card-body {
+        /* flex-grow: 1; */
+    }
+
+    .hi{
+        margin-top:10px;
+        padding-left:2px;
+    }
+
+</style>
+
+
+<script>
+    /*=============== CARD POPUP JS ===============*/
+    const modal = document.querySelectorAll('.modal'),
+        cardBtn = document.querySelectorAll('.card__product'),
+        modalClose = document.querySelectorAll('.modal__close'),
+        modalCard = document.querySelectorAll('.modal__card')
+
+    let activeModal = (modalClick) => {
+        modal[modalClick].classList.add('active-modal')
+    }
+
+    /* Show modal */
+    cardBtn.forEach((cardBtn, i) => {
+        cardBtn.addEventListener('click', () => {
+            activeModal(i)
+        })
+    })
+
+    /* Hide modal */
+    modalClose.forEach((modalClose) => {
+        modalClose.addEventListener('click', () => {
+            modal.forEach((modalRemove) => {
+                modalRemove.classList.remove('active-modal')
+            })
+        })
+    })
+
+    /* Hide modal on background click */
+    modal.forEach((modal) => {
+        modal.addEventListener('click', () => {
+            modal.classList.remove('active-modal')
+        })
+    })
+
+    /* Don't hide modal on card click (by event propagation) */
+    modalCard.forEach((modalCard) => {
+        modalCard.addEventListener('click', (e) => {
+            e.stopPropagation()
+        })
+    })
+
+</script>
+
+
+
+
+
+
+
+    #<!-- #region edit -->
+@*  <div id="editProduct" class="modal fade container " tabindex="-1" role="dialog">
+        <div class="modal-dialog d-flex align-items-center" style="background-color:whitesmoke; border-radius: 10px" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold" style="">Sửa sản phẩm</h5>
+                    <button type="button" class="close mr-1" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="updateProductForm" style="">
+                        <input type="hidden" id="productId" />
+
+
+                        <div class="form-group">
+                            <label for="productName">Tên sản phẩm</label>
+                            <input type="text" id="productName" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Description"> Mô tả</label>
+                            <input type="text" id="Description" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productPrice"> Giá</label>
+                            <input type="number" id="productPrice" class="form-control" />
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            <label for="creationDate">Ngày Sản Xuất</label>
+                            <input type="date" id="creationDate" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="expirationDate">Ngày Hết Hạn</label>
+                            <input type="date" id="expirationDate" class="form-control">
+                        </div>
+                        <button type="submit" id="btn_update"  class="btn btn-primary">Lưu</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div> *@
+<!-- #endregion -->
+    #<!-- #region delete -->
+@*  <div id="deleteProduct" class="modal fade container" tabindex="-1" role="dialog">
+        <div class="modal-dialog " style="background-color:whitesmoke; border-radius: 10px" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold" >Xoá sản phẩm</h5>
+                </div>
+                <div class="modal-body ">
+                    <div>Bạn có chắc muốn xoá?</div>
+                    <div>
+                        <a class=" btn bg-danger text-e m-1 " data-id="">Xoá</a>
+                        <a class="btn bg-yellow m-1 close" action="Delete" data-id="">Huỷ</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>   *@
+<!-- #endregion -->

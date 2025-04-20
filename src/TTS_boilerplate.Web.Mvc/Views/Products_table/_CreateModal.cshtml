@@ -1,0 +1,107 @@
+﻿@using TTS_boilerplate.Web.Models.Common.Modals
+@model TTS_boilerplate.Web.Models.Product_table.ProductListViewModel
+@{
+    Layout = null;
+}
+
+<div class=" modal fade" id="ProductCreateModal" tabindex="-1" role="dialog" aria-labelledby="ProductCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("CreateNewProduct")))
+
+            <form name="productCreateForm" role="form" class="form-horizontal">
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" role="tab">@L("ProductDetails") </a>
+                             @*  <a  class="nav-link active" data-toggle="tab" role="tab" href="#create-product-details">@L("ProductDetails")</a> *@
+                          </li>
+                      
+                    </ul>
+
+                    <div class="tab-content mt-4">  
+                        <div role="tabpanel" class="tab-pane container active" id="create-product-details">
+                            
+                            <div class="form-group row required">
+                                <label class="col-md-3 col-form-label">@L("NameProduct")</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="NameProduct" required maxlength="256" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row required">
+                                <label class="col-md-3 col-form-label">@L("DescriptionProduct")</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="DescriptionProduct" required maxlength="64" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row required">
+                                <label class="col-md-3 col-form-label">@L("Price")</label>
+                                <div class="col-md-9 row">
+                                    <input type="text" class="form-control ml-2 col-12" id="price" name=Price required maxlength="9" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row required">
+                                <label class="col-md-3 col-form-label">@L("CreationDate")</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="creationDate" class="form-control" name="CreationDate"" required maxlength="64" />
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label class="col-md-3 col-form-label">@L("ExpirationDate")</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="expirationDate" class="form-control" name=ExpirationDate required maxlength="64" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label"> @L("ProductImage") </label>
+                                <img id="imagePreview" src="#" alt="Hình ảnh sản phẩm" class="img-thumbnail mb-2" style="max-width: 150px; display: none;">
+                                <div class="col-md-9">
+                                    <input type="file" id="imgProduct" class="form-control" name="ProductImagePath" accept="image/*" />
+                                </div>
+                            </div>
+
+
+                            <hr />
+                             
+                            <div class="form-group row ">
+                                <label for="categorySelect" class="col-form-label col-3"><strong>@L("Choosen Category")</strong></label>
+                                <select id="categorySelect"  name="CategoryIds" class="form-control col-9" style="height: 40px;">
+                                    <option value=""  selected >-- Chọn loại sản phẩm --</option>
+
+                                    @foreach (var category in Model.CategoryList)
+                                    {
+                                        <option name="category" value="@category.Id">@category.NameCategory</option>
+                                    }
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .custom-dropdown-menu {
+        max-height: 200px; /* Chiều cao tối đa */
+        overflow-y: auto; /* Cuộn dọc khi vượt quá */
+        min-width: 400px; /* Đặt chiều rộng lớn hơn mặc định */
+        padding: 10px; /* Khoảng cách bên trong */
+        padding-left: 20px;
+        border: 1px solid #ccc;
+    }
+
+</style>
+
+

@@ -1,0 +1,81 @@
+﻿/   flatpickr
+// 
+//let creationPicker, expirationPicker; // Lưu instance để hủy sau
+    //let isUpdating = false;
+    //$('#ProductCreateModal').on('shown.bs.modal', function () {
+    //    creationPicker = flatpickr("#creationDate", {
+    //        "locale": "vi",
+    //        //enableTime: true,
+    //        dateFormat: "d-m-Y ",
+    //        time_24hr: false,
+    //        //defaultDate: new Date(),
+    //        onChange: function (selectedDates, dateStr, instance) {
+    //            if (isUpdating) return;
+    //            isUpdating = true;
+    //            const expirationPicker = document.querySelector("#expirationDate")._flatpickr;
+    //            if (expirationPicker && expirationPicker.selectedDates[0]) {
+    //                if (selectedDates[0] > expirationPicker.selectedDates[0]) {
+    //                    expirationPicker.setDate(selectedDates[0], false);
+    //                }
+    //            }
+    //            isUpdating = false;
+    //        }
+    //    });
+
+    //    expirationPicker = flatpickr("#expirationDate", {
+    //        "locale": "vi",
+    //        //enableTime: true,
+    //        dateFormat: "d-m-Y ",
+    //        time_24hr: false,
+    //        //minDate: "today",
+    //        //defaultDate: new Date(),
+    //        onChange: function (selectedDates, dateStr, instance) {
+    //            if (isUpdating) return;
+    //            isUpdating = true;
+    //            const creationPicker = document.querySelector("#creationDate")._flatpickr;
+    //            if (creationPicker && creationPicker.selectedDates[0]) {
+    //                if (selectedDates[0] < creationPicker.selectedDates[0]) {
+    //                    creationPicker.setDate(selectedDates[0], false);
+    //                }
+    //            }
+    //            isUpdating = false;
+    //        }
+    //    });
+    ////});
+
+    //$('#ProductCreateModal').on('hidden.bs.modal', function () {
+    //    if (creationPicker) creationPicker.destroy();
+    //    if (expirationPicker) expirationPicker.destroy();
+    //});
+
+    /////////////////////////////////////////////
+
+    //flatpickr("#creationDate_1", {
+                    //    enableTime: true, // Bật chọn giờ nếu cần (mm:hh)
+                    //    dateFormat: "d-m-Y H:i", // Định dạng ngày giờ phù hợp với yêu cầu của bạn
+                    //    time_24hr: true, // Sử dụng định dạng 24 giờ
+                    //    defaultDate: new Date(), // Giá trị mặc định là ngày hiện tại
+                    //    onChange: function (selectedDates, dateStr, instance) {
+                    //        // Kiểm tra nếu ExpirationDate nhỏ hơn CreationDate thì báo lỗi hoặc điều chỉnh
+                    //        const expirationPicker = document.querySelector("#expirationDate_1")._flatpickr;
+                    //        if (expirationPicker && selectedDates[0] > expirationPicker.selectedDates[0]) {
+                    //            expirationPicker.setDate(selectedDates[0], false); // Đặt ExpirationDate bằng CreationDate nếu nó nhỏ hơn
+                    //        }
+                    //    }
+                    //});
+
+                    //// Khởi tạo flatpickr cho ExpirationDate
+                    //flatpickr("#expirationDate_1", {
+                    //    enableTime: true, // Bật chọn giờ nếu cần
+                    //    dateFormat: "d-m-Y H:i", // Định dạng ngày giờ
+                    //    time_24hr: true, // Sử dụng định dạng 24 giờ
+                    //    minDate: "today", // Không cho chọn ngày trước ngày hiện tại
+                    //    defaultDate: new Date(), // Giá trị mặc định là ngày hiện tại
+                    //    onChange: function (selectedDates, dateStr, instance) {
+                    //        // Đảm bảo CreationDate không lớn hơn ExpirationDate
+                    //        const creationPicker = document.querySelector("#creationDate_1")._flatpickr;
+                    //        if (creationPicker && selectedDates[0] < creationPicker.selectedDates[0]) {
+                    //            creationPicker.setDate(selectedDates[0], false); // Đặt CreationDate bằng ExpirationDate nếu nó lớn hơn
+                    //        }
+                    //    }
+                    //});

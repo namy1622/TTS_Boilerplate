@@ -1,0 +1,68 @@
+﻿@model TTS_boilerplate.Web.Models.Tasks.IndexViewModel
+
+@{
+
+    ViewBag.Title = L("TaskList");
+    ViewBag.ActiveMeny = "TaskList"; 
+}
+
+@L("TaskList")"
+
+<div class="d-flex container">
+    
+
+    <span class="float-end me-3">
+        @Html.DropDownListFor(
+        model =>model.SelectedTaskState,
+        Model.GetTasksStateSelectListItems(LocalizationManager),
+        new
+        {
+            @class = "form-control",
+            id = "TaskStateCombobox"
+        }
+        )
+    </span>
+
+    <a class="btn bg- btn-primary btn-sm ms-2" asp-action="Create">@L("AddNew")</a>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class=" list-group colum" id="TaskList">
+            @foreach(var task in Model.Tasks)
+            {
+                <li class="list-group-item  d-flex justify-content-between align-items-center  shadow-sm mb-2 rounded">
+
+                    <div>
+                        <h4 class="list-group-item-heading mb-1 fw-bold text-primary">@task.Title</h4>
+                         <div class="list-group-item-text">
+                             @task.CreationTime.ToString("yyyy-MM-dd HH:mm:ss") | @(task.AssignedPersonName ?? L("Unassigned"))
+                         </div>
+                    </div>
+
+                    <span class=" bage     px-3 py-2 rounded-pill ms-auto uniform-badge  @Model.GetTaskLabel(task)">@L($"TaskState_{task.State}")</span>
+                </li>
+            }
+            
+        </ul>
+    </div>
+</div>
+
+<style>
+    .uniform-badge {
+        min-width: 100px; /* Hoặc kích thước bạn muốn */
+        text-align: center; /* Căn giữa nội dung */
+    }
+</style>
+
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/js/view/tasks/index.js"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/js/views/tasks/index.min.js"></script>
+    </environment>
+}

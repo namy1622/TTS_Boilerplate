@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <AssemblyName>TTS_boilerplate.Migrator</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>TTS_boilerplate.Migrator</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="appsettings.json;log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.Castle.Log4Net" Version="9.4.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TTS_boilerplate.Core\TTS_boilerplate.Core.csproj" />
+    <ProjectReference Include="..\TTS_boilerplate.EntityFrameworkCore\TTS_boilerplate.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+</Project>

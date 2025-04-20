@@ -1,0 +1,26 @@
+﻿@using TTS_boilerplate.Web.Models.Common.Modals
+@{
+    Layout = null;
+}
+
+<div class="modal fade" id="CategoryCreateModal" tabindex="-1" role="dialog" aria-labelledby="CategoryCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Create New Category"))
+
+            <form name="categoryCreateForm" role="form" class="">
+                <div class="modal-body">
+                    <div class="tab-content mt-4">
+                        <div class="form-group row required">
+                            <label class=" col-md-3 col-form-label ml-2">Tên loại </label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="NameCategory" required maxlength="64" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+            </form>
+        </div>
+    </div>
+</div>

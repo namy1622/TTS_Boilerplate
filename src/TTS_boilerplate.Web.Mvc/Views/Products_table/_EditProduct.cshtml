@@ -1,0 +1,119 @@
+﻿@using TTS_boilerplate.Web.Models.Common.Modals
+@using TTS_boilerplate.Web.Models.Products_table
+@model TTS_boilerplate.Web.Models.Products_table.EditProductViewModel
+
+@{
+    Layout = null;
+}
+
+@await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditProduct")))
+
+
+<form name="ProductEditForm" role="form" class="form-horizontal">
+    <input type="hidden" name="Id" value="@Model.product.Id" />
+
+    <div class="modal-body">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" role="tab" href="#edit-product-details">ProductDetails</a>
+            </li>
+          
+        </ul>
+
+        <div class="tab-content mt-4">
+            <div role="tabpanel" class="tab-pane container active" id="edit-product-details">
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="nameproduct">NameProduct</label>
+                    <div class="col-md-9">
+                        <input type="text" id="nameproduct" class="form-control" name="NameProduct" value="@Model.product.NameProduct" required maxlength="256" minlength="2" />
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="descriptionproduct">DescriptionProduct</label>
+                    <div class="col-md-9">
+                        <input type="text" name="DescriptionProduct" id="descriptionproduct" class="form-control" value="@Model.product.DescriptionProduct" required maxlength="256" minlength="2" />
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="price">Price</label>
+                    <div class="col-md-9 row">
+                        <input type="text" id="price" name="Price" 
+                            class="form-comtrol col-12 ml-2"
+                               value="@(Model.product.Price)"
+                               required maxlength="9" />
+                    </div>
+                </div>
+                <div class="form-group row required">
+                   
+                    <label class="col-md-3 col-form-label">CreationDate</label>
+                    <div class="col-md-9">
+                        <input type="text" id="creationDate_1" name="CreationDate" class="form-control " value="@Model.product.CreationDate.ToString("yyyy-MM-dd HH:mm")" />
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label">ExpirationDate</label>
+                    <div class="col-md-9">
+                        <input type="text" id="expirationDate_1" name="ExpirationDate" class="form-control" value="@Model.product.CreationDate.ToString("yyyy-MM-dd HH:mm")" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Hình ảnh hiện tại</label>
+                    <input type="hidden" name="ExistingImageUrl" value="@Model.product.ProductImagePath">
+                    @if (!string.IsNullOrEmpty(Model.product.ProductImagePath))
+                    {
+                        <img id="imagePreview" src="@Model.product.ProductImagePath" alt="Hình ảnh sản phẩm" class="img-thumbnail mb-2" style="max-width: 150px;">
+                    }
+                    <label for="imgProduct " class="form-label"></label>
+                    <input type="file" class="form-control" name="ProductImagePath" id="imgProduct" accept="image/*">
+                </div>
+
+              
+                <hr />
+                <div class="form-group row ">
+                    <label for="categorySelect" class="col-form-label col-3"><strong>@L("Choosen Category")</strong></label>
+                    <select id="categorySelect" asp-for="@Model.product.CategoryId" name="CategoryIdss" class="form-control col-9" style="height: 40px;">
+                        <option value="" >-- Chọn loại sản phẩm --</option>
+                        @foreach (var category in Model.categories)
+                        {
+                            <option value="@category.Id">@category.NameCategory</option>
+                        }
+                    </select>
+                </div>
+
+
+                @*  <div>
+                     @Html.Label("Category List")
+
+                     @Html.DropDownList("CategoryId", Model.categories,"-- Select Category --", new
+                     {
+                         @class = "form-control",
+                             id = "CategoryDropDownEdit"
+                     })
+                 </div> *@
+            </div>
+
+          
+            
+        </div>
+    </div>
+
+    @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</form>
+
+<script src="~/view-resources/Views/product_table/_editmodal.js" asp-append-version="true"></script>
+
+<style>
+    .custom-dropdown-menu {
+        max-height: 200px; /* Chiều cao tối đa */
+        overflow-y: auto; /* Cuộn dọc khi vượt quá */
+        min-width: 400px; /* Đặt chiều rộng lớn hơn mặc định */
+        padding: 10px; /* Khoảng cách bên trong */
+        padding-left:20px;
+        border: 1px solid #ccc;
+    }
+
+</style>
+
+
+

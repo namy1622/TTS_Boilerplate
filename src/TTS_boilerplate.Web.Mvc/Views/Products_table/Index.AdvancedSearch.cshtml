@@ -1,0 +1,43 @@
+﻿<div class="abp-advanced-search ">
+    <form id="ProductsSearchForm" class="form-horizontal mt-3">
+        <div class="input-group " >
+            <div class="input-group-prepend mr-2" style="display:none;">
+                <button type="button" class="btn-outline-dark  btn-search btn hidden" style="  margin-left:0px; border-radius:20px">
+                    <span class="fas fa-search" aria-hidden="true"></span>
+                </button>
+            </div>
+            @* <input type="text" name="Keyword" id="searchKeyword" class="form-control txt-search" /> *@
+        
+            <input type="text" id="searchKeyword" name="Keyword" style="border-radius: 6px"  class="input form-control txt-search search-input" placeholder="Tìm kiếm sản phẩm...">
+        </div>
+       
+     </form>
+</div>
+
+
+
+<style>
+    /* From Uiverse.io by Praashoo7 */
+    .input {
+       
+        /* max-width:80%; */
+        border: none;
+        outline: none;
+        border-radius: 8px 8px;
+        padding: 1em;
+        background-color: #ccc;
+        box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
+        transition: 300ms ease-in-out;
+    }
+
+    /* Ẩn input mặc định */
+
+
+        .input:focus {
+            background-color: white;
+            /* transform: scale(1.005); */
+            box-shadow: 13px 13px 100px #969696, -13px -13px 100px #ffffff;
+        }
+
+</style>
+

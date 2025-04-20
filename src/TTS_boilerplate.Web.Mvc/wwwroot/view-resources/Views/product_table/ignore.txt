@@ -1,0 +1,239 @@
+﻿   //var _$categoryCheckboxes = _$form[0].querySelectorAll("input[name='category']:checked")
+        //console.log(' _$categoryCheckboxes', _$categoryCheckboxes);
+        //if (_$categoryCheckboxes) {
+        //    for (var categoryIndex = 0; categoryIndex < _$categoryCheckboxes.length; categoryIndex++) {
+        //        var _$categoryCheckbox = $(_$categoryCheckboxes[categoryIndex]);
+
+        //        var categoryId = parseInt(_$categoryCheckbox.attr("data-category-id"), 10); // Chuyển thành số nguyên
+
+        //        //console.log('cate_checkbob', _$categoryCheckbox.attr("data-category-id"))
+        //        //console.log('cate_checkbob_2', _$categoryCheckbox.val())
+        //        formData.categoryId = categoryId;
+        //        //product.categoryId=categoryId;
+        //        //product.categoryId.push(categoryId);
+        //        formData.append('CategoryId', categoryId); // Thêm CategoryId vào formData
+        //        console.log('formData.categoryId ', categoryId)
+        //    }
+        //}
+
+        -====================================================
+
+        <div class="form-group row ml-2">
+                    <div class="dropdown ">
+                        <div class="dropdown-toggle " data-toggle="dropdown" >
+                            <strong >Category List</strong>
+                        </div>
+                        <article class="dropdown-menu custom-dropdown-menu">
+                            @foreach (var category in Model.categories)
+                            {
+                                <div class="dropdown-item">
+                                    <input type="checkbox" name="category" data-product-id="@category.Id" id="cateogryId - @category.Id" value="@category.NameCategory" />
+                                    <label for="categoryId - @category.Id" title="@category.NameCategory">@category.NameCategory</label>
+                                </div>
+                            }
+                    </div>
+                </div>
+
+                //--=====================
+
+                   //formData.Price = parseInt(formData.Price);
+
+        //product.categoryId = 
+        //if (_$form[0].querySelector("input[name='category']:checked") == null) {
+        //    formData.append('CategoryId', 0); // Nếu không có category được chọn, gán giá trị 0 cho CategoryId
+        //}
+        //else {
+        //    var _$productCheckboxs = _$form[0].querySelector("input[name='category']:checked")
+        //    console.log('_$productcheckbox', _$productCheckboxs);
+        //    var _$productchecbox = parseInt(_$productCheckboxs.getAttribute("data-product-id"));
+        //    console.log('----', _$productchecbox)
+        //    //formData.categoryId = _$productchecbox;
+        //    formData.append('CategoryId', _$productchecbox); // Thêm CategoryId vào formData
+
+        //}
+        //-- append categoryId
+        //var selectCategory = parseInt($('#categorySelect').val());
+
+        //-========
+
+        // DROPDOWN FILTER
+                        
+                // xử lý filter ------
+                //console.log('-- filterValue -- type', filterValue, typeFilter);
+                //console.log('--startDate_input:', startDate);
+                //console.log('--endDate_input:', endDate);
+                //if (typeFilter ) {
+                //    console.log('-- vao if cha --');
+                //    if (typeFilter === 'name') {
+                //        _$formObj.nameFilter = filterValue;
+                //    }
+                //    else if (typeFilter === 'date') {
+                //        console.log('-- vao if date --');
+                //        _$formObj.startDate = startDate;
+                //        _$formObj.endDate = endDate;
+                //    }
+                //    else if (typeFilter === 'price') {
+                //        _$formObj.priceFilter = filterValue;
+                //    }
+                //    console.log('-- cuoi if cha --')
+                //}
+
+                //======
+
+    //_$dropdownFilter.on('click', function (e) {
+    //    e.preventDefault();
+    //    typeFilter = $(this).attr('data-typeFilter');
+    //    //let filterValue = '';
+    //    console.log('--type', typeFilter);
+    //    $('#dynamic-input').html('');
+
+    //    if (typeFilter === 'name') {
+    //        $('#dynamic-input').html(`
+    //            <input type="text" name="filter" style="width:300px" class="form-control" placeholder="Nhập tên..." />
+    //        `);
+    //    } else if (typeFilter === 'date') {
+    //        $('#dynamic-input').html(`
+    //            <div class="d-flex">
+    //            <input type="text" name="filter" style="width:300px" class="form-control filterDate" />
+    //            <button type="button" class="btn-outline-dark ml-2 btn-search btn " style="  margin-left:0px; border-radius:20px">
+    //                <span class="fas fa-search" aria-hidden="true"></span>
+    //            </button>
+    //            </div>
+    //        `);
+    //    } else if (typeFilter === 'price') {
+    //        $('#dynamic-input').html(`
+    //            <input type="text" name="filter" style="width:300px" class="form-control" placeholder="Nhập giá..." />
+    //        `);
+    //    }
+
+    //    $('input[name="filter"]').on('input', function () {
+    //        filterValue = $(this).val(); // lấy gtri tu ô input
+    //        console.log('--filterValue', filterValue);
+    //    });
+
+    //    $(".filterDate").on('apply.daterangepicker', function (ev, picker) {
+    //        startDate = picker.startDate.format('YYYY-MM-DD HH:mm');
+    //        endDate = picker.endDate.format('YYYY-MM-DD HH:mm');
+    //        console.log('--startDate:', startDate);
+    //        console.log('--endDate:', endDate);
+    //    });
+
+    //    $(".filterDate").daterangepicker({
+    //        showDropdowns: true,
+    //        locale: {
+    //            format: 'YYYY-MM-DD ', // Định dạng ngày khớp với giá trị từ server
+    //            applyLabel: 'Áp dụng',
+    //            cancelLabel: 'Hủy',
+    //            daysOfWeek: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+    //            monthNames: [
+    //                'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+    //                'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+    //            ],
+    //        }
+    //    });
+
+
+    //});
+
+     //--- filter DATE--
+    //$('#filterBtn').on('click', function (e) {
+    //_$dropdownFilter.on('click', function (e) {
+
+    //    typeFilter = $(this).attr('data-typeFilter');
+    //    //let filterValue = '';
+    //    console.log('--type', typeFilter);
+    //    $('#dynamic-input').html('');
+
+    //    if (typeFilter === 'date') {
+    //        $('#dynamic-input').html(`
+    //             <div class="filter-form" style="display: flex; align-items: center; gap: 15px; padding: 15px; background-color: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+    //                  <div style="display: flex; flex-direction: column; margin-bottom: 0;">
+    //                      <label style="font-weight: 500; margin-bottom: 5px; color: #495057;">Date Range</label>
+    //                      <input type="text" name="filter" class="form-control filterDate" style="width: 250px; padding: 10px 15px; border-radius: 20px; border: 1px solid #ced4da; transition: all 0.3s ease;" />
+    //                  </div>
+    //                  <div style="display: flex; flex-direction: column; margin-bottom: 0;">
+    //                      <label style="font-weight: 500; margin-bottom: 5px; color: #495057;">Price Range</label>
+    //                      <input type="text" name="filterPrice" class="form-control js-range-slider" style="width: 250px; padding: 10px 15px; border-radius: 20px; border: 1px solid #ced4da; transition: all 0.3s ease;" />
+    //                  </div>
+    //                  <button type="submit" id="btn_filter" class="btn btn-outline-dark btn-sm" style="border-radius: 20px; align-self: flex-end; margin-bottom: 5px; padding: 8px 15px; transition: all 0.3s ease;">
+    //                      <span class="fas fa-search" aria-hidden="true"></span>
+    //                  </button>
+    //              </div>
+    //                `);
+    //    } else if (typeFilter === 'price') {
+    //        $('#dynamic-input').html(`
+    //                <input type="text" style:"" name="filter_price" style="width:300px" class="form-control js-range-slider" placeholder="Nhập giá..." />
+    //            `);
+    //    }
+    //    // Định vị overlay gần nút
+   
+   
+    //    $(".js-range-slider").ionRangeSlider({
+
+    //        type: "double",
+    //        grid: true,
+    //        min: 0,
+    //        max: 1000000,
+    //        from: 0,
+    //        to: 1000,
+    //        onChange: function(data) {
+    //            priceFrom = data.from;
+    //            priceTo = data.to;
+               
+    //            console.log('-- khoang gia', priceFrom, priceTo);
+    //        }
+            
+    //    });
+
+    //    $('input[name="filter"]').on('input', function () {
+    //        filterValue = $(this).val(); // lấy gtri tu ô input
+    //        console.log('--filterValue', filterValue);
+    //    });
+
+    //    //--------------
+    //    //if (clickFilter) {
+    //    //    $('#dynamic-input').html(`
+    //    //        <div class="d-flex">
+    //    //        <input type="text" name="filter" style="width:300px" class="form-control filterDate" />
+    //    //        <button type="button" id="btn_filter" class="btn-outline-dark ml-2  btn " style="  margin-left:0px; border-radius:20px">
+    //    //            <span class="fas fa-search" aria-hidden="true"></span>
+    //    //        </button>
+    //    //        </div>
+    //    //    `);
+    //    //    clickFilter = false;
+    //    //}
+    //    //else {
+    //    //    startDate = '';
+    //    //    endDate = '';
+    //    //    $('#dynamic-input').html(``);
+    //    //    clickFilter = true;
+    //    //}
+
+    //    //$(".js-range-slider").on('change', function (data) {
+    //    //    priceFrom = data.from;
+    //    //    priceTo = data.to;
+
+    //    //    console.dir('-- khoang gia', priceFrom, priceTo);
+    //    //})
+
+    //    $(".filterDate").on('apply.daterangepicker', function (ev, picker) {
+    //        startDate = picker.startDate.format('YYYY-MM-DD HH:mm');
+    //        endDate = picker.endDate.format('YYYY-MM-DD HH:mm');
+    //        console.log('--startDate:', startDate);
+    //        console.log('--endDate:', endDate);
+    //    });
+
+    //    $(".filterDate").daterangepicker({
+    //        showDropdowns: true,
+    //        locale: {
+    //            format: 'YYYY-MM-DD ', // Định dạng ngày khớp với giá trị từ server
+    //            applyLabel: 'Áp dụng',
+    //            cancelLabel: 'Hủy',
+    //            daysOfWeek: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+    //            monthNames: [
+    //                'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+    //                'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+    //            ],
+    //        }
+    //    });
+    //});

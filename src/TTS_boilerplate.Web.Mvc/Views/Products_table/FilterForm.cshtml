@@ -1,0 +1,140 @@
+﻿
+
+ @* <div class="abp-advanced-search">
+     <form id="FilterForm" class="form-horizontal">
+             <div class="dropdown input-group-append">
+                 <button type="button"
+                         id="btn_filter_drop"
+                         class="btn btn-default dropdown-toggle"
+                         data-toggle="dropdown"
+                         aria-expanded="false">
+                     <i class="fas fa-filter"></i>
+                 </button>
+             <div class="dropdown-menu  dropdown-menu-left dd-menu" role="menu" style="padding: 0;">
+                 <div class="card " style="margin-bottom: 0;  width: 500px;">
+                         <div class="card-body" style="">
+                             <div class=" " style="">
+                                 <div class="filter-form" style="display: flex; align-items: center; gap: 15px; padding: 15px; background-color: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                                     <div style="display: flex; flex-direction: column; margin-bottom: 0;">
+                                         <label class="mb-2 ml-2" style="font-weight: 500; margin-bottom: 5px; color: #495057;">@L("Date Range")</label>
+                                         <input type="text" name="filter" class="form-control filterDate" style="width: 210px; padding: 10px 15px; border-radius: 20px; border: 1px solid #ced4da; transition: all 0.3s ease;" />
+                                     </div>
+                                     <div class="ml-5 mt-2" style="display: flex; flex-direction: column; margin-bottom: 0; width:290px">
+                                         <label style="font-weight: 500; margin-bottom: 5px; color: #495057;">@L("Price Range")</label>
+                                         <input type="text" name="filterPrice" class="form-control js-range-slider" style="width: 750px; padding: 10px 15px; border-radius: 20px; border: 1px solid #ced4da; transition: all 0.3s ease;" />
+                                     </div>
+                                      <button type="submit" id="btn_filter" class="btn btn-outline-dark btn-sm" style="border-radius: 20px; align-self: flex-end; margin-bottom: 5px; padding: 8px 15px; transition: all 0.3s ease;">
+                                          <span class="fas fa-search" aria-hidden="true"></span>
+                                      </button>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="card-footer">
+                             <button type="button" class="btn btn-default btn-clear"><i class="fas fa-backspace"></i></button>
+                             <button type="button" id="btn_filter_drop" class="btn bg-blue float-right "><i class="fas fa-search"></i></button>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+     </form>
+ </div>
+ *@
+
+
+<div class="abp-advanced-search">
+      <div id="FilterForm" class="form-horizontal">
+          <div class="input-group">
+            <div class="dropdown input-group-append">
+                <button type="button"
+                        id="btn_filter_dropdown"
+                        class="btn btn-default dropdown-toggle"
+                        data-toggle="dropdown"
+                        style="border-radius:5px"
+                        aria-expanded="false">
+                        
+                    <i class="fas fa-filter"></i>
+                </button>
+            <div class="dropdown-menu  dropdown-menu-left dd-menu" role="menu" style="padding: 0;">
+                    <div class="card " style="margin-bottom: 0;  width: fit-content;  border:1px solid black">
+                        <div class="card-header d-flex">
+                            <strong>Lọc sản phẩm</strong>
+                        </div>
+                        <div class="card-body" style="">
+                            <div class=" " style="">
+                                <div class="filter-form" style=" align-items: center; gap: 15px; padding: 15px; background-color: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                                    <div class="mt-1" style="display: flex; flex-direction: row; margin-bottom: 0;">
+                                        <div class="mr-5 mt-2">
+                                            <input type="Checkbox" id="checkboxDate" style="width:18px; height:18px" checked name="name" value="Ngày" />
+                                        </div>
+                                        <div class="d-flex">
+                                            <label class="mr-2 mt-1" style="font-weight: 500; margin-bottom: 5px; color: #495057;">@L("Date Range")</label>
+                                            <input type="text" name="filter"  class="form-control filterDate_drop" placeholder="Chọn khoảng ngày"
+                                                style="width: 250px; padding: 10px 20px; border-radius: 5px; border: 1px solid #ced4da; transition: all 0.3s ease;" />
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="mt-3 " style="display: flex; flex-direction: row; margin-bottom: 0;">
+                                        <div class="mr-5 mt-4">
+                                            <input type="Checkbox" id="checkboxPrice" style="width:18px; height:18px" checked class="" name="name" value="Giá" />
+                                        </div>
+                                        <div class="d-flex " style="">
+                                            <label class="mr-4 mt-3" style="font-weight: 500; margin-bottom: 5px; color: #495057;">@L("Price Range")</label>
+                                            <input type="text" name="filterPrice" class="form-control input_price_drop " 
+                                                style="padding: 10px 15px; border-radius: 10px; border: 1px solid #ced4da; transition: all 0.3s ease;" />
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" style="display:none" class="btn btn-default btn-clear"><i class="fas fa-backspace"></i></button>
+                            <button type="submit" id="btn_filter_drop" class="btn bg-blue float-right "><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    /* Override luôn container của ionRangeSlider */
+ 
+    /* Thay #4CAF50 bằng màu bạn muốn */
+    .irs--flat  {
+        
+        width:250px;
+    }
+
+        .irs--flat .irs-bar,
+        .irs--flat .irs-from,
+        .irs--flat .irs-to,
+        .irs--flat .irs-handle > span {
+            background-color: #007bff !important;
+            border-color: #007bff !important;
+        }
+
+    .irs-single {
+        background-color: #007bff !important;
+        
+    }
+      .irs-handle i{
+          background-color: #007bff !important;
+        height: 24px !important;
+      }
+
+   
+
+    .irs--flat .irs-line {
+        height: 20px !important;
+    }
+
+    .irs--flat .irs-bar{
+        height: 20px !important;
+    }
+    
+
+    
+    </style>
