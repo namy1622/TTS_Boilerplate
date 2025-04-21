@@ -10,14 +10,15 @@
     --title-color: hsl(5, 15%, 15%);
     --text-color: hsl(5, 8%, 35%);
     --white-color: hsl(0, 0%, 100%);
-    --body-color: hsl(5, 100%, 98%);
+    --body-color: hsl(7, 7%, 86%);
+    --card-color: hsl(195, 80%, 93%);
     /*========== Font and typography ==========*/
     /*.5rem = 8px | 1rem = 16px ...*/
     --body-font: "Montserrat", sans-serif;
     --h1-font-size: 1.5rem;
     --h2-font-size: 1.0rem;
     --h3-font-size: 1rem;
-    --normal-font-size: .938rem;
+    --normal-font-size: .9rem;
     /*========== Font weight ==========*/
     --font-regular: 400;
     --font-semi-bold: 600;
@@ -78,15 +79,13 @@ img {
 }
 
 .card__product {
-    background-color: var(--body-color);
-    border: 4px solid var(--first-color);
-
+    background-color: var(--white-color);
+    border: 1px solid var(--first-color);
     padding-block: 1.25rem;
     text-align: start;
     display: grid;
-/*    row-gap: 1.5rem;*/
+    /*    row-gap: 1.5rem;*/
     cursor: pointer;
-    
 }
 
 .card__img {
@@ -96,14 +95,14 @@ img {
 }
 
 .card__name {
-    font-size: var(--h3-font-size);
+    font-size: var(--h3-font-size) ;
     color: var(--title-color);
     font-weight: var(--font-semi-bold);
     margin-bottom: .4rem;
 }
 
 .card__price {
-    font-size: var(--normal-font-size);
+    font-size: var(--normal-font-size) !important;
     font-weight: var(--font-semi-bold);
     color: var(--title-color);
 }
@@ -156,7 +155,7 @@ img {
 }
 
 .modal__name {
-    font-size: var(--h2-font-size);
+    font-size: var(--h1-font-size);
     color: var(--title-color);
     margin-bottom: .5rem;
 }
@@ -204,9 +203,9 @@ img {
 
 /* Active modal */
 .active-modal {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: initial;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: initial !important;
 }
 
     .active-modal .modal__card {
@@ -259,17 +258,18 @@ img {
 
     .card__product {
         padding-block: 2rem;
-        border-width: 2px;
+        border-width: 1px;
     }
 
     .card__name,
     .card__price {
-        font-size: var(--h3-font-size);
+        font-size: var(--normal-font-size);
     }
 
     .modal__card {
-        max-width: 776px;
-        padding: 3rem 2.5rem 2.5rem;
+        width: 100%;
+        max-width: 720px;
+        padding: 2rem 2rem 1.5rem;
     }
 
     .modal__img {
@@ -278,10 +278,10 @@ img {
 
     .modal__name,
     .modal__price {
-        font-size: var(--h3-font-size);
+        font-size: var(--h2-font-size);
     }
 
     .modal__buttons {
-        column-gap: 1rem;
+        column-gap: 2rem;
     }
 }

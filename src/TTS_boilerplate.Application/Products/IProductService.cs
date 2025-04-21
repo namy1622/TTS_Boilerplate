@@ -13,13 +13,13 @@ namespace TTS_boilerplate.Products
     {
         Task<ListResultDto<ProductListDto>> GetAll_Product(); // (GetAll_ProductIntput productInput);
 
-        Task Create(ProductInput input);
-
         Task<ProductListDto> GetProduct(int id);
 
-        Task Update(ProductInput input);
+        //Task Create(ProductInput input);
 
-        Task Delete(int Id);
+        //Task Update(ProductInput input);
+
+        //Task Delete(int Id);
 
 
     }

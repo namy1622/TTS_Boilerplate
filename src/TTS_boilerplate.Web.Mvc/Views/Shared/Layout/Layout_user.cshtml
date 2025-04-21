@@ -27,6 +27,8 @@
     @RenderSection("styles", required: false)
 </head>
 <body class="hold-transition sidebar-mini  " style="width:100%">
+     @* @await Html.PartialAsync("_SideBar.cshtml") *@
+
     <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
         @RenderBody()
     </div>

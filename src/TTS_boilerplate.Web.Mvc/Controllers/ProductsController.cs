@@ -36,6 +36,7 @@ namespace TTS_boilerplate.Web.Controllers
             var model = new IndexViewModel(allProduct.Items, categorySelectListItems);
 
             return View(model);
+            //return Ok();
 
         }
 
