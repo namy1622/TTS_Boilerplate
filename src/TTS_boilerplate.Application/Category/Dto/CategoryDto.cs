@@ -12,6 +12,7 @@ namespace TTS_boilerplate.Category.Dto
     [AutoMap(typeof(TTS_boilerplate.Models.Category))]
     public class CategoryDto :Entity
     {
+        public int Id { set; get; }
         [Required]
         [StringLength(32)]
         public string NameCategory { set; get; }

@@ -10,6 +10,10 @@ namespace TTS_boilerplate.Web.Views.Shared.Components.SideBarUserArea
 
         public string GetShownLoginName()
         {
+            if (LoginInformations == null || LoginInformations.User == null)
+            {
+                return string.Empty; // Hoặc trả về giá trị mặc định phù hợp
+            }
             var userName = LoginInformations.User.UserName;
 
             if (!IsMultiTenancyEnabled)

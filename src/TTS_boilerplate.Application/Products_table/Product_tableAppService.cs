@@ -1,14 +1,17 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
 using Abp.UI;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,15 +32,19 @@ namespace TTS_boilerplate.Products_table
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<TTS_boilerplate.Models.Category> _categoryRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _configuration;
+
 
         public Product_tableAppService(
             IRepository<Product> productRepository,
             IRepository<TTS_boilerplate.Models.Category> categoryRepository,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IConfiguration configuration)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
             _webHostEnvironment = webHostEnvironment;
+            _configuration = configuration;
         }
 
         public async Task<ListResultDto<ComboboxItemDto>> GetCategoryComboboxItem()
@@ -210,8 +217,19 @@ namespace TTS_boilerplate.Products_table
                 await file.CopyToAsync(stream);
             }
             // Lưu đường dẫn tương đối vào database
-            return $"/images/products/{fileName}"; // Trả về đường dẫn để lưu vào database
+            //return $"/images/products/{fileName}"; // Trả về đường dẫn để lưu vào database
 
+
+            // Lấy base URL từ configuration
+            var baseUrl = _configuration["App:BaseUrl"];
+            if (string.IsNullOrEmpty((string)baseUrl))
+            {
+                throw new UserFriendlyException("BaseUrl is not configured in appsettings.json");
+            }
+
+            // Trả về đường dẫn tuyệt đối
+            return $"{baseUrl}/images/products/{fileName}";
+           
         }
     }
 }

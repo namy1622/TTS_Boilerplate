@@ -9,6 +9,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TTS_boilerplate.Category.Dto;
 using TTS_boilerplate.LookupAppService;
 using TTS_boilerplate.Models;
 using TTS_boilerplate.Products.Dto;
@@ -19,13 +20,17 @@ namespace TTS_boilerplate.Products
     {
         private readonly IRepository<Product> _productRepository; // repo lưu trữ để trương tác với Entity product trong db 
         private readonly ILookupAppService _lookupAppService;
+        private readonly IRepository<TTS_boilerplate.Models.Category> _categoryRepository;
 
         private readonly ILogger log;
-        public ProductService(IRepository<Product> productRepository, ILookupAppService lookupAppService, ILogger _log)
+        public ProductService(
+            IRepository<Product> productRepository, 
+            ILookupAppService lookupAppService, ILogger _log,
+            IRepository<TTS_boilerplate.Models.Category> categoryRepository)
         {
             _productRepository = productRepository;
             _lookupAppService = lookupAppService;
-
+            _categoryRepository = categoryRepository;
             log = _log;
         }
 
@@ -51,6 +56,22 @@ namespace TTS_boilerplate.Products
 
             return new ListResultDto<ProductListDto>(
                 ObjectMapper.Map<List<ProductListDto>>(allProduct)) ;
+        }
+
+        public async Task<ListResultDto<CategoryDto>> GetCategory()
+        {
+            var categories = await _categoryRepository.GetAll()
+                                .Select(c => new CategoryDto
+                                {
+                                    NameCategory = c.NameCategory,
+                                    Id = c.Id
+                                }).ToListAsync();
+
+            return new ListResultDto<CategoryDto>
+            {
+                Items = categories
+            };
+                
         }
 
         public async Task<ProductListDto> GetProduct(int id)

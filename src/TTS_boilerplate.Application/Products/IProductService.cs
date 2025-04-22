@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TTS_boilerplate.Category.Dto;
 using TTS_boilerplate.Products.Dto;
 
 namespace TTS_boilerplate.Products
@@ -15,11 +16,9 @@ namespace TTS_boilerplate.Products
 
         Task<ProductListDto> GetProduct(int id);
 
-        //Task Create(ProductInput input);
+        Task<ListResultDto<CategoryDto>> GetCategory();
 
-        //Task Update(ProductInput input);
-
-        //Task Delete(int Id);
+       
 
 
     }

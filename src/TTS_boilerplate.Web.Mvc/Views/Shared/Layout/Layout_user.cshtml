@@ -27,12 +27,14 @@
     @RenderSection("styles", required: false)
 </head>
 <body class="hold-transition sidebar-mini  " style="width:100%">
-     @* @await Html.PartialAsync("_SideBar.cshtml") *@
+    <div class="wrapper">
+    @await Html.PartialAsync("_Header_user.cshtml")
+     @await Html.PartialAsync("_SideBar_user.cshtml")
 
-    <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+    <div class="content-wrapper" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
         @RenderBody()
     </div>
-
+    </div>
     @await Html.PartialAsync("_Scripts.cshtml")
     @RenderSection("scripts", required: false)
     @WebResourceManager.RenderScripts()
