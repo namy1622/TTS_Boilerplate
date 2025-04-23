@@ -1,0 +1,68 @@
+﻿@model TTS_boilerplate.Web.Models.Products.CreateViewModel
+@{
+
+}
+
+<h2>
+    New Product
+</h2>
+
+<form id="ProductCreateForm" class="container">
+    <div class="form-group">
+        <label for="NameProduct">@L("NameProduct")</label>
+        <input type="text" name="NameProduct" class="form-control" placeholder="@L("Name Prodcut")" required maxlength="@TTS_boilerplate.Models.Product.MaxTitleLength" />
+        
+    </div>
+
+    <div class="form-group">
+        <label for="Description"> @L("Description")</label>
+        <input type="text" name="DescriptionProduct" class="form-control" placeholder="@L("Description")" maxlength="@TTS_boilerplate.Models.Product.MaxTitleLength" />
+    </div>
+
+    <div class="form-group">
+        <label for="Price"> @L("Price")</label>
+        <input type="number" name="Price" class="form-control" placeholder="@L("Price")" />
+    </div>
+
+    <div class="form-group">
+        <label for="CreateDate">@L("CreateDate")</label>
+        <input type="date" name="CreateDate" class="form-control" placeholder="@L("CreateDate")" />
+
+    </div>
+
+    <div class="form-group">
+        <label for="Expiration">@L("ExpirationDate")</label>
+        <input type="date" name="ExiprationDate" class="form-control" placeholder="@L("ExpirationDate")" />
+
+    </div>
+
+
+     <div class="form-group">
+         @Html.Label("Loại  sản phẩm")
+         @Html.DropDownList(
+         "CategoryId",
+         Model.Category,
+         new
+         {
+         @class= "form-control",
+         id = "CategoryIdCombobox"
+         }
+         )
+     </div>
+
+
+    <button type="submit" class="btn_1 btn btn-default bg-primary">@L("Save")</button>
+</form>
+
+
+@section scripts
+{
+
+    <environment names="Development">
+        <script src="~/view-resources/Views/products/create.js"></script>
+    </environment>
+
+    <environment names="Staging, Prodcution">
+        <script src="~/view-resources/Views/products/create.min.js"></script>
+    </environment>
+}

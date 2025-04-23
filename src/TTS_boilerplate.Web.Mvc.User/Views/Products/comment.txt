@@ -1,0 +1,18 @@
+﻿          <li class="li_item d-flex list-group-item col-md-12 mb-2 justify-content-between">
+                    
+                        <div>
+                            <h4 class="list-group-item-heading">@product.NameProduct </h4>
+                                  <a >@(product.NameCategory)</a>
+                            <div class="list-group-itm-text d-flex justify-content-end">
+                                NSX: @product.CreationDate.ToString("dd-MM-yyyy") - HSD: @product.ExpirationDate.ToString("dd-MM-yyyy")
+                            </div>
+                        </div>
+                        
+                        <div class="auto ms-auto mt-2 ">
+                            <a  class=" btn bg-warning text-e m-1 edit-product" data-id="@product.Id">Sửa (@product.Id)</a>
+                            <a class="btn bg-danger m-1 delete-product" action="Delete" data-id="@product.Id">Xóa (@product.Id)</a>
+                        </div>
+                        
+                    
+                    
+                </li>
