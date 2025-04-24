@@ -23,7 +23,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Carts\Dto\" />
     <Folder Include="Orders\Dto\" />
   </ItemGroup>
 </Project>

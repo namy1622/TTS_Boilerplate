@@ -5,10 +5,11 @@
     var _$modal = $('#modalCard'),
         _$valPrice = $('input[name=maxPrice');
     var _$addCartId = '',
-        //_$isUser = 0,
-        _$buyNowId = '';
-  var _$idUser = abp.session.userId;
-
+       _$buyNowId = '';
+    
+    var _$idUser = abp.session.userId;
+  var currentPageDefault = 1;
+    
     var _$rangePrice = $('#price-range');
     // Khởi tạo khi document ready
     $(document).ready(function () {
@@ -17,33 +18,51 @@
       productDisplay.init();
       //initCart();
     });
-
+  var page = 1;
     // Load product lên view 
   var productDisplay = {
-        
+    _currentPage: 1,
+    _pageSize: 10,
+    _totalItems: 0,
+    _totalPages: 0,
+     
 
         // hàm khởi tạo 
-        init: function () {
-            console.warn('-- da vao init--')
-        this.loadProducts();
+    init: function () {
+      console.warn('-- da vao init--')
+      console.warn('-- _pageSize --', this._pageSize)
+      this.loadProducts(page);
+      this.handlerFilter();
+     },
+    //loadProducts : function(filters, page = 1){
+    loadProducts: function (page) {
 
-        
-        },
-        loadProducts : function(){
-             var self = this; // Lưu context this(this này của productDisplay)
-          var userId = _$idUser
+      
+      var self = this; // Lưu context this(this này của productDisplay)
+      var userId = _$idUser
+      this._currentPage = page || this._currentPage; // Cập nhật trang hiện tại
+      var requestData = {
+        skipCount: (page - 1) * this._pageSize,
+        maxResultCount: this._pageSize,
+      };
+
              abp.ui.setBusy(); // Hiển thị loading
           // Sử dụng abp.services.app để gọi API
-          _$productServices.getAll_Product()
+          _$productServices.getAll_Product(requestData)
                  .done(function (result) {
-                     console.warn('-- load thanh cong', result);
-                     if (result && result.items) {  // vào function này thì nó là this khác 
-                         self.renderProducts(result.items);
-
+                   console.warn('-- load thanh cong', result);
+                   if (result && result.items) {  // Thêm kiểm tra result
+                     self._totalItems = result.totalCount; // Cập nhật totalItems
+                     self._totalPages = Math.ceil(result.totalCount / self._pageSize); // Cập nhật totalPages
+                     if (result.items.length > 0) {  // vào function này thì nó là this khác 
+                       self.renderProducts(result.items);
+                       self.renderPagination();
                      } else {
-                         console.error('Không có dữ liệu sản phẩm');
-                         abp.notify.error('Không thể tải dữ liệu sản phẩm');
+                       _$productList.html('<div class="col-12 text-center">Không có sản phẩm nào phù hợp</div>');
+                       $('#pagination').empty();
+                       abp.notify.info('Không tìm thấy sản phẩm phù hợp');
                      }
+                   }
                  })
                  .fail(function (error) {
                      console.error('Lỗi khi tải sản phẩm:', error);
@@ -60,7 +79,73 @@
               console.warn('Tao gio hang that bai');
             })
         
-        },
+    },
+    renderPagination: function () {
+      var $pagination = $('#pagination');
+      $pagination.empty();
+
+      if (this._totalItems <= 1) return;
+
+      // thông tin phân trang
+      var startItem = (this._currentPage - 1) * this._pageSize + 1
+      var endItem = Math.min(startItem + this._pageSize - 1, this._totalItems);
+
+
+      $pagination.before(`
+          <div>
+            Hiển thị ${startItem} - ${endItem} của ${this._totalItems} sản phẩm
+          </div>
+      `);
+      // Thêm nút Previous
+      var prevDisabled = this._currentPage === 1 ? 'disabled' : '';
+      $pagination.append(`
+            <li class="page-item ${prevDisabled}">
+                <a class="page-link" href="#" data-page="${this._currentPage - 1}"><</a>
+            </li>
+        `);
+      // Tính toán range trang hiển thị
+      var startPage = Math.max(1, this._currentPage - 2);
+      var endPage = Math.min(this._totalPages, startPage + 4);
+      startPage = Math.max(1, endPage - 4);
+      // Thêm các trang
+      for (var i = startPage; i <= endPage; i++) {
+        var active = i == this._currentPage ? 'active' : '';
+        $pagination.append(`
+                <li class="page-item ${active}">
+                    <a class="page-link" href="#" data-page="${i}">${i}</a>
+                </li>
+            `);
+      }
+      // Thêm nút Next
+      var nextDisabled = this._currentPage === this._totalPages ? 'disabled' : '';
+      $pagination.append(`
+            <li class="page-item ${nextDisabled}">
+                <a class="page-link" href="#" data-page="${this._currentPage + 1}">></a>
+            </li>
+        `);
+      // Bind sự kiện click cho các nút phân trang
+      $pagination.find('.page-link').on('click', function (e) {
+        e.preventDefault();
+        if (!$(this).parent().hasClass('disabled')) {
+          var _page = $(this).attr('data-page');
+          page = _page;
+          //productDisplay.loadProducts(_$currentFilters, page);
+          productDisplay.loadProducts( _page);
+          // Scroll to top
+          $('html, body').animate({ scrollTop: 0 }, 'slow');
+        }
+      });
+    },
+
+    handlerFilter: function () {
+      var self = this;
+
+      // reset về trang 1 khi thay đổi filter 
+      function resetToFirstPage() {
+        self._currentPage = 1;
+        self.loadProducts(_$currentFilters, 1);
+      }
+    },
         renderProducts: function (products) {
             _$productList.empty(); // Xóa nội dung cũ trước khi render
 

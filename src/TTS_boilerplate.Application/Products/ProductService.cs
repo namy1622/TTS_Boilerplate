@@ -2,6 +2,7 @@
 using Abp.Domain.Repositories;
 using Abp.UI;
 using Castle.Core.Logging;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,16 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TTS_boilerplate.Authorization.Users;
 using TTS_boilerplate.Category.Dto;
 using TTS_boilerplate.LookupAppService;
 using TTS_boilerplate.Models;
 using TTS_boilerplate.Products.Dto;
+using Abp.Authorization.Users;
+using TTS_boilerplate.Authorization.Users;
+using TTS_boilerplate.Core;
+using Microsoft.AspNetCore.Http.HttpResults;
+using TTS_boilerplate.Carts.Dto;
 
 namespace TTS_boilerplate.Products
 {
@@ -21,25 +28,40 @@ namespace TTS_boilerplate.Products
         private readonly IRepository<Product> _productRepository; // repo lưu trữ để trương tác với Entity product trong db 
         private readonly ILookupAppService _lookupAppService;
         private readonly IRepository<TTS_boilerplate.Models.Category> _categoryRepository;
-
         private readonly ILogger log;
+        private readonly IRepository<User, long> _userRepository;
+        private readonly IRepository<Cart, int> _cartRepository;
+        private readonly IRepository<CartItem, int> _cartItemRepository;
         public ProductService(
             IRepository<Product> productRepository, 
             ILookupAppService lookupAppService, ILogger _log,
-            IRepository<TTS_boilerplate.Models.Category> categoryRepository)
+            IRepository<TTS_boilerplate.Models.Category> categoryRepository,
+            IRepository<User, long> userRepository,
+            IRepository<Cart, int> cartRepository,
+            IRepository<CartItem, int> cartItemRepository
+            )
         {
             _productRepository = productRepository;
             _lookupAppService = lookupAppService;
             _categoryRepository = categoryRepository;
             log = _log;
+            _userRepository = userRepository;
+            _cartRepository = cartRepository;
+            _cartItemRepository = cartItemRepository;
+
         }
 
-        public async Task<ListResultDto<ProductListDto>> GetAll_Product()
+        
+        //public async Task<ListResultDto<ProductListDto>> GetAll_Product(ProductInput input)
+        //public async Task<ListResultDto<ProductListDto>> GetAll_Product()
+        public async Task<PagedResultDto<ProductListDto>> GetAll_Product(InputProduct input)
         {
             var allProduct = await _productRepository
                              .GetAll()
                              .Include(t => t.BelongToCategory)
-                             
+                             .Skip(input.SkipCount) // Bỏ qua số lượng bản ghi đã được lấy
+                             .Take(input.MaxResultCount) // Lấy số lượng bản ghi tối đa
+
                              .Select(p => new ProductListDto
                              {
                                  Id = p.Id,
@@ -54,8 +76,17 @@ namespace TTS_boilerplate.Products
                              })
                              .ToListAsync();
 
-            return new ListResultDto<ProductListDto>(
-                ObjectMapper.Map<List<ProductListDto>>(allProduct)) ;
+            return new PagedResultDto<ProductListDto>
+            {
+                Items = allProduct,
+                TotalCount = _productRepository
+                             .GetAll()
+                             .Include(t => t.BelongToCategory).Count()
+            };
+                
+
+//return new PagedResultDto<ProductListDto>(
+//                ObjectMapper.Map<List<ProductListDto>>(allProduct)) ;
         }
 
         public async Task<ListResultDto<CategoryDto>> GetCategory()
@@ -103,95 +134,87 @@ namespace TTS_boilerplate.Products
             }
         }
 
-        //public async System.Threading.Tasks.Task Update(ProductInput input)
-        //{
-        //    //var product = new Product
-        //    //{
-        //    //    NameProduct = input.NameProduct,
-        //    //    DescriptionProduct = input.DescriptionProduct,
-        //    //    Price = input.Price,
-        //    //    CreationDate = input.CreationDate,
-        //    //    ExpirationDate = input.ExpirationDate
-        //    //};
-        //    //_productRepository.UpdateAsync((product));
-
-        //    Console.WriteLine($"🔍 Kiểm tra ID nhận được: {input.Id}");
-
-        //    var product = await _productRepository.FirstOrDefaultAsync(input.Id);
-
-        //    Console.Write(product);
-
-        //    if (product == null)
-        //    {
-        //        throw new UserFriendlyException($"Không tìm thấy sản phẩm! + {Convert.ToInt32(input.Id)}");
-        //    }
-
-        //    // Cập nhật các thuộc tính
-        //    product.NameProduct = input.NameProduct;
-        //    product.DescriptionProduct = input.DescriptionProduct;
-        //    product.Price = input.Price;
-        //    product.CreationDate = input.CreationDate;
-        //    product.ExpirationDate = input.ExpirationDate;
-
-        //    await _productRepository.UpdateAsync(product);
-        //}
-
-        //public async System.Threading.Tasks.Task Create(ProductInput input)
-        //{
-        //    try
-        //    {
-        //        //Cach 1:(phải automapTo(Product) ở ProductInput, ProductListDto
-        //        var product = ObjectMapper.Map<Product>(input);
-
-
-        //        //Cach 2:
-        //        //var product = new Product
-        //        //{
-        //        //    NameProduct = input.NameProduct,
-        //        //    DescriptionProduct = input.DescriptionProduct,
-        //        //    Price = input.Price,
-        //        //    CreationDate = input.CreationDate,
-        //        //    ExpirationDate = input.ExpirationDate,
-        //        //    //CategoryId = null
-        //        //};
-
-        //        Console.Write("fsdf");
-        //        await _productRepository.InsertAsync(product);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.Error("Lỗi khi tạo sản phẩm", ex);
-        //        throw new UserFriendlyException("Có lỗi xảy ra khi tạo sản phẩm, vui lòng thử lại!");
-
-                
-        //    }
+        public async System.Threading.Tasks.Task AddProductToCart(CartInput input)
+        {
+            var user = await _userRepository.FirstOrDefaultAsync(u => u.Id == input.idUser);
+            var existPRoduct = await _cartItemRepository.FirstOrDefaultAsync(p => p.ProductId == input.idProduct);
+            var existUser = await _cartRepository.FirstOrDefaultAsync(u => u.UserId == input.idUser);
             
-        //}
+            if (existUser == null)
+            {
+                var cart = new Cart
+                {
+                    UserId = input.idUser,
+                };
+                await _cartRepository.InsertAsync(cart);
+            }
+            if(existPRoduct == null)
+            {
+                var cartProduct = new CartItem
+                {
+                    CartId = existUser.Id,
+                    ProductId = input.idProduct,
+                    Quantity = 2,
+                    ProductId1 = input.idProduct
+                };
+                await _cartItemRepository.InsertAsync(cartProduct);
+            }
+            else
+            { 
+                new UserFriendlyException("Đã có sản phẩm trong giỏ!");
+            } 
+        }
 
-        //public async System.Threading.Tasks.Task Delete(int id)
-        //{
-        //    await _productRepository.DeleteAsync(id);
-        //}
+        public async System.Threading.Tasks.Task InitCart(int userId){
+            var existUser = await _cartRepository.FirstOrDefaultAsync(u => u.UserId == userId);
 
-       
+            if (existUser == null)
+            {
+                var cart = new Cart
+                {
+                    UserId = userId,
+                };
+                await _cartRepository.InsertAsync(cart);
+            }
+            else{
+                new UserFriendlyException("Tao gio hang that bai (service)");
+            }
+        }
+
+        public async Task<PagedResultDto<CartItemDto>> Get_ListCartItem(int userId)
+        {
+            var cartId = await _cartRepository.FirstOrDefaultAsync(c => c.UserId == userId);
+            //var cartItem =  _cartItemRepository.GetAllList(cartItem => cartItem.CartId == cartId.Id);
+            //cartItem = cartItem.Include(c => c.product);
+            
+
+            var cartItem = await _cartItemRepository.GetAll()
+                .Include(c => c.Product)
+                .Where(c => c.CartId == cartId.Id)
+                .ToListAsync();
+            //  //var cartItem = _cartItemRepository.Get(c => c.CartId == cartId).
+
+            if (cartItem == null)
+            {
+                throw new UserFriendlyException(L("CartItemNotFound"));
+            }
+            return new PagedResultDto<CartItemDto>
+            {
+                Items = cartItem.Select(c => new CartItemDto
+                {
+                    Id = c.Id,
+                    CartId = c.CartId,
+                    ProductId = c.ProductId,
+                    NameProduct = c.Product.NameProduct,
+                    Price = c.Product.Price ?? 0m,
+                    Quantity = c.Quantity,
+                    DescriptionProduct = c.Product.DescriptionProduct,
+                    ProductImagePath = c.Product.ProductImagePath
+                }).ToList(),
+                TotalCount = cartItem.Count()
+            };
+        }
+
     }
 }
 
-//_$productList.on('click', '.card__product', function () {
-//            const productId = $(this).data('product-id');
-//            $.ajax({
-//url: abp.appPath + 'Products/GetProductById?id=' + productId,
-//                method: 'GET',
-//                success: function(product) {
-//                    $('#modalName').text(product.nameProduct);
-//                    $('#modalImage').attr('src', product.productImagePath);
-//                    $('#modalDescription').text('Mô tả: ' + (product.descriptionProduct || 'Không có mô tả'));
-//                    $('#modalPrice').text(product.price + ' VND');
-//                    $('#productModal').modal('show');
-//    },
-//                error: function(e) {
-//        console.error('--error--', e);
-//        alert('Lỗi khi tải chi tiết sản phẩm.');
-//    }
-//});
-//        });
