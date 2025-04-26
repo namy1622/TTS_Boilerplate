@@ -255,3 +255,6 @@ paket-files/
 src/TTS_boilerplate.Web.Mvc/secrets.json
 src/TTS_boilerplate.Web.Host/secrets.json
 src/TTS_boilerplate.Migrator/secrets.json
+
+#Logs
+Logs/
