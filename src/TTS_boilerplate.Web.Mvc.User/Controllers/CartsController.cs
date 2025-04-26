@@ -23,7 +23,7 @@ namespace TTS_boilerplate.Web.Controllers
 
         public async Task<IActionResult> IndexCarts()
         {
-            var userId = GetCurrentUserId();
+            var userId = 23; // GetCurrentUserId();
             var allCartItem = (await _productService.Get_ListCartItem( userId)).Items;
             
             var model = new CartListViewModel
@@ -33,14 +33,14 @@ namespace TTS_boilerplate.Web.Controllers
             return View(model);
         }
 
-        public int GetCurrentUserId()
-        {
-            if (!AbpSession.UserId.HasValue)
-            {
-                throw new Exception("Người dùng chưa đăng nhập.");
-            }
+        //public int GetCurrentUserId()
+        //{
+        //    if (!AbpSession.UserId.HasValue)
+        //    {
+        //        throw new Exception("Người dùng chưa đăng nhập.");
+        //    }
 
-            return Convert.ToInt32(AbpSession.GetUserId()); // Không cần ép kiểu, đã xử lý null
-        }
+        //    return Convert.ToInt32(AbpSession.GetUserId()); // Không cần ép kiểu, đã xử lý null
+        //}
     }
 }

@@ -26,21 +26,24 @@ namespace TTS_boilerplate.Web.Controllers
         }
 
         public async Task<ActionResult> Index()
-        {
-            var allProduct = await _productService.GetAll_Product();
+    {
+      //var allProduct = await _productService.GetAll_Product();
+      var allCategories = await _productService.GetCategory(); // Lấy danh sách categories
 
-            var categorySelectListItems = (await _lookupAppService.GetCategoryComboboxItem()).Items
-               .Select(c => c.ToSelectListItem())
-               .ToList();
-            //var allCategory = await _productService.Get();
-            var model = new IndexViewModel(allProduct.Items, categorySelectListItems);
+      var categorySelectListItems = (await _lookupAppService.GetCategoryComboboxItem()).Items
+         .Select(c => c.ToSelectListItem())
+         .ToList();
+      //var allCategory = await _productService.Get();
+      //var model = new IndexViewModel(allProduct.Items, categorySelectListItems);
+      var model = new IndexViewModel(categorySelectListItems);
+      ViewBag.Categories = allCategories.Items;
+      return View(model);
+      //return Ok();
+      //return Ok();
 
-            return View(model);
-            //return Ok();
+    }
 
-        }
-
-        public async Task<ActionResult> Create()
+    public async Task<ActionResult> Create()
         {
 
             var categorySelectListItems = (await _lookupAppService.GetCategoryComboboxItem()).Items

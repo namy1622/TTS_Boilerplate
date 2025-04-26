@@ -8,12 +8,19 @@ namespace TTS_boilerplate.Web.Models.Products
     {
         public IReadOnlyList<ProductListDto> ProductList { get; set; }
 
-        public List<SelectListItem> CategoryList { set; get; }
+        public List<SelectListItem> categorySelectListItems { set; get; }
 
         public IndexViewModel(IReadOnlyList<ProductListDto> productList, List<SelectListItem> categoryList)
         {
             ProductList = productList;
-            CategoryList = categoryList;
+          categorySelectListItems = categoryList;
         }
+    public IndexViewModel(List<SelectListItem> _categorySelectListItems)
+    {
+
+      categorySelectListItems = _categorySelectListItems;
     }
-}
+  } 
+       
+    }
+

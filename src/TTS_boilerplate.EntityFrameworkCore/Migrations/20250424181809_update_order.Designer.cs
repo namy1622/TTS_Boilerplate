@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TTS_boilerplate.EntityFrameworkCore;
 
@@ -11,9 +12,11 @@ using TTS_boilerplate.EntityFrameworkCore;
 namespace TTS_boilerplate.Migrations
 {
     [DbContext(typeof(TTS_boilerplateDbContext))]
-    partial class TTS_boilerplateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250424181809_update_order")]
+    partial class update_order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1621,9 +1624,6 @@ namespace TTS_boilerplate.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CartId");
@@ -1633,6 +1633,64 @@ namespace TTS_boilerplate.Migrations
                     b.HasIndex("ProductId1");
 
                     b.ToTable("CartItems");
+                });
+
+            modelBuilder.Entity("TTS_boilerplate.Core.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("TTS_boilerplate.Core.OrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("TTS_boilerplate.Models.Category", b =>
@@ -2066,6 +2124,28 @@ namespace TTS_boilerplate.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("TTS_boilerplate.Core.Order", b =>
+                {
+                    b.HasOne("TTS_boilerplate.Authorization.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("TTS_boilerplate.Core.OrderItem", b =>
+                {
+                    b.HasOne("TTS_boilerplate.Core.Order", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TTS_boilerplate.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TTS_boilerplate.Models.Product", b =>
                 {
                     b.HasOne("TTS_boilerplate.Models.Category", "BelongToCategory")
@@ -2185,6 +2265,11 @@ namespace TTS_boilerplate.Migrations
             modelBuilder.Entity("TTS_boilerplate.Core.Cart", b =>
                 {
                     b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("TTS_boilerplate.Core.Order", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

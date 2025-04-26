@@ -1,17 +1,16 @@
-﻿using Abp.Application.Services.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TTS_boilerplate.Carts.Dto
+namespace TTS_boilerplate.Orders.Dto
 {
-    public class CartInput : PagedAndSortedResultRequestDto
-    {
+  public class OrderItemInput
+  {
         public int idProduct { set; get; }
         public int idUser { set; get; }
 
         public string Status { set; get; }
-  }
+    }
 }

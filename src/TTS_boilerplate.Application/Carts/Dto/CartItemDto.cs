@@ -19,10 +19,11 @@ namespace TTS_boilerplate.Carts.Dto
 
         public string DescriptionProduct { set; get; }
         public string ProductImagePath { get; set; }
-        //public decimal TotalPrice()
-        //{
-        //    decimal 
-        //}
+        
+        public decimal TotalPrice()
+        {
+          return Price * Quantity;
+        }
 
-    }
+  }
 }

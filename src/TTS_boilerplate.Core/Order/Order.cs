@@ -11,9 +11,14 @@ namespace TTS_boilerplate.Core
     {
         public string OrderNumber { get; set; } // mã đơn - là khóa ngoại với Order
         public long? UserId { get; set; }  // id người đặt - là khóa ngoại liên kết với User
-        public decimal TotalAmount { get; set; } // tổng giá trị đơn 
-        public OrderStatus Status { set; get; } //trạng thái đơn hàng 
-        public DateTime OrderDate { get; set; }
+        public decimal? TotalAmount { get; set; } // tổng giá trị đơn 
+        public OrderStatus? Status { set; get; } //trạng thái đơn hàng 
+        public DateTime? OrderDate { get; set; }
+        
+        public string? NameCustomer { get; set; } // tên người đặt hàng
+         public string? PhoneCustomer { get; set; } // số điện thoại người đặt hàng
+        public string? AddressCustomer{ get; set; }
+
         public List<OrderItem> Items { get; set; } //danh sach sản phẩm trong đơn hàng 
 
 

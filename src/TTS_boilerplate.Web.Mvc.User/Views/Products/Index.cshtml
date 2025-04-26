@@ -19,16 +19,14 @@
             </div>
 
             
-              <div class="pagination-container mt-4">
-                <nav aria-label="Page navigation">
-                  <ul class="pagination justify-content-center" id="pagination">
-                  </ul>
-                </nav>
              
-              @* @Html.PartialAsync("~/Views/Shared/Pagination/pagin.cshtml") *@
-            </div>
         </div>
-
+    <div class="pagination-container mt-4">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" id="pagination">
+        </ul>
+      </nav>
+    </div>
         @*--- MODAL ---*@
         <div class="modal" id="modalCard">
             <div class="modal__card">
@@ -45,7 +43,7 @@
                     </div>
                 </div>
                 <div class="modal__buttons mt-5 btn_action">
-                    <a id="buyNow" asp-action="IndexCarts" asp-controller="Carts" data-product-id="0" class="modal__button modal__button-ghost">Buy Now</a>
+                    <a id="buyNow" data-product-id="" class="modal__button modal__button-ghost">Buy Now</a>
                     <button id="addCart" asp-controller="Carts" data-product-id="0" class=" btn modal__button">Add to Cart</button>
                 </div>
             </div>

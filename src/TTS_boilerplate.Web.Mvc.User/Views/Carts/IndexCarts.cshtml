@@ -1,7 +1,9 @@
 ﻿@model TTS_boilerplate.Web.Models.Carts.CartListViewModel
 @{
   Layout = "~/Views/Shared/Layout/_Layout_Cart.cshtml";
+
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
  <environment names="Development">
 
@@ -13,19 +15,24 @@
  </environment>
 
 
-<div class="container mt-4">
-    <h5 class="mb-4">Giỏ hàng</h5>
+<div class="container mt-4" style="margin-bottom:100px">
+    <div class="d-flex">
+      <div>
+      <a asp-controller="Products" asp-action="Index"><i class="fa-solid fa-arrow-left" style="color: dimgray"></i></a>
+    </div>
+    <h5 class="mb-4 font-weight-bold ml-3">Giỏ hàng</h5>
+  </div>
+    
     <div class="cart-container " id="cartList" style="background-color:none">
         @foreach(var cartItem in Model.CartList)
         {
-            <!-- Cart items -->
             <div class="cart-item row align-items-center g-3 py-3 mb-3">
-                <!-- Checkbox -->
                 <div class="col-1 align-items-center">
-                    <input type="checkbox" class="form-check-input select-item ml-3 mb-2">
+                    <input type="checkbox" class="form-check-input select-item ml-3 mb-2"
+                       data-quantity="@cartItem.Quantity"
+                       data-price="@cartItem.Price">
                 </div>
 
-                <!-- Product Image -->
                 <div class="col-1 align-items-center">
                     <img src="@cartItem.ProductImagePath"
                          alt="Product"
@@ -33,44 +40,35 @@
                          style="width: 80px; height: 80px; object-fit: fill;">
                 </div>
 
-                <!-- Product Details -->
                 <div class="col-3">
                     <div class="item-details">
                         <div class="item-name text-truncate mb-1">@cartItem.NameProduct</div>
-                        <div class="item-category text-muted small">Mô tả: @cartItem.DescriptionProduct</div>
+                        
 
                     </div>
                 </div>
 
-                <!-- Price -->
                 <div class="col-md-2">
-                    <div class="item-price">
-                        <span class="original-price text-muted text-decoration-line-through">@cartItem.Price</span>
-                    </div>
+                    <div class="item-category text-muted small">@cartItem.DescriptionProduct</div>
                 </div>
 
-                <!-- Quantity Controls -->
-                <div class="col-md-2">
-                    <div class="quantity-control d-flex align-items-center">
-                        <button class="btn btn-outline-secondary btn-sm minus">−</button>
-                        <input type="number"
-                               value="1"
-                               min="1"
-                               class="form-control form-control-sm mx-2 text-center"
-                               style="width: 50px;">
-                        <button class="btn btn-outline-secondary btn-sm plus">+</button>
-                    </div>
+                <div class="quantity-control d-flex align-items-center" data-product-id="@cartItem.ProductId">
+                  <button class="btn btn-outline-secondary btn-sm btn-minus">−</button>
+                  <input type="text"
+                         class="form-control form-control-sm mx-2 text-center quantity-input"
+                         value="@cartItem.Quantity"
+                         min="1"
+                         style="width: 50px;">
+                  <button class="btn btn-outline-secondary btn-sm btn-plus">+</button>
                 </div>
 
-                <!-- Total -->
                 <div class="col-md-2">
                     <div class="item-total text-danger">@cartItem.Price</div>
                 </div>
 
-                <!-- Actions -->
                 <div class="col-md-1">
                     <div class="item-actions">
-                        <button class="btn btn-link text-danger p-0 mb-1">Xóa</button>
+                        <button class="btn btn-link text-danger p-0 mb-1 btn_deleteCartItem" data-idCartItem="@cartItem.Id">Xóa</button>
 
                     </div>
                 </div>
@@ -78,6 +76,20 @@
         }
        
     </div>
+</div>
+<div class="cart-header-2 container">
+  <div class="select-all">
+    <input type="checkbox" id="select-all-items">
+    <label for="select-all-items">Chọn Tất Cả</label>
+  </div>
+  <div class="actions">
+    
+  </div>
+  <div class="cart-summary">
+    <span class="total-label">Tổng cộng:</span>
+    <span class="total-price">  ₫</span>
+    <button class="checkout-btn">Mua Hàng</button>
+  </div>
 </div>
 
 
@@ -309,4 +321,83 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+
+  .cart-header-2 {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    border-top: 1px solid #ddd;
+    background-color:lightgray;
+    margin-bottom: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+  }
+
+  .cart-header-2 .actions,
+  .cart-header-2 .cart-summary,
+  .cart-header-2 .select-all {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .select-all {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+  }
+
+    .select-all input {
+      margin-right: 5px;
+    }
+
+  .actions {
+    display: flex;
+    gap: 15px;
+    margin-right: auto;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    font-size: 14px;
+  }
+
+  .save-btn {
+    color: #ee4d2d;
+    text-decoration: none;
+  }
+
+  .cart-summary {
+    display: flex;
+    align-items: center;
+  }
+
+  .total-label {
+    margin-right: 10px;
+    font-size: 14px;
+  }
+
+  .total-price {
+    color: #ee4d2d;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+  }
+
+  .checkout-btn {
+    background-color: #ee4d2d;
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 2px;
+    font-size: 16px;
+    cursor: pointer;
+  }
 </style>

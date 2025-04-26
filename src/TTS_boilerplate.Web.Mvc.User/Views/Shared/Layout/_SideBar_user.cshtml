@@ -13,15 +13,14 @@
 
        <div>
            <label id="test" class="mb-1" data-test="hmmm" for="category">Lọc theo danh mục</label>
-           
             @if (categories != null && categories.Any())
             {
                 foreach (var category in categories)
                 {
                     <div class="checkbox-wrapper-47 ml-3">
-                        <input type="checkbox" name="cb" id="cb-@category.Id" />
+                        <input type="checkbox" name="cb" id="@category.Id" />
                         <label id="nameCate" style="font-weight:500"  
-                            for="cb-@category.Id">@category.NameCategory - @category.Id</label>
+                            for="@category.Id">@category.NameCategory - @category.Id</label>
                     </div>
                 }
             }
@@ -34,7 +33,7 @@
         <div>
             <label class="mb-1" for="price-range">Lọc theo giá</label>
             <div class="price-range-container">
-                <input type="range" id="price-range" name="price-range" min="0" max="1000" step="10"
+                <input type="range" id="price-range" name="price-range" min="0" max="10000000" step="10000"
                     style="width:90%; margin-left:15px">
             </div>
             <div class="row ml-2"> 
@@ -46,15 +45,6 @@
        <hr />
 
        <button class="btn btn-outline-light mt-2 font-weight-bold" id="btnFilter" style="width:90%; margin-left:15px">Lọc</button>
-       @*  <div>
-            <label for="price-range">Lọc theo đánh giá</label>
-           
-        </div>
-           
-        <div class="checkbox-wrapper-47">
-            <input type="checkbox" name="cb" id="cb-47" />
-            <label for="cb-47">Check this</label>
-        </div> *@
     </div>
 </aside>
 

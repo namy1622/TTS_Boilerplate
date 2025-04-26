@@ -20,6 +20,8 @@ using TTS_boilerplate.Authorization.Users;
 using TTS_boilerplate.Core;
 using Microsoft.AspNetCore.Http.HttpResults;
 using TTS_boilerplate.Carts.Dto;
+using Abp.Collections.Extensions;
+using Abp.Extensions;
 
 namespace TTS_boilerplate.Products
 {
@@ -56,9 +58,23 @@ namespace TTS_boilerplate.Products
         //public async Task<ListResultDto<ProductListDto>> GetAll_Product()
         public async Task<PagedResultDto<ProductListDto>> GetAll_Product(InputProduct input)
         {
-            var allProduct = await _productRepository
-                             .GetAll()
-                             .Include(t => t.BelongToCategory)
+      var allProduct = _productRepository
+                      .GetAll()
+                      .Include(t => t.BelongToCategory)
+                       .WhereIf(!input.KeySearch.IsNullOrWhiteSpace(), s => s.NameProduct.Contains(input.KeySearch));
+                          //.Where(p => p.Price <= Convert.ToInt32(input.MaxPrice));
+
+      if (input.MaxPrice != null)
+      {
+        allProduct = allProduct.Where(p => p.Price <= input.MaxPrice);
+      }
+      
+      if(Convert.ToInt32(input.Categories[0]) != 0){
+        //var categoryIds = input.Categories.ToList();
+        allProduct = allProduct.Where(p => p.CategoryId.HasValue && input.Categories.Contains(p.CategoryId.Value.ToString()));
+      }
+
+      var products =  allProduct
                              .Skip(input.SkipCount) // Bỏ qua số lượng bản ghi đã được lấy
                              .Take(input.MaxResultCount) // Lấy số lượng bản ghi tối đa
 
@@ -74,14 +90,15 @@ namespace TTS_boilerplate.Products
                                  CategoryId = p.CategoryId ?? 0,
                                  NameCategory = p.BelongToCategory != null ? p.BelongToCategory.NameCategory : string.Empty
                              })
-                             .ToListAsync();
+                             .ToList();
 
             return new PagedResultDto<ProductListDto>
             {
-                Items = allProduct,
-                TotalCount = _productRepository
-                             .GetAll()
-                             .Include(t => t.BelongToCategory).Count()
+                Items = products,
+                TotalCount = allProduct.Count()
+                             // _productRepository
+                             //.GetAll()
+                             //.Include(t => t.BelongToCategory).Count()
             };
                 
 
@@ -148,14 +165,22 @@ namespace TTS_boilerplate.Products
                 };
                 await _cartRepository.InsertAsync(cart);
             }
+
             if(existPRoduct == null)
             {
+                if (!Enum.TryParse<CartItem.OrderStatus>(input.Status, out var statusEnum))
+                {
+                    throw new UserFriendlyException("Trạng thái không hợp lệ!");
+                }
                 var cartProduct = new CartItem
                 {
                     CartId = existUser.Id,
                     ProductId = input.idProduct,
-                    Quantity = 2,
-                    ProductId1 = input.idProduct
+                    Quantity = 1,
+                    ProductId1 = input.idProduct,
+
+                    Status = statusEnum
+                    //Status = CartItem.OrderStatus.InCart
                 };
                 await _cartItemRepository.InsertAsync(cartProduct);
             }

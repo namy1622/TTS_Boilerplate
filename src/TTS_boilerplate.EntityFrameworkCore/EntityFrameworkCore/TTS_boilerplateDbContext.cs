@@ -25,9 +25,9 @@ namespace TTS_boilerplate.EntityFrameworkCore
 
         public DbSet<CartItem> CartItems { get; set; }
 
-        public DbSet<Order> Orders { get; set; }
+        //public DbSet<Order> Orders { get; set; }
 
-        public DbSet<OrderItem> OrderItems { get; set; }
+        //public DbSet<OrderItem> OrderItems { get; set; }
 
         public TTS_boilerplateDbContext(DbContextOptions<TTS_boilerplateDbContext> options)
             : base(options)
@@ -39,28 +39,20 @@ namespace TTS_boilerplate.EntityFrameworkCore
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Order>()
-                .HasMany(o => o.Items)
-                .WithOne()
-                .HasForeignKey(oi => oi.OrderId);
+      modelBuilder.Entity<CartItem>()
+             .Property(o => o.Status)
+             .HasConversion<string>();
 
-            modelBuilder.Entity<Cart>()
+      modelBuilder.Entity<Cart>()
                 .HasMany(c => c.CartItems)
                 .WithOne()
                 .HasForeignKey(cItem => cItem.CartId);
 
-            modelBuilder.Entity<Order>()
-                .HasOne<User>()
-                .WithMany()
-                .HasForeignKey(o => o.UserId);
             modelBuilder.Entity<Cart>()
                 .HasOne<User>()
                 .WithMany()
                 .HasForeignKey(c => c.UserId);
-            modelBuilder.Entity<OrderItem>()
-                .HasOne<Product>()
-                .WithMany()
-                .HasForeignKey(oi => oi.ProductId);
+         
             modelBuilder.Entity<CartItem>()
                 .HasOne<Product>()
                 .WithMany()
