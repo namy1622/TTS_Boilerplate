@@ -1,0 +1,96 @@
+﻿
+
+.container_1 {
+    width: 100%;
+    height: 100%;
+    --color: #E1E1E1;
+    background-color: #696969;
+    /*    background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent), linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);*/
+    background-size: 55px 55px;
+}
+
+.btn_create {
+    align-items: center;
+    background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #ffffff;
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+    line-height: 1em;
+/*    max-width: 10%;
+    min-width: 40%;*/
+    width:100px;
+    padding: 3px 10px;
+    padding: 1px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+    @media (max-width: 576px) {
+        .btn_create span {
+            display: none; /* Ẩn toàn bộ span chứa cả icon và chữ */
+        }
+
+        /*.btn_create i {
+            display: inline-block;*/ /* Đảm bảo icon vẫn hiển thị */
+        /*}*/
+    }
+    .btn_create:active,
+    .button_create:hover {
+        outline: 0;
+    }
+
+    .btn_create span {
+        background-color: rgb(5, 6, 45);
+        padding: 10px 10px;
+        border-radius: 6px;
+        width: 100%;
+        height: 100%;
+        transition: 300ms;
+    }
+
+    .btn_create:hover span {
+        background: none;
+    }
+
+    .btn_create:active {
+        transform: scale(0.9);
+    }
+
+
+
+    #ProductsTable th,
+    #ProductsTable td {
+        text-align: center;
+    }
+
+    .form_layout {
+        align-items: center;
+        background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+        border: 0;
+        border-radius: 8px;
+        box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+        box-sizing: border-box;
+        color: #ffffff;
+        display: flex;
+        font-size: 14px;
+        justify-content: center;
+        line-height: 1em;
+        padding: 3px;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: all 0.3s;
+    }

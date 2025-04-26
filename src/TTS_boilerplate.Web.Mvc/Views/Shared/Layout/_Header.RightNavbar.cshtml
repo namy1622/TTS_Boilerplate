@@ -1,6 +1,8 @@
 ﻿@using TTS_boilerplate.Web.Views.Shared.Components.RightNavbarLanguageSwitch
 @using TTS_boilerplate.Web.Views.Shared.Components.RightNavbarUserArea
+@using TTS_boilerplate.Web.Views.Shared.Components.SideBarUserArea
 <ul class="navbar-nav ml-auto">
     @await Component.InvokeAsync(typeof(RightNavbarLanguageSwitchViewComponent))
     @await Component.InvokeAsync(typeof(RightNavbarUserAreaViewComponent))
+    @* @await Component.InvokeAsync(typeof(SideBarUserAreaViewComponent)) *@
 </ul>

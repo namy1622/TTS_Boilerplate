@@ -22,5 +22,7 @@ namespace TTS_boilerplate.Products_table
         Task UpdateProduct(UpdateProductDto inputProduct);
 
         Task<ListResultDto<ComboboxItemDto>> GetCategoryComboboxItem();
+
+        
     }
 }

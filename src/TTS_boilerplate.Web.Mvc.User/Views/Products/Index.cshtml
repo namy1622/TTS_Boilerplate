@@ -1,0 +1,187 @@
+﻿@using TTS_boilerplate.Authorization
+@using TTS_boilerplate.Category.Dto
+@using TTS_boilerplate.Models
+ @model TTS_boilerplate.Web.Models.Products.IndexViewModel
+@{
+    var categories = ViewBag.Categories as List<CategoryDto>;
+}
+
+
+<div class="row">
+  
+    <div class="mb-2 container " style="padding-block:2rem">
+        <h2 class="ml-1 text-bold">@L("Product List")</h2>
+
+
+        <div class="row g-2 " >
+            <div class=" row " id="ProductList">
+                @* render product list *@
+            </div>
+
+            
+             
+        </div>
+    <div class="pagination-container mt-4">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" id="pagination">
+        </ul>
+      </nav>
+    </div>
+        @*--- MODAL ---*@
+        <div class="modal" id="modalCard">
+            <div class="modal__card">
+                <div class="row">
+                    <div class="col-4">
+                        <i class="ri-close-large-line modal__close"></i>
+                        <img src="" alt="image" id="modalImage" class="modal__img">
+                    </div>
+
+                    <div class="col-7 text-left mt-1 ml-3">
+                        <h3 class="modal__name" id="modalName"></h3>
+                        <p class="modal__info" id="modalDescription"></p>
+                        <span class="modal__price" id="modalPrice"></span>
+                    </div>
+                </div>
+                <div class="modal__buttons mt-5 btn_action">
+                    <a id="buyNow" data-product-id="" class="modal__button modal__button-ghost">Buy Now</a>
+                    <button id="addCart" asp-controller="Carts" data-product-id="0" class=" btn modal__button">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/view-resources/Views/products/index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/products/index.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<style>
+
+ 
+
+    .position-relative {
+         overflow: hidden; /* Đảm bảo badge không tràn ra ngoài */
+    }
+
+    .badge {
+        top: 5px; /* Cách mép trên 10px */
+        right: 5px; /* Cách mép phải 10px */
+        padding: 5px 10px;
+        font-size: 0.9rem;
+    }
+    .card-img-top {
+        width: 100%; /* Đảm bảo ảnh đầy đủ chiều rộng của thẻ cha */
+        height: 170px; /* Chiều cao cố định */
+        object-fit: fill; /* Cắt ảnh để vừa khung, không méo */
+        object-position: center; /* Căn giữa ảnh */
+        border-radius: 0.2rem 0.2rem 0 0; /* Bo góc ảnh */
+    }
+
+
+    .card {
+        /* display: flex; */
+        flex-direction: column;
+         height: 270px;
+    }
+
+    .card-body {
+        /* flex-grow: 1; */
+    }
+
+    .hi{
+        margin-top:10px;
+        padding-left:2px;
+    }
+
+</style>
+
+
+<script>
+    /*=============== CARD POPUP JS ===============*/
+    const modal = document.querySelectorAll('.modal'),
+        cardBtn = document.querySelectorAll('.card__product'),
+        modalClose = document.querySelectorAll('.modal__close'),
+        modalCard = document.querySelectorAll('.modal__card')
+
+    let activeModal = (modalClick) => {
+        modal[modalClick].classList.add('active-modal')
+    }
+
+    /* Show modal */
+    cardBtn.forEach((cardBtn, i) => {
+        cardBtn.addEventListener('click', () => {
+            activeModal(i)
+        })
+    })
+
+    // /* Hide modal */
+    modalClose.forEach((modalClose) => {
+        modalClose.addEventListener('click', () => {
+            modal.forEach((modalRemove) => {
+                modalRemove.classList.remove('active-modal')
+            })
+        })
+    })
+
+    // /* Hide modal on background click */
+    modal.forEach((modal) => {
+        modal.addEventListener('click', () => {
+            modal.classList.remove('active-modal')
+        })
+    })
+
+    // /* Don't hide modal on card click (by event propagation) */
+    modalCard.forEach((modalCard) => {
+        modalCard.addEventListener('click', (e) => {
+            e.stopPropagation()
+        })
+    })
+
+</script>
+
+
+
+@* @foreach(var product in Model.ProductList)
+             {
+                 <div class="col-lg-2 col-md-3 col-sm-4  ">
+                     <div class="card  shadow-sm card__product" style="padding:0">
+                         <div class="card-body" style="padding:0px;">
+                             <div class=" ">
+                                 <img src="@product.ProductImagePath"
+                                      name="ProductImage"
+                                      class="card-img-top card__img"
+                                      alt="@product.ProductImagePath" />
+                                 <span class="badge rounded-pill position-absolute top-0 end-0 bg-danger text-white ">
+                                     99%
+                                 </span>
+
+                             </div>
+
+                             <div class="hi ">
+                                 <div class="row ">
+                                     <div class="col-12 text-start d-flex flex-column">
+                                         <h5 class="card-title  card__name">@product.NameProduct</h5>
+                                         <p class="text-muted mb-0">@product.NameCategory</p>
+                                         <p class="text-muted card__price">@product.Price VND</p>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+                     
+
+             }
+            *@

@@ -52,6 +52,10 @@
     <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Views\Shared\Layout\_Header_user.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="wwwroot\view-resources\Views\product_table\giaithich.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>giaithich.cs</LastGenOutput>

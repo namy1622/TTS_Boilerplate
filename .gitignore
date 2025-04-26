@@ -6,6 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+!src/TTS_boilerplate.Web.Mvc.User/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

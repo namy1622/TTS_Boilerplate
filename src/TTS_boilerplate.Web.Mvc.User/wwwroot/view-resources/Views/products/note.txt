@@ -1,0 +1,26 @@
+﻿Khi bạn sử dụng abp.services.app... trong Boilerplate framework
+=> nó đã được tích hợp sẵn với AJAX và có những ưu điểm sau:
+	1.Tự động xử lý AJAX:
+		- Không reload lại trang
+		- Tự động thêm anti-forgery token
+		- Tự động xử lý lỗi và hiển thị thông báo
+		- Tự động refresh token khi hết hạn
+	2. Tự động xử lý authentication:
+		- Tự động thêm token vào header
+		- Tự động refresh token khi hết hạn
+		- Tự động redirect về trang login nếu chưa đăng nhập
+	3. Tự động xử lý response:
+		- Tự động parse JSON response
+		- Tự động xử lý lỗi từ server
+		- Tự động hiển thị thông báo lỗi
+
+=============
+-> khi cần thêm tham số 
+abp.services.app.product.getAll({
+    skipCount: 0,
+    maxResultCount: 10,
+    filter: 'search text'
+})
+    .done(function (result) {
+        // Xử lý kết quả
+    });

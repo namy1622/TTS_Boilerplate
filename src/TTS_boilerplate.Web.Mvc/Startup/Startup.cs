@@ -21,6 +21,7 @@ using TTS_boilerplate.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using TTS_boilerplate.Products_table;
 
 namespace TTS_boilerplate.Web.Startup
 {
@@ -48,6 +49,17 @@ namespace TTS_boilerplate.Web.Startup
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
+
+            // thieets laapj PORT
+            services.AddScoped<IProduct_tableAppService, Product_tableAppService>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowClient",
+                    builder => builder
+                        .WithOrigins("https://localhost:44310")  // URL của client
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
 
             services.Configure<WebEncoderOptions>(options =>
             {
@@ -92,6 +104,8 @@ namespace TTS_boilerplate.Web.Startup
             //    SupportedUICultures = new[] { new CultureInfo("en-US") }
             //});
 
+            app.UseCors("AllowClient");
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -105,7 +119,7 @@ namespace TTS_boilerplate.Web.Startup
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<AbpCommonHub>("/signalr");
-                endpoints.MapControllerRoute("default", "{controller=Products}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Products_table}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
             });
         }

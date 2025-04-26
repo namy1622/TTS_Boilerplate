@@ -49,9 +49,14 @@ namespace TTS_boilerplate.Category
                    .GroupBy(p => p.CategoryId)
                    .Select(g => new { CategoryId = g.Key, Count = g.Count() })
                    .ToDictionaryAsync(g => g.CategoryId, g => g.Count); // chuyển result thành Dictionary<int, int> (key: CategoryId, value: count)
+            
+            if (input.Sorting != "undefined asc")
+            {
+                allCategory = allCategory.OrderBy(input.Sorting);
+            }
 
             var categories =  allCategory
-                .OrderBy(input.Sorting)
+                //.OrderBy(input.Sorting)
                 .PageBy(input)
                 .Select(p => new CategoryDto
                 {
