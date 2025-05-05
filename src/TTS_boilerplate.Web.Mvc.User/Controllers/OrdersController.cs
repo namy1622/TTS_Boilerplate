@@ -25,6 +25,7 @@ namespace TTS_boilerplate.Web.Controllers
         public async System.Threading.Tasks.Task<IActionResult> Index_Order(int ProductId)
         {
             var product = await _productService.GetProduct(ProductId);
+
             //var cart = await _cartService.get;
             var quantity = await _orderAppService.GetItemOrder(ProductId);
             var model = new OrderItemViewModel
@@ -34,13 +35,10 @@ namespace TTS_boilerplate.Web.Controllers
             };
             return View(model);
         }
-
-        
+      
         public async Task GetViewOrder()
         {
 
         }
-
-
     }
 }

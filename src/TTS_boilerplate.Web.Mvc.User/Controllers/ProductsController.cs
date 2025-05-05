@@ -48,7 +48,7 @@ namespace TTS_boilerplate.Web.Controllers
         {
             var currentUserId = 23; // _cartController.GetCurrentUserId(); 
             var allCategories = await _productService.GetCategory(); // Lấy danh sách categories
-
+            await _productService.InitCart(currentUserId);
             var categorySelectListItems = (await _lookupAppService.GetCategoryComboboxItem()).Items
                .Select(c => c.ToSelectListItem())
                .ToList();
@@ -64,8 +64,6 @@ namespace TTS_boilerplate.Web.Controllers
         //[HttpPost]
         public async Task<ActionResult> InitOrder(int productId)
         {
-
-
             await InitO();
 
             var currentUserId = 23; // _cartController.GetCurrentUserId();
@@ -76,11 +74,16 @@ namespace TTS_boilerplate.Web.Controllers
 
         public async System.Threading.Tasks.Task InitO()
         {
-            var initOrderInput = new OrderInput()
-            {
-                UserId = 1,
-            };
-            await _orderAppService.InitOrder(initOrderInput);
+            //var initOrderInput = new OrderInput()
+            //{
+            //    UserId = Convert.ToInt32(AbpSession.GetUserId()),
+            //};
+            //await _orderAppService.InitOrder(initOrderInput);
+
+            int UserId = Convert.ToInt32(AbpSession.GetUserId());
+           
+            await _productService.InitCart(UserId);
+
         }
         public async System.Threading.Tasks.Task AddProductToCart(int ProductId, int currentUserId)
         {

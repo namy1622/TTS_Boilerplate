@@ -5,61 +5,51 @@
   var _$orderService = abp.services.app.orders;
   console.log('-- Exist Service', _$cartService)
 
-  $(document).ready(function () {
-    listCartItem.getCartItem();
+    $(document).ready(function () {
+        
+    //listCartItem.getCartItem();
     QuantityProduct();
 
     totalPrice.checkItem();
     totalPrice.checkAllItem();
 
-    var userId = _$idUser
-    const now = new Date();
-    var dataOrder = {
-      userId: _$idUser,
-      nowDate: now,
-    }
-    $('.checkout-btn').on('click', function () {
-      _$orderService.initOrder(dataOrder)
-      .done(() => {
-          console.log('Tạo đơn hàng thành công!');
-      })
-      .fail(() => {
-					console.log('Lỗi khi tạo đơn hàng');
-				});
-    });
+      checkout.clickCheckout();
+
+    
+    
    
   });
 
-  var listCartItem = {
-    //---
-    getCartItem: function () {
-      var self = this;
-      var userId = abp.session.userId;
+  //var listCartItem = {
+  //  //---
+  //  getCartItem: function () {
+  //    var self = this;
+  //    var userId = abp.session.userId;
      
-      abp.services.app.productService.get_ListCartItem( userId) 
-        .done(function (cartItems) {
-          console.log('-- thành công Get in cart', cartItems);
-          abp.notify.info("Lấy thành công!");
+  //    abp.services.app.productService.get_ListCartItem( userId) 
+  //      .done(function (cartItems) {
+  //        console.log('-- thành công Get in cart', cartItems);
+  //        abp.notify.info("Lấy thành công!");
 
-          self.renderCartItems(cartItems.items);
-        })
-        .fail(function (error) {
-          console.error('Lỗi khi tải sản phẩm:', error);
-          abp.notify.error('Lấy thất bại');
-        })
-      },
-      //---
-        renderCartItems: function (cartItems) {
-          console.log('-- cartItems', cartItems);
-          if (!cartItems) {
-            _$cartList.html('<div class="col-12 text-center">Không có sản phẩm nào</div>');
-            return;
-          }
-          var lengthCartItem = cartItems.length;
-          console.log('-- length cart', lengthCartItem);
+  //        self.renderCartItems(cartItems.items);
+  //      })
+  //      .fail(function (error) {
+  //        console.error('Lỗi khi tải sản phẩm:', error);
+  //        abp.notify.error('Lấy thất bại');
+  //      })
+  //    },
+  //    //---
+  //      renderCartItems: function (cartItems) {
+  //        console.log('-- cartItems', cartItems);
+  //        if (!cartItems) {
+  //          _$cartList.html('<div class="col-12 text-center">Không có sản phẩm nào</div>');
+  //          return;
+  //        }
+  //        var lengthCartItem = cartItems.length;
+  //        console.log('-- length cart', lengthCartItem);
           
-        }
-  }
+  //      }
+  //}
 
   function QuantityProduct() {
     // xóa sản phẩm 
@@ -184,5 +174,36 @@
   }
   //-- END TINH TOÁN GIÁ ĐƠN HÀNG GIỎ HÀNG
 
+    //-- MUA SẢN PHẨM TRONG GIỎ HÀNG
+    var checkout = {
+       
+        clickCheckout: function () {
+            var userId = _$idUser
+            const now = new Date();
+            var dataOrder = {
+                userId: _$idUser,
+                nowDate: now,
+            }
+            $('.checkout-btn').on('click', function () {
+              _$orderService.initOrder(dataOrder)
+              .done(() => {
+                  console.log('Tạo đơn hàng thành công!');
+              })
+              .fail(() => {
+            	console.log('Lỗi khi tạo đơn hàng');
+                });
+            });
+        },
+        ProductChecked: function () {
+            var selectedItems = [];
+            $(".select-item:checked").each(function () {
+                var $checkbox = $(this);
+                var $cartItem = $checkbox.closet('.cart-item');
 
+                var item = {
+                    productId: $cartItem.find()
+                }
+            })
+        }
+    }
 })(jQuery);

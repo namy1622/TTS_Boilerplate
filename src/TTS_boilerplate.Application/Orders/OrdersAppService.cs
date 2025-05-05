@@ -74,7 +74,10 @@ namespace TTS_boilerplate.Orders
         public async Task<OrderItemDto> GetItemOrder(int idProduct)
         {
             var product =  _cartItemRepository.FirstOrDefault(c => c.ProductId1 == idProduct);
-
+            if (product == null)
+            {
+                throw new UserFriendlyException($"Không tìm thấy sản phẩm với ID {idProduct}");
+            }
             var productDto = new OrderItemDto
             {
                 Quantity = product.Quantity
@@ -83,15 +86,15 @@ namespace TTS_boilerplate.Orders
             return productDto;
         }
 
-        public async System.Threading.Tasks.Task InitOrder(OrderInput input)
-    {
-        var cart = new Cart
-        {
-          UserId = input.UserId,
-          //OrderDate =input.NowDate,
-        };
-        await _cartRepository.InsertAsync(cart);
-      }   
+        //public async System.Threading.Tasks.Task InitOrder(OrderInput input)
+        //{
+        //    var cart = new Cart
+        //    {
+        //      UserId = input.UserId,
+        //      //OrderDate =input.NowDate,
+        //    };
+        //    await _cartRepository.InsertAsync(cart);
+        //  }   
   }
     
 }

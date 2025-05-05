@@ -10,7 +10,7 @@ namespace TTS_boilerplate.Orders
 {
     public interface IOrdersAppService : IApplicationService
     {
-        Task InitOrder(OrderInput input);
+        //Task InitOrder(OrderInput input);
         
         Task AddOrderItem_FromHomeToOrder(OrderItemInput input);
 

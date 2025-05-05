@@ -54,8 +54,6 @@ namespace TTS_boilerplate.Products
         }
 
         
-        //public async Task<ListResultDto<ProductListDto>> GetAll_Product(ProductInput input)
-        //public async Task<ListResultDto<ProductListDto>> GetAll_Product()
         public async Task<PagedResultDto<ProductListDto>> GetAll_Product(InputProduct input)
         {
       var allProduct = _productRepository
@@ -101,9 +99,6 @@ namespace TTS_boilerplate.Products
                              //.Include(t => t.BelongToCategory).Count()
             };
                 
-
-//return new PagedResultDto<ProductListDto>(
-//                ObjectMapper.Map<List<ProductListDto>>(allProduct)) ;
         }
 
         public async Task<ListResultDto<CategoryDto>> GetCategory()

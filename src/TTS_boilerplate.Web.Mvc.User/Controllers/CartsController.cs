@@ -23,7 +23,7 @@ namespace TTS_boilerplate.Web.Controllers
 
         public async Task<IActionResult> IndexCarts()
         {
-            var userId = 23; // GetCurrentUserId();
+            var userId = Convert.ToInt32(AbpSession.GetUserId()); // 23; // GetCurrentUserId();
             var allCartItem = (await _productService.Get_ListCartItem( userId)).Items;
             
             var model = new CartListViewModel
