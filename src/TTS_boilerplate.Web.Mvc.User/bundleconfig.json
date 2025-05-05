@@ -211,5 +211,11 @@
     "inputFiles": [
       "wwwroot/view-resources/Views/Carts/index_Cart.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/view-resources/Views/Orders/index_order.min.js",
+    "inputFiles": [
+      "wwwroot/view-resources/Views/Orders/index_order.js"
+    ]
   }
 ]

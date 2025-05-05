@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using TTS_boilerplate.Carts;
 using TTS_boilerplate.Carts.Dto;
 using TTS_boilerplate.Controllers;
 using TTS_boilerplate.Orders;
@@ -13,54 +14,32 @@ namespace TTS_boilerplate.Web.Controllers
     {
         private readonly IOrdersAppService _orderAppService;
         private readonly IProductService _productService;
-        public CartsController _cartController;
+        public readonly ICartsAppService _cartService;
 
-        public OrdersController(IOrdersAppService ordersAppService, IProductService productService, CartsController cartController)
+        public OrdersController(IOrdersAppService ordersAppService, IProductService productService, ICartsAppService cartService)
         {
           _orderAppService = ordersAppService;
             _productService = productService;
-            _cartController = cartController;
+            _cartService = cartService;
         }
-        public async System.Threading.Tasks.Task<ActionResult> Index_Order(int ProductId)
+        public async System.Threading.Tasks.Task<IActionResult> Index_Order(int ProductId)
         {
-            //var currentUserId = _cartController.GetCurrentUserId(); 
-
-            //await InitOrder();
-
-            //await AddProductToCart(ProductId);
-
-            ////GetViewOrder();
-
-            return View();
+            var product = await _productService.GetProduct(ProductId);
+            //var cart = await _cartService.get;
+            var quantity = await _orderAppService.GetItemOrder(ProductId);
+            var model = new OrderItemViewModel
+            {
+                Product = product,
+                Quantity = quantity,
+            };
+            return View(model);
         }
 
-        //public async Task InitOrder()
-        //{
-        //    var initOrderInput = new OrderInput()
-        //    {
-        //        UserId = 1,
-        //    };
-        //    await _orderAppService.InitOrder(initOrderInput);
-        //}
-
-        //public async Task AddProductToCart(int ProductId)
-        //{
-        //    var addProductToOrderInput = new CartInput()
-        //    {
-        //        idUser = 1,
-        //        idProduct = ProductId,
-        //        Status = "Pending",
-        //    };
-        //    await _productService.AddProductToCart(addProductToOrderInput);
-        //}
-
+        
         public async Task GetViewOrder()
         {
 
         }
-
-
-
 
 
     }

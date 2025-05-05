@@ -30,7 +30,8 @@
     var _$productTable = _$table.DataTable({
         paging: true,
         serverSide: true,
-        processing: true, // Hiển thị loading khi xử lý
+        
+        // Hiển thị loading khi xử lý
         ordering: true,
         
         listAction: {

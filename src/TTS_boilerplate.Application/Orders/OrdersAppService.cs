@@ -18,15 +18,19 @@ namespace TTS_boilerplate.Orders
       private readonly IRepository<User, long> _userRepository;
       private readonly IRepository<Product> _productRepository;
         private readonly IRepository<Cart> _cartRepository;
+        private readonly IRepository<CartItem> _cartItemRepository;
 
       public OrdersAppService(
           IRepository<User, long> userRepository,
           IRepository<Product> productRepository,
-          IRepository<Cart> cartRepository)
-      {
+          IRepository<Cart> cartRepository,
+          IRepository<CartItem> cartItemRepository)
+        
+        {
         _userRepository = userRepository;
         _productRepository = productRepository;
             _cartRepository = cartRepository;
+            _cartItemRepository = cartItemRepository;
         }
 
    
@@ -67,9 +71,16 @@ namespace TTS_boilerplate.Orders
       //}
     }
 
-        public Task<OrderItemDto> GetItemOrder()
+        public async Task<OrderItemDto> GetItemOrder(int idProduct)
         {
-            throw new NotImplementedException();
+            var product =  _cartItemRepository.FirstOrDefault(c => c.ProductId1 == idProduct);
+
+            var productDto = new OrderItemDto
+            {
+                Quantity = product.Quantity
+            };
+
+            return productDto;
         }
 
         public async System.Threading.Tasks.Task InitOrder(OrderInput input)

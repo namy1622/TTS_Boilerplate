@@ -180,7 +180,6 @@
 
     // Format tiền tệ VND
     const formattedTotal = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-
     $('.total-price').text(formattedTotal);
   }
   //-- END TINH TOÁN GIÁ ĐƠN HÀNG GIỎ HÀNG

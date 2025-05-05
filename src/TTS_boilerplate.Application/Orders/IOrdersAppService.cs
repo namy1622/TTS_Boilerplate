@@ -14,6 +14,6 @@ namespace TTS_boilerplate.Orders
         
         Task AddOrderItem_FromHomeToOrder(OrderItemInput input);
 
-        Task<OrderItemDto> GetItemOrder();
+        Task<OrderItemDto> GetItemOrder(int idProduct);
   }
 }

@@ -71,7 +71,7 @@ namespace TTS_boilerplate.Web.Controllers
             var currentUserId = 23; // _cartController.GetCurrentUserId();
             await AddProductToCart(productId, currentUserId);
             //return PartialView("Index_Order");
-            return RedirectToAction("Index_Order", "Orders"); 
+            return RedirectToAction("Index_Order", "Orders", new { ProductId  = productId}); 
         }
 
         public async System.Threading.Tasks.Task InitO()

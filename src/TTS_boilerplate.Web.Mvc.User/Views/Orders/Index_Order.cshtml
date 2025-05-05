@@ -1,6 +1,16 @@
-﻿@{
+﻿@model TTS_boilerplate.Web.Models.Orders.OrderItemViewModel;
+@{
   Layout = "~/Views/Shared/Layout/_Layout_Cart.cshtml";
 
+}
+
+@section scripts{
+    <environment names="Development">
+        <script src="~/view-resources/Views/Orders/index_order.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/Orders/index_order.min.js" asp-append-version="true"></script>
+    </environment>
 }
 
 <div class="container">
@@ -23,32 +33,34 @@
         <td>
           
           <div class="product-info">
-            <img src="https://localhost:44310/images/products/4a0ee872-e80a-4a39-836d-8e805b2040c6.jfif" alt="Quạt kẹp">
+            <img src="@Model.Product.ProductImagePath" alt="Quạt kẹp">
             <div>
-              Tên sản phẩm
+              @Model.Product.NameProduct
             </div>
           </div>
         </td>
-        <td>₫158.400</td>
+        <td id="price" data-price="@Model.Product.Price">@Model.Product.Price</td>
         <td>
-          <div class="quantity-control d-flex align-items-center" data-product-id="cartItem.ProductId">
+          <div class="quantity-control d-flex align-items-center" data-product-id="@Model.Product.Id">
             <button class="btn btn-outline-secondary btn-sm btn-minus">−</button>
             <input type="text"
+                    id="quantity-input"
                    class="form-control form-control-sm mx-2 text-center quantity-input"
-                   value="1"
+                    value="@Model.Quantity.Quantity"
                    min="1"
+                   data-quantity="@Model.Quantity.Quantity"
                    style="width: 50px;">
             <button class="btn btn-outline-secondary btn-sm btn-plus">+</button>
           </div>
         </td>
-        <td>₫158.400</td>
+        <td class="total-price">₫158.400</td>
       </tr>
     </tbody>
   </table>
 
   <div class="total-section">
     <div>
-      <div>Tổng số tiền (1 sản phẩm): <span style="color: #ee4d2d; font-size: 18px; font-weight: bold;">₫188.400</span></div>
+      <div>Tổng số tiền (1 sản phẩm): <span class="total-all-product" style="color: #ee4d2d; font-size: 18px; font-weight: bold;">0₫</span></div>
     </div>
   </div>
 

@@ -43,7 +43,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\products\" />
     <Folder Include="wwwroot\libs\" />
-    <Folder Include="wwwroot\view-resources\Views\Orders\" />
     <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
   </ItemGroup>
   <ItemGroup>
