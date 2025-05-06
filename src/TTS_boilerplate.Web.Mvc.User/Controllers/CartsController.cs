@@ -33,14 +33,5 @@ namespace TTS_boilerplate.Web.Controllers
             return View(model);
         }
 
-        //public int GetCurrentUserId()
-        //{
-        //    if (!AbpSession.UserId.HasValue)
-        //    {
-        //        throw new Exception("Người dùng chưa đăng nhập.");
-        //    }
-
-        //    return Convert.ToInt32(AbpSession.GetUserId()); // Không cần ép kiểu, đã xử lý null
-        //}
     }
 }

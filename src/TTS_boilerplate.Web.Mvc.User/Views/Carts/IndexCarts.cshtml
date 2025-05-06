@@ -23,6 +23,8 @@
     <h5 class="mb-4 font-weight-bold ml-3">Giỏ hàng</h5>
   </div>
     
+   @* --- BẮT ĐẦU FORM --- *@
+    <form id="cart-form" asp-controller="Orders" asp-action="Index_Order" method="get">
     <div class="cart-container " id="cartList" style="background-color:none">
         @foreach(var cartItem in Model.CartList)
         {
@@ -43,7 +45,6 @@
                 <div class="col-3">
                     <div class="item-details">
                         <div class="item-name text-truncate mb-1">@cartItem.NameProduct</div>
-                        
 
                     </div>
                 </div>
@@ -53,13 +54,13 @@
                 </div>
 
                 <div class="quantity-control d-flex align-items-center" data-product-id="@cartItem.ProductId">
-                  <button class="btn btn-outline-secondary btn-sm btn-minus">−</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm btn-minus">−</button>
                   <input type="text"
                          class="form-control form-control-sm mx-2 text-center quantity-input"
                          value="@cartItem.Quantity"
                          min="1"
                          style="width: 50px;">
-                  <button class="btn btn-outline-secondary btn-sm btn-plus">+</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm btn-plus">+</button>
                 </div>
 
                 <div class="col-md-2">
@@ -74,25 +75,26 @@
                 </div>
             </div>
         }
-       
     </div>
-</div>
-<div class="cart-header-2 container">
-  <div class="select-all">
-    <input type="checkbox" id="select-all-items">
-    <label for="select-all-items">Chọn Tất Cả</label>
-  </div>
-  <div class="actions">
-    
-  </div>
-  <div class="cart-summary">
-    <span class="total-label">Tổng cộng:</span>
-    <span class="total-price">  ₫</span>
-    <button class="checkout-btn">Mua Hàng</button>
-  </div>
-</div>
+        <div id="selected-items-container" style="display: none;"></div>
+        <div class="cart-header-2 container">
+            <div class="select-all">
+                <input type="checkbox" id="select-all-items">
+                <label for="select-all-items">Chọn Tất Cả</label>
+            </div>
+            <div class="actions">
+            </div>
+            <div class="cart-summary">
+                <span class="total-label">Tổng cộng:</span>
+                <span class="total-price">  ₫</span>
+                <button type="submit" class="checkout-btn">Mua Hàng</button>
+            </div>
+        </div>
+
+    </form> @* --- KẾT THÚC FORM --- *@
 
 
+</div>
 
 
 <style>

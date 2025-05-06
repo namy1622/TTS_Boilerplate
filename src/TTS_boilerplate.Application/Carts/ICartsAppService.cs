@@ -10,7 +10,7 @@ namespace TTS_boilerplate.Carts
 {
     public interface ICartsAppService : IApplicationService
     {
-        Task UpdateQuantity(CartUpdateInput input);
+        Task UpdateQuantityFromCart(CartUpdateInput input);
         Task DeleteCartItem(int idProduct);
   }
 }

@@ -24,16 +24,16 @@ namespace TTS_boilerplate.Models
         [Precision(18, 2)]
         public decimal? Price { set; get; }
 
+        public int? QuantityInStock { set; get; }
+
+        public int? SoldQuantity { get; set; }
+
      
         [DisplayName("Ngày sản xuất")]
         public DateTime CreationDate { get; set; }
 
         [DisplayName("Ngày hết hạn")]
-        public DateTime ExpirationDate { get; set; }
-
-        //Vì IFormFile chỉ dùng để nhận file upload, nó không cần lưu vào database, nên bạn cần thêm[NotMapped]
-        //[NotMapped] // Loại bỏ khỏi Entity Framework
-        //public IFormFile ProductImage { get; set; } // thêm ảnh 
+        public DateTime ExpirationDate { get; set; } 
 
         [StringLength(512)] // độ dài đường dẫn ảnh
         public string ProductImagePath { get; set; } // đường dẫn ảnh

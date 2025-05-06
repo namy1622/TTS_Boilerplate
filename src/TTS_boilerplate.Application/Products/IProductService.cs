@@ -15,7 +15,7 @@ namespace TTS_boilerplate.Products
     {
         Task<PagedResultDto<ProductListDto>> GetAll_Product(InputProduct input);//'(ProductInput input ); // (GetAll_ProductIntput productInput);
 
-        Task<ProductListDto> GetProduct(int id);
+        Task<ProductListDto> GetProduct(int? id);
 
         Task<ListResultDto<CategoryDto>> GetCategory();
 
@@ -25,5 +25,9 @@ namespace TTS_boilerplate.Products
         Task<PagedResultDto<CartItemDto>> Get_ListCartItem(int userId);
 
         System.Threading.Tasks.Task InitCart(int userId);
+        Task<CartItemDto> Get_CartItem(int? productId);
+
+        
+
     }
 }

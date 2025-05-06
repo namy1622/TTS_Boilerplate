@@ -117,7 +117,7 @@ namespace TTS_boilerplate.Products
                 
         }
 
-        public async Task<ProductListDto> GetProduct(int id)
+        public async Task<ProductListDto> GetProduct(int? id)
         {
             log.Info($"Bắt đầu truy vấn sản phẩm với ID: {id}");
             try
@@ -151,7 +151,7 @@ namespace TTS_boilerplate.Products
             var user = await _userRepository.FirstOrDefaultAsync(u => u.Id == input.idUser);
             var existPRoduct = await _cartItemRepository.FirstOrDefaultAsync(p => p.ProductId == input.idProduct);
             var existUser = await _cartRepository.FirstOrDefaultAsync(u => u.UserId == input.idUser);
-            
+
             if (existUser == null)
             {
                 var cart = new Cart
@@ -161,7 +161,7 @@ namespace TTS_boilerplate.Products
                 await _cartRepository.InsertAsync(cart);
             }
 
-            if(existPRoduct == null)
+            if (existPRoduct == null || !existPRoduct.Status.Equals("Pending"))
             {
                 if (!Enum.TryParse<CartItem.OrderStatus>(input.Status, out var statusEnum))
                 {
@@ -204,13 +204,14 @@ namespace TTS_boilerplate.Products
         public async Task<PagedResultDto<CartItemDto>> Get_ListCartItem(int userId)
         {
             var cartId = await _cartRepository.FirstOrDefaultAsync(c => c.UserId == userId);
-            //var cartItem =  _cartItemRepository.GetAllList(cartItem => cartItem.CartId == cartId.Id);
-            //cartItem = cartItem.Include(c => c.product);
-            
 
+            if (!Enum.TryParse<CartItem.OrderStatus>("InCart", out var statusEnum))
+            {
+                throw new UserFriendlyException("Trạng thái không hợp lệ!");
+            }
             var cartItem = await _cartItemRepository.GetAll()
                 .Include(c => c.Product)
-                .Where(c => c.CartId == cartId.Id)
+                .Where(c => c.CartId == cartId.Id && c.Status == statusEnum)
                 .ToListAsync();
             //  //var cartItem = _cartItemRepository.Get(c => c.CartId == cartId).
 
@@ -235,6 +236,33 @@ namespace TTS_boilerplate.Products
             };
         }
 
+        //từ giỏ hàng đến mua hàng
+        public async Task<CartItemDto> Get_CartItem(int? productId)
+        {
+                var cartItem = await _cartItemRepository.GetAll()
+                .Include(c => c.Product)
+                .FirstOrDefaultAsync(p => p.ProductId1 == productId);
+
+            // cập nhật trạng thái từ InCart sang Pending( từ giỏ hàng -> mua hàng)
+            cartItem.Status = CartItem.OrderStatus.Pending;
+            await _cartItemRepository.UpdateAsync(cartItem);
+
+            if (cartItem == null)
+            {
+                throw new UserFriendlyException($"Không tìm thấy sản phẩm với ProductId {productId} trong giỏ hàng!");
+            }
+            return new CartItemDto
+            {
+                    Id = cartItem.Id,
+                    CartId = cartItem.CartId,
+                    ProductId = cartItem.ProductId,
+                    NameProduct = cartItem.Product.NameProduct,
+                    Price = cartItem.Product.Price ?? 0m,
+                    Quantity = cartItem.Quantity,
+                    DescriptionProduct = cartItem.Product.DescriptionProduct,
+                    ProductImagePath = cartItem.Product.ProductImagePath
+            };
+        }
     }
 }
 

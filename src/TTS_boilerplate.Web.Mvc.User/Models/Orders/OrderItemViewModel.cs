@@ -7,11 +7,12 @@ namespace TTS_boilerplate.Web.Models.Orders
 {
     public class OrderItemViewModel
     {
-        public ProductListDto Product { get; set; }
-        public OrderItemDto Quantity { get; set; }
+        public ProductListDto? Product { get; set; }
+        public OrderItemDto? Quantity { get; set; }
 
-        public IReadOnlyList<ProductListDto> ProductList { get; set; }
+        //public IReadOnlyList<CartItemDto>? ProductList { get; set; }
+        public IReadOnlyList<CartItemDto>? ProductList { get; set; }
 
-        public IReadOnlyList<OrderItemDto> CartList { get; set; }
+        public IReadOnlyList<OrderItemDto>? CartList { get; set; }
     }
 }

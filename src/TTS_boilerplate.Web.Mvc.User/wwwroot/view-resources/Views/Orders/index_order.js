@@ -1,6 +1,7 @@
 ﻿(function ($) {
     console.log('-- Da vao index_order.js!');
     var _$cartService = abp.services.app.carts;
+    var _$orderService = abp.services.app.orders;
     $(document).ready(function () {
         QuantityProduct();
         updateTotalPrice();
@@ -76,7 +77,7 @@
         var checkbox = cartItem.find('.select-item');
         checkbox.attr('data-quantity', quantity);
 
-        _$cartService.updateQuantity({
+        _$orderService.updateQuantityFromOrder({
             idProduct: productId,
             quantity: quantity
         })
@@ -91,7 +92,6 @@
     };
 
     //-- TTINHS GIA ĐƠN HÀNG 
-   
 
     // update tổng giá khi tích chọn
     function updateTotalPrice() {
