@@ -65,11 +65,11 @@ namespace TTS_boilerplate.Web.Startup
                         ))
                 .AddItem(
                     new MenuItemDefinition(
-                        "ProductList",
-                        L("ProductList"),
-                        url:"Products",
-                        icon:"fas fa-box"
-   
+                        "Statistic",
+                        L("Statistic"),
+                        url: "Statistics/Index_Statistic",
+                        icon: "fa-briefcase"
+
                         )
                     )
                 .AddItem(

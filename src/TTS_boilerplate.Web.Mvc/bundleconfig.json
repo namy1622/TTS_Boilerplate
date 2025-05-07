@@ -205,5 +205,11 @@
     "inputFiles": [
       "wwwroot/view-resources/Views/Category/update.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/view-resources/Views/Statistics/index_statistic.min.js",
+    "inputFiles": [
+      "wwwroot/view-resources/Views/Statistics/index_statistic.js"
+    ]
   }
 ]

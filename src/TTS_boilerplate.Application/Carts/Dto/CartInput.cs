@@ -11,7 +11,7 @@ namespace TTS_boilerplate.Carts.Dto
     {
         public int idProduct { set; get; }
         public int idUser { set; get; }
-
+        public int Quantity { set; get; }
         public string Status { set; get; }
   }
 }

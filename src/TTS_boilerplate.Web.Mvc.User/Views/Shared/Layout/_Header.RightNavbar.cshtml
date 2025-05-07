@@ -1,11 +1,18 @@
-﻿@using TTS_boilerplate.Web.Views.Shared.Components.RightNavbarLanguageSwitch
+﻿@inject Abp.Runtime.Session.IAbpSession AbpSession
+@inject UserManager<User> UserManager
+@using Microsoft.AspNetCore.Identity
+@using TTS_boilerplate.Authorization.Users
+@using TTS_boilerplate.Web.Views.Shared.Components.RightNavbarLanguageSwitch
 @using TTS_boilerplate.Web.Views.Shared.Components.RightNavbarUserArea
-
+@{
+    var currentUser = await UserManager.FindByIdAsync(AbpSession.UserId.Value.ToString());
+}
 <ul class="navbar-nav ml-auto">
     @Html.Partial("~/Views/Shared/Layout/_LayoutSearch.cshtml")
     @Html.Partial("/Views/Carts/IconCarts.cshtml")
     
     @await Component.InvokeAsync(typeof(RightNavbarLanguageSwitchViewComponent))
+    <li class="d-flex justify-content-center align-items-center text-white">Xin chào, @currentUser.Name</li>
     @await Component.InvokeAsync(typeof(RightNavbarUserAreaViewComponent))
 </ul>
 

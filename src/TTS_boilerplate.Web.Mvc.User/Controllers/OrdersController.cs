@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Abp.Runtime.Session;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,7 +78,7 @@ namespace TTS_boilerplate.Web.Controllers
             foreach (var item in selectedItems)
             {
                 Console.WriteLine($"ProductId: {item.ProductId}");
-                var product = await _productService.Get_CartItem(item.ProductId);
+                var product = await _productService.Get_ItemFromCart(item.ProductId);
                 if (product != null)
                 {
                     // Thêm vào danh sách tạm
@@ -97,8 +98,27 @@ namespace TTS_boilerplate.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> PlaceOrder(OrderSubmissionModel model)
         {
+            var currentUserId = Convert.ToInt32(AbpSession.GetUserId());
+            foreach (var item in model.Items)
+            {
+                await AddProductToCart(item, currentUserId);
+            }
+           
+
             return View();
         }
-        
+
+        public async System.Threading.Tasks.Task AddProductToCart(OrderItemSubmissionModel item , int currentUserId)
+        {
+            var addProductToOrderInput = new CartInput()
+            {
+                idUser = currentUserId,
+                idProduct = item.ProductId,
+                Quantity = item.Quantity,
+                Status = "Confirmed",
+            };
+            await _productService.AddProductToCart(addProductToOrderInput);
+        }
+
     }
 }

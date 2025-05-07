@@ -25,16 +25,6 @@ namespace TTS_boilerplate.Orders.Dto
         {
             return Price * Quantity;
         }
-        //  public Guid OrderId { set; get; }
-        //  public int ProductId { set; get; }
-        //  public string? ProductName { set; get; }
-
-        //  public decimal? UnitPrice { set; get; }
-        //  public int? Quantity { set; get; }
-
-        //  public string? DescriptionProduct { set; get; }
-        //  public string? ProductImagePath { get; set; }
-        //public Guid OrderId1 { get; set; }
-
+      
     }
 }

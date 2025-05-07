@@ -27,7 +27,7 @@ namespace TTS_boilerplate.Products
         System.Threading.Tasks.Task InitCart(int userId);
         Task<CartItemDto> Get_CartItem(int? productId);
 
-        
+        Task<CartItemDto> Get_ItemFromCart(int? productId);
 
     }
 }

@@ -161,7 +161,7 @@ namespace TTS_boilerplate.Products
                 await _cartRepository.InsertAsync(cart);
             }
 
-            if (existPRoduct == null || !existPRoduct.Status.Equals("Pending"))
+            if (existPRoduct == null )
             {
                 if (!Enum.TryParse<CartItem.OrderStatus>(input.Status, out var statusEnum))
                 {
@@ -171,13 +171,18 @@ namespace TTS_boilerplate.Products
                 {
                     CartId = existUser.Id,
                     ProductId = input.idProduct,
-                    Quantity = 1,
+                    Quantity = input.Quantity != 0 ? input.Quantity : 1,
                     ProductId1 = input.idProduct,
 
                     Status = statusEnum
                     //Status = CartItem.OrderStatus.InCart
                 };
                 await _cartItemRepository.InsertAsync(cartProduct);
+            }
+            else if (existPRoduct.Status.Equals(CartItem.OrderStatus.InCart))
+            {
+                existPRoduct.Status = CartItem.OrderStatus.Confirmed;
+                await _cartItemRepository.UpdateAsync(existPRoduct);
             }
             else
             { 
@@ -239,13 +244,9 @@ namespace TTS_boilerplate.Products
         //từ giỏ hàng đến mua hàng
         public async Task<CartItemDto> Get_CartItem(int? productId)
         {
-                var cartItem = await _cartItemRepository.GetAll()
-                .Include(c => c.Product)
-                .FirstOrDefaultAsync(p => p.ProductId1 == productId);
 
-            // cập nhật trạng thái từ InCart sang Pending( từ giỏ hàng -> mua hàng)
-            cartItem.Status = CartItem.OrderStatus.Pending;
-            await _cartItemRepository.UpdateAsync(cartItem);
+            var cartItem = await _productRepository
+                .FirstOrDefaultAsync(p => p.Id == productId);
 
             if (cartItem == null)
             {
@@ -254,13 +255,42 @@ namespace TTS_boilerplate.Products
             return new CartItemDto
             {
                     Id = cartItem.Id,
-                    CartId = cartItem.CartId,
-                    ProductId = cartItem.ProductId,
-                    NameProduct = cartItem.Product.NameProduct,
-                    Price = cartItem.Product.Price ?? 0m,
-                    Quantity = cartItem.Quantity,
-                    DescriptionProduct = cartItem.Product.DescriptionProduct,
-                    ProductImagePath = cartItem.Product.ProductImagePath
+                    ProductId = cartItem.Id,
+                    NameProduct = cartItem.NameProduct,
+                    Price = cartItem.Price ?? 0m,
+                    //Quantity = cartItem.Quantity,
+                    DescriptionProduct = cartItem.DescriptionProduct,
+                    ProductImagePath = cartItem.ProductImagePath
+            };
+            
+        }
+
+        //từ giỏ hàng đến mua hàng
+        public async Task<CartItemDto> Get_ItemFromCart(int? productId)
+        {
+            var cartItem = await _cartItemRepository.GetAll()
+            .Include(c => c.Product)
+            .FirstOrDefaultAsync(p => p.ProductId1 == productId);
+
+            // cập nhật trạng thái từ InCart sang Pending( từ giỏ hàng -> mua hàng)
+            //cartItem.Status = CartItem.OrderStatus.Pending;
+            //await _cartItemRepository.UpdateAsync(cartItem);
+
+            if (cartItem == null)
+            {
+                throw new UserFriendlyException($"Không tìm thấy sản phẩm với ProductId {productId} trong giỏ hàng!");
+            }
+
+            return new CartItemDto
+            {
+                Id = cartItem.Id,
+                CartId = cartItem.CartId,
+                ProductId = cartItem.ProductId,
+                NameProduct = cartItem.Product.NameProduct,
+                Price = cartItem.Product.Price ?? 0m,
+                Quantity = cartItem.Quantity,
+                DescriptionProduct = cartItem.Product.DescriptionProduct,
+                ProductImagePath = cartItem.Product.ProductImagePath
             };
         }
     }

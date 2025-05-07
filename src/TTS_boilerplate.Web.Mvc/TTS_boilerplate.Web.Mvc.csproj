@@ -15,6 +15,24 @@
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Models\Carts\**" />
+    <Compile Remove="Models\Orders\**" />
+    <Compile Remove="Views\Carts\**" />
+    <Compile Remove="Views\Orders\**" />
+    <Content Remove="Models\Carts\**" />
+    <Content Remove="Models\Orders\**" />
+    <Content Remove="Views\Carts\**" />
+    <Content Remove="Views\Orders\**" />
+    <EmbeddedResource Remove="Models\Carts\**" />
+    <EmbeddedResource Remove="Models\Orders\**" />
+    <EmbeddedResource Remove="Views\Carts\**" />
+    <EmbeddedResource Remove="Views\Orders\**" />
+    <None Remove="Models\Carts\**" />
+    <None Remove="Models\Orders\**" />
+    <None Remove="Views\Carts\**" />
+    <None Remove="Views\Orders\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="Dockerfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -41,10 +59,6 @@
     <PackageReference Include="Abp.Castle.Log4Net" Version="9.4.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\Carts\" />
-    <Folder Include="Models\Orders\" />
-    <Folder Include="Views\Carts\" />
-    <Folder Include="Views\Orders\" />
     <Folder Include="wwwroot\images\products\" />
     <Folder Include="wwwroot\libs\" />
     <Folder Include="wwwroot\view-resources\Views\Carts\" />

@@ -67,8 +67,8 @@ namespace TTS_boilerplate.Web.Controllers
             await InitO();
 
             var currentUserId = Convert.ToInt32(AbpSession.GetUserId());// 23; // _cartController.GetCurrentUserId();
-            await AddProductToCart(productId, currentUserId);
-            //return PartialView("Index_Order");
+            //await AddProductToCart(productId, currentUserId);
+            
             return RedirectToAction("Index_Order", "Orders", new { ProductId  = productId}); 
         }
 
