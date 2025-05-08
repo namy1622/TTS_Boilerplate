@@ -23,8 +23,14 @@ namespace TTS_boilerplate.Web.Controllers
 
         public async Task<IActionResult> IndexCarts()
         {
-            var userId = Convert.ToInt32(AbpSession.GetUserId()); // 23; // GetCurrentUserId();
-            var allCartItem = (await _productService.Get_ListCartItem( userId)).Items;
+            //var userId = AbpSession.GetUserId(); 
+            if( !AbpSession.UserId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var userId = AbpSession.UserId.Value;
+
+            var allCartItem = (await _productService.Get_ListCartItem(Convert.ToInt32(userId))).Items;
             
             var model = new CartListViewModel
             {

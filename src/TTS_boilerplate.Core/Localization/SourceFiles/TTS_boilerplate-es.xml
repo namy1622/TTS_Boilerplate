@@ -17,7 +17,7 @@
 
 		<text name="NameCategory_Required" value="Please select a product category!" />
 		<text name="ProductImagePath_Required" value="Please choose an image!" />
-		
+		<text name="Stock" value="Stock" />
 		<text name="Product List" value="Product List" />
 
 

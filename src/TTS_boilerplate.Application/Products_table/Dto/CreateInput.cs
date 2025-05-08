@@ -23,7 +23,7 @@ namespace TTS_boilerplate.Products_table.Dto
 
         [Precision(18,2)]
         public Decimal? Price { set; get; }
-
+        public int? Stock { set; get; }
         public DateTime CreationDate { set; get; }
 
         public DateTime ExpirationDate { set; get; }

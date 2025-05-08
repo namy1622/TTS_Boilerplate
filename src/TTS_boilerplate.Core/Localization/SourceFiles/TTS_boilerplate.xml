@@ -19,6 +19,7 @@
 		<text name="ProductImagePath_Required" value="Chọn ảnh điiiiiii!" />
 		
 		<text name="Product List" value="Danh sách sản phẩm" />
+		<text name="Stock" value="Tồn kho" />
 
 
 		<text name="Products_C" value="Tạo sản phẩm" />

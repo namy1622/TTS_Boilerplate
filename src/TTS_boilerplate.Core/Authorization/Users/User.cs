@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Abp.Authorization.Users;
 using Abp.Extensions;
+using TTS_boilerplate.Models;
 
 namespace TTS_boilerplate.Authorization.Users
 {
@@ -30,5 +31,7 @@ namespace TTS_boilerplate.Authorization.Users
 
             return user;
         }
+
+        public ICollection<CustomerInformation> CustomerInformations { get; set; }
     }
 }

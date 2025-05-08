@@ -25,9 +25,9 @@ namespace TTS_boilerplate.EntityFrameworkCore
 
         public DbSet<CartItem> CartItems { get; set; }
 
-        //public DbSet<Order> Orders { get; set; }
-
-        //public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<CustomerInformation> CustomerInformation { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<DiscountOfUser> DiscountOfUsers { get; set; }
 
         public TTS_boilerplateDbContext(DbContextOptions<TTS_boilerplateDbContext> options)
             : base(options)

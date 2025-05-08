@@ -1,6 +1,291 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿<link rel="stylesheet" href="~/css/Product/placeOrder.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7-beta.15/jquery.inputmask.min.js"></script>
+@model TTS_boilerplate.Web.Models.Orders.OrderSubmissionModel
 @{
+    Layout = "~/Views/Shared/Layout/_Layout_Cart.cshtml";
+
+    decimal subTotal = 0;
 }
-Đã mua hàng 
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <div class="flex items-center mb-8">
+        <a href="#" class="text-blue-500 hover:text-blue-700">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Quay lại
+        </a>
+        <h1 class="text-2xl font-semibold ml-4">Thanh toán đơn hàng</h1>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Left column -->
+        <div class="md:col-span-2 space-y-6">
+            <!-- Delivery info -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-medium">Thông tin giao hàng</h2>
+                    <button class="text-blue-500 hover:text-blue-700 text-sm">Thay đổi</button>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex">
+                        <div class="w-24 text-gray-500">Họ tên:</div>
+                        <div class="font-medium">@Model.CustomerInfo.Name</div>
+                    </div>
+                    <div class="flex">
+                        <div class="w-24 text-gray-500">Điện thoại:</div>
+                        <div>@Model.CustomerInfo.Phone</div>
+                    </div>
+                    <div class="flex">
+                        <div class="w-24 text-gray-500">Địa chỉ:</div>
+                        <div>@Model.CustomerInfo.Address</div>
+                    </div>
+                    <div class="flex">
+                        <div class="w-24 text-gray-500">Ghi chú:</div>
+                        <input type="text" style="width:60%" 
+                            placeholder="Ghi chú cho người bán"
+                            class="text-gray-500 italic pl-2 pt-1 pb-1 border rounded-lg  focus:outline-none focus:ring-1 focus:ring-blue-500" " />
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Order items -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-medium mb-4">Sản phẩm đặt mua</h2>
+                @foreach(var item in Model.Items)
+                {
+                    var totalPrice = item.Price * item.Quantity;
+                    subTotal = subTotal + totalPrice;
+                    <div class="space-y-4">
+                        <div class="flex items-center border-b pb-4">
+                            <div class="w-16 h-16 bg-gray-200 rounded-md mr-4 overflow-hidden">
+                                <img src="@item.ImgPath" alt="Product" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium">@item.NameProduct</div>
+                                <div class="text-sm text-gray-500">Đen / XL</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-medium">@item.Price.ToString("N0")</div>
+                                <div class="text-sm text-gray-500">x @item.Quantity</div>
+
+                                <div class="font-medium font-weight-bold">Tổng: @totalPrice.ToString("N0")</div>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+                
+            </div>
+        </div>
+
+        <!-- Right column - Order summary -->
+        <div class="md:col-span-1">
+            <div class="bg-white rounded-lg shadow p-6 sticky top-4">
+                <h2 class="text-lg font-medium mb-4">Tóm tắt đơn hàng</h2>
+
+                <div class="space-y-3 mb-4">
+                    <div class="flex justify-between">
+                        <div class="text-gray-600">Tạm tính:</div>
+                        <div>@subTotal.ToString("N0") đ</div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div class="text-gray-600">Phí vận chuyển:</div>
+                        <div>30.000đ</div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div class="text-gray-600">Giảm giá:</div>
+                        <div class="text-red-500">-50.000đ</div>
+                    </div>
+
+                    <div class="border-t pt-3 mt-2">
+                        <div class="flex justify-between font-medium">
+                            <div>Tổng cộng:</div>
+                            <div class="text-lg">680.000đ</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discount code -->
+                <div class="mb-6">
+                    <div class="flex items-center mb-2">
+                        <input type="text" placeholder="Mã giảm giá" style="height:36px" class="discount-input pl-2 flex-1 border rounded-l-lg  focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <button class="bg-blue-500 text-white  rounded-r-lg hover:bg-blue-600 transition" style="height:36px">Áp dụng</button>
+                    </div>
+                    <div class="text-sm text-green-500 hidden" id="discount-success">
+                        <i class="fas fa-check-circle mr-1"></i> Đã áp dụng mã giảm giá thành công!
+                    </div>
+                </div>
+
+                <!-- Payment methods -->
+                <div class="bg-white rounded-lg shadow p-2 mb-3">
+                    <h2 class="text-lg font-medium mb-4">Phương thức thanh toán</h2>
+
+                    <div class="space-y-3">
+                        <!-- Cash on delivery -->
+                        <div class="payment-method border rounded-lg p-1 cursor-pointer selected" onclick="selectPaymentMethod(this, 'cod')">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-money-bill-wave text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium" title="Thanh toán bằng tiền mặt khi nhận hàng">Thanh toán khi nhận hàng</div>
+                                    @* <div class="text-sm text-gray-500">Thanh toán bằng tiền mặt khi nhận hàng</div> *@
+                                </div>
+                                <div class="ml-auto">
+                                    <div class="w-5 h-5 rounded-full border-2 border-blue-500 flex items-center justify-center">
+                                        <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- VNPay -->
+                        <div class="payment-method border rounded-lg p-1 cursor-pointer" onclick="selectPaymentMethod(this, 'vnpay')">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-qrcode text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium" title="Thanh toán qua cổng VNPay">VNPay</div>
+                                    @* <div class="text-sm text-gray-500">Thanh toán qua cổng VNPay</div> *@
+                                </div>
+                                <div class="ml-auto">
+                                    <div class="w-5 h-5 rounded-full border-2 border-gray-300"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bank transfer -->
+                        <div class="payment-method border rounded-lg p-1 mb-1 cursor-pointer" onclick="selectPaymentMethod(this, 'bank')">
+                            <div class="flex items-center" title="Thanh toán qua chuyển khoản ngân hàng">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-university text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium" >Chuyển khoản ngân hàng</div>
+                                    @* <div class="text-sm text-gray-500">Thanh toán qua chuyển khoản ngân hàng</div> *@
+                                </div>
+                                <div class="ml-auto">
+                                    <div class="w-5 h-5 rounded-full border-2 border-gray-300"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bank info (hidden by default) -->
+                    <div id="bank-info" class="mt-3 hidden">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-medium mb-2">Thông tin chuyển khoản</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex">
+                                    <div class="w-32 text-gray-600">Ngân hàng:</div>
+                                    <div>Vietcombank</div>
+                                </div>
+                                <div class="flex">
+                                    <div class="w-32 text-gray-600">Số tài khoản:</div>
+                                    <div>1021 514 457</div>
+                                </div>
+                                <div class="flex">
+                                    <div class="w-32 text-gray-600">Chủ tài khoản:</div>
+                                    <div>DOAN TUAN NAM</div>
+                                </div>
+                                <div class="flex">
+                                    <div class="w-32 text-gray-600">Nội dung:</div>
+                                    <div class="font-medium">A - Thanh toán mua hàng</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms and conditions -->
+                <div class="text-xs text-gray-500 mb-6">
+                    <label class="flex items-start">
+                        <input type="checkbox" class="mt-1 mr-2" checked>
+                        <span>Tôi đồng ý với <a href="#" class="text-blue-500 hover:underline">điều khoản và điều kiện</a> của cửa hàng</span>
+                    </label>
+                </div>
+
+                <!-- Place order button -->
+                <button id="place-order-btn" class="w-full bg-blue-500 text-white py-3 rounded-lg font-medium hover:bg-blue-600 transition flex items-center justify-center">
+                    <i class="fas fa-shopping-bag mr-2"></i> Đặt hàng ngay
+                </button>
+
+                <!-- Payment button (hidden by default) -->
+                <button id="payment-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-medium hover:bg-green-600 transition hidden flex items-center justify-center">
+                    <i class="fas fa-credit-card mr-2"></i> Thanh toán ngay
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Select payment method
+    function selectPaymentMethod(element, method) {
+        // Remove selected class from all payment methods
+        document.querySelectorAll('.payment-method').forEach(el => {
+            el.classList.remove('selected');
+            el.querySelector('.ml-auto div').innerHTML = '<div class="w-5 h-5 rounded-full border-2 border-gray-300"></div>';
+        });
+
+        // Add selected class to clicked element
+        element.classList.add('selected');
+        element.querySelector('.ml-auto div').innerHTML = '<div class="w-5 h-5 rounded-full border-2 border-blue-500 flex items-center justify-center"><div class="w-3 h-3 rounded-full bg-blue-500"></div></div>';
+
+        // Show/hide bank info if bank transfer is selected
+        const bankInfo = document.getElementById('bank-info');
+        if (method === 'bank') {
+            bankInfo.classList.remove('hidden');
+        } else {
+            bankInfo.classList.add('hidden');
+        }
+
+        // Show appropriate button
+        const placeOrderBtn = document.getElementById('place-order-btn');
+        const paymentBtn = document.getElementById('payment-btn');
+
+        if (method === 'cod') {
+            placeOrderBtn.classList.remove('hidden');
+            paymentBtn.classList.add('hidden');
+        } else {
+            placeOrderBtn.classList.add('hidden');
+            paymentBtn.classList.remove('hidden');
+        }
+    }
+
+    // Apply discount code
+    document.querySelector('.discount-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            applyDiscount();
+        }
+    });
+
+    document.querySelector('.discount-input + button').addEventListener('click', applyDiscount);
+
+    function applyDiscount() {
+        const discountInput = document.querySelector('.discount-input');
+        const discountSuccess = document.getElementById('discount-success');
+
+        // Simple validation - in real app you would check with server
+        if (discountInput.value.trim() !== '') {
+            discountSuccess.classList.remove('hidden');
+            setTimeout(() => {
+                discountSuccess.classList.add('hidden');
+            }, 3000);
+        }
+    }
+
+    // Place order or payment button click
+    document.getElementById('place-order-btn').addEventListener('click', function () {
+        alert('Đơn hàng của bạn đã được đặt thành công! Chúng tôi sẽ liên hệ với bạn sớm.');
+    });
+
+    document.getElementById('payment-btn').addEventListener('click', function () {
+        alert('Bạn sẽ được chuyển hướng đến trang thanh toán...');
+    });
+</script>

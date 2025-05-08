@@ -2,6 +2,7 @@
     console.log('-- Da vao index_order.js!');
     var _$cartService = abp.services.app.carts;
     var _$orderService = abp.services.app.orders;
+    var _$formOrder = $('#orderForm');
     $(document).ready(function () {
         QuantityProduct();
         updateTotalPrice();
@@ -117,4 +118,35 @@
     })
     //-- END TINH TOÁN GIÁ ĐƠN HÀNG GIỎ HÀNG
 
+    _$formOrder.validate({
+        rules: {
+           "CustomerInfo.Name":{
+               required: true
+            },
+            "CustomerInfo.Phone": {
+                required: true,
+                number: true,
+                minlength: 10,
+                maxlength: 10,
+                
+            },
+            "CustomerInfo.Address": {
+                required: true,
+            }
+        },
+        messages: {
+            "CustomerInfo.Name": {
+                required: "Hãy nhập tên của bạn!"
+            },
+            "CustomerInfo.Phone": {
+                required: " Hãy nhập số điện thoại của bạn!",
+                minlength: " Số điện thoại phải có 10 số!",
+                maxlength: " Số điện thoại phải có 10 số!",
+                number: " Chỉ được nhập số!"
+            },
+            "CustomerInfo.Address": {
+                required: "Hãy nhập địa chỉ của bạn!"
+            }
+        }
+    })
 })(jQuery);

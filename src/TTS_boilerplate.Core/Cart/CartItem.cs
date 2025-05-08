@@ -9,29 +9,33 @@ using TTS_boilerplate.Models;
 
 namespace TTS_boilerplate.Core
 {
-  public class CartItem : Entity
-  {
-
-    public int CartId { get; set; } // id gio hang
-    public int Quantity { get; set; } // so luong sp
-
-    [ForeignKey("ProductId1")]
-    public Product? Product { get; set; }
-    public int ProductId { get; set; }
-    public int ProductId1 { get; set; }
-
-    public OrderStatus? Status { get; set; } // trạng thái đơn hàng
-
-   
-
-    public enum OrderStatus
+    public class CartItem : Entity
     {
-      InCart = 0,       // mới thêm vào giỏ hàng
-      Pending = 1,      // đã đặt hàng nhưng chưa xác nhận / thanh toán
-      Confirmed = 2,    // đã xác nhận đơn hàng
-      Shipped = 3,      // đã giao hàng
-      Delivered = 4,    // đã nhận hàng
-      Canceled = 5      // Khi bị hủy
+
+        public int CartId { get; set; } // id gio hang
+        public int Quantity { get; set; } // so luong sp
+
+        [ForeignKey("ProductId1")]
+        public Product? Product { get; set; }
+        public int ProductId { get; set; }
+        public int ProductId1 { get; set; }
+
+        public OrderStatus? Status { get; set; } // trạng thái đơn hàng
+
+
+        public Discount? Discount { get; set; } // mã giảm giá
+        public int? DiscountId { get; set; } // id mã giảm giá
+        public CustomerInformation? CustomerInformation { get; set; } // thông tin khách hàng
+        public int? CustomerInformationId { get; set; } // id thông tin khách hàng
+
+        public enum OrderStatus
+        {
+            InCart = 0,       // mới thêm vào giỏ hàng
+            Pending = 1,      // đã đặt hàng nhưng chưa xác nhận / thanh toán
+            Confirmed = 2,    // đã xác nhận đơn hàng
+            Shipped = 3,      // đã giao hàng
+            Delivered = 4,    // đã nhận hàng
+            Canceled = 5      // Khi bị hủy
+        }
     }
-  }
 }

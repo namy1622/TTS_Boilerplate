@@ -35,7 +35,7 @@ namespace TTS_boilerplate.Products_table.Dto
         public DateTime ExpirationDate { set; get; }
  
         public string ProductImagePath { get; set; }
-
+        public int? Stock { set; get; }
         public int CategoryId { set; get; }
 
         public string NameCategory { set; get; }

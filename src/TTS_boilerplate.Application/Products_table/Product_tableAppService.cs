@@ -102,7 +102,7 @@ namespace TTS_boilerplate.Products_table
                                     ExpirationDate = p.ExpirationDate,
 
                                     ProductImagePath = p.ProductImagePath,
-
+                                    Stock = p.QuantityInStock,
                                     CategoryId = p.CategoryId ?? 0,
                                     NameCategory = p.BelongToCategory != null ? p.BelongToCategory.NameCategory : string.Empty
                                 }).ToListAsync();
@@ -149,7 +149,8 @@ namespace TTS_boilerplate.Products_table
                     ExpirationDate = input.ExpirationDate,
                     Price = input.Price,
                     CategoryId = input.CategoryId,
-                    ProductImagePath = imagePath
+                    ProductImagePath = imagePath,
+                    QuantityInStock = input.Stock
                 };
                 await _productRepository.InsertAsync(product);
             }
@@ -175,6 +176,7 @@ namespace TTS_boilerplate.Products_table
             product.CreationDate = input.CreationDate;
             product.ExpirationDate = input.ExpirationDate;
             product.CategoryId = input.CategoryId != 0 ? input.CategoryId : 0;
+            product.QuantityInStock = input.Stock != 0 ? input.Stock : 0;
 
             if(input.ProductImagePath != null)
             {

@@ -5,14 +5,27 @@
 @using TTS_boilerplate.Web.Views.Shared.Components.RightNavbarLanguageSwitch
 @using TTS_boilerplate.Web.Views.Shared.Components.RightNavbarUserArea
 @{
-    var currentUser = await UserManager.FindByIdAsync(AbpSession.UserId.Value.ToString());
+    TTS_boilerplate.Authorization.Users.User currentUser = null;
+    if (AbpSession.UserId.HasValue)
+    {
+        currentUser = await UserManager.FindByIdAsync(AbpSession.UserId.Value.ToString());
+    }
 }
 <ul class="navbar-nav ml-auto">
     @Html.Partial("~/Views/Shared/Layout/_LayoutSearch.cshtml")
     @Html.Partial("/Views/Carts/IconCarts.cshtml")
     
     @await Component.InvokeAsync(typeof(RightNavbarLanguageSwitchViewComponent))
-    <li class="d-flex justify-content-center align-items-center text-white">Xin chào, @currentUser.Name</li>
+    <li class="d-flex justify-content-center align-items-center text-white">
+        @if (currentUser != null)
+        {
+            <span>Xin chào, @currentUser.Name</span>
+        }
+        else
+        {
+            <span></span> <!-- hoặc bạn có thể không hiển thị gì -->
+        }
+    </li>
     @await Component.InvokeAsync(typeof(RightNavbarUserAreaViewComponent))
 </ul>
 

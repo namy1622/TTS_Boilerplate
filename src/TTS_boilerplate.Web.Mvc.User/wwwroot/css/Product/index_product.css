@@ -1,0 +1,85 @@
+﻿body {
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #4e73df;
+    --secondary-color: #1cc88a;
+    --accent-color: #f6c23e;
+    --danger-color: #e74a3b;
+    --dark-color: #2d3748;
+    --light-color: #f8f9fc;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f7fafc;
+}
+
+.gradient-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border-radius: 3px;
+}
+
+.product-card {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+.badge {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.5px;
+    z-index: 10;
+}
+
+.modal {
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+    .modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+.modal-card {
+    transition: transform 0.3s ease;
+    transform: scale(0.9);
+}
+
+.modal.active .modal-card {
+    transform: scale(1);
+}
+
+.modal-image:hover {
+    transform: scale(1.05);
+}
+
+.btn-primary-gradient {
+    background: linear-gradient(135deg, var(--primary-color), #3a5fcc);
+    transition: all 0.3s ease;
+}
+
+    .btn-primary-gradient:hover {
+        background: linear-gradient(135deg, #3a5fcc, var(--primary-color));
+        box-shadow: 0 5px 15px rgba(78, 115, 223, 0.4);
+        transform: translateY(-2px);
+    }

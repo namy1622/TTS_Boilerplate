@@ -27,7 +27,7 @@ namespace TTS_boilerplate.Products_table.Dto
         [Required]
         [Precision(18, 2)]
         public decimal? Price { set; get; }
-
+        public int? Stock { set; get; }
         public IFormFile ProductImagePath { get; set; }
 
         public string ExistingImageUrl { get; set; } // Lưu ảnh cũ

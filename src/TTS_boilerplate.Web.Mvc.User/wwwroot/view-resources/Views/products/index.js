@@ -47,6 +47,11 @@
                 nowDate: now,
             }
             $('#buyNow').on('click', function () {
+                if (!_$idUser) {
+                    console.log("-- userId null, chuyen den dang nhap");
+                    window.location.href = '/Account/Login';
+                    return;
+                }
                 var productId = $(this).attr('data-product-id');
                 window.location.href = '/Products/InitOrder?productId=' + productId;
             });
@@ -230,7 +235,7 @@
                             </div>
                             <div class="hi" style="background-color:white">
                                 <div class="row">
-                                    <div class="col-12 text-start d-flex flex-column">
+                                    <div class="col-12 text-start d-flex flex-column pl-3 pt-2">
                                         <h5 class="card-title card__name">${product.nameProduct}</h5>
                                         <p class="text-muted mb-0">${product.nameCategory}</p>
                                         <p class="text-muted card__price" style="margin-bottom:0px">${product.price} VND</p>
@@ -278,7 +283,7 @@
                         $(this).attr('src', '/images/no-image.png');
                     });
                 $('#modalDescription').text('Mô tả: ' + product.descriptionProduct);
-                $('#modalPrice').text(product.price + 'VND');
+                $('#modalPrice').text(product.price.toLocaleString('vi-Vn') + 'đ');
 
                 // hiển thị modal product 
                 _$modal.addClass('active-modal');  // active được tạo trong card.css 
@@ -298,7 +303,12 @@
 
 
     $('#addCart').on('click', function () {
-        _$idUser = abp.session.userId;
+        //_$idUser = abp.session.userId;
+        if (!_$idUser) {
+            console.log("-- userId null, chuyen den dang nhap");
+            window.location.href = '/Account/Login';
+            return;
+        }
         console.log('Sending data:', {
             idProduct: _$addCartId,
             idUser: _$idUser

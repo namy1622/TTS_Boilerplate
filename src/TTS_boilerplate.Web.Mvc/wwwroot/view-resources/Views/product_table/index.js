@@ -154,11 +154,11 @@
 
             {
                 targets: 6,
-                data: 'nameCategory',
-                name: 'NameCategory',
+                data: 'stock',
+                name: 'stock',
                 sortable: false,
                 render: (data, row, meta) => {
-                    return data ? data : 'N/A';
+                    return data ? data : 0;
                 }
             },
             {
@@ -181,21 +181,6 @@
                 defaultContent: '',
                 render: (data, type, row, meta) => {
                     console.log(row);
-                   
- //                   return [
- //                       ` @if (IsGranted(PermissionNames.Products_C))
- //{a}`,
- //                       `<div class="d-flex flex-column ml-2">`,
-
- //                       `<button type="button" style="width:32px; height:28px; " title="Update" class="btn btn-sm bg-secondary  edit-product mr-1" data-product-id="${row.id}" data-toggle="modal" data-target="#ProductEditModal">`,
- //                       `   <i class="fas fa-pencil-alt "></i> `,
- //                       '</button>',
-
- //                       `<button type="button" style="width:32px ; height:28px;" title="Delete" class="btn btn-sm bg-danger delete-product mt-1" data-product-id="${row.id}" data-product-name="${row.nameProduct}" >`,
- //                       `   <i class="fas fa-trash"></i> `,
- //                       '</button>',
- //                       `</div>`
- //                   ].join('');
                     return [
                         `<div class="d-flex flex-column ml-2">`,
 

@@ -19,18 +19,26 @@
     <Compile Remove="Models\Orders\**" />
     <Compile Remove="Views\Carts\**" />
     <Compile Remove="Views\Orders\**" />
+    <Compile Remove="wwwroot\view-resources\Views\Carts\**" />
+    <Compile Remove="wwwroot\view-resources\Views\Orders\**" />
     <Content Remove="Models\Carts\**" />
     <Content Remove="Models\Orders\**" />
     <Content Remove="Views\Carts\**" />
     <Content Remove="Views\Orders\**" />
+    <Content Remove="wwwroot\view-resources\Views\Carts\**" />
+    <Content Remove="wwwroot\view-resources\Views\Orders\**" />
     <EmbeddedResource Remove="Models\Carts\**" />
     <EmbeddedResource Remove="Models\Orders\**" />
     <EmbeddedResource Remove="Views\Carts\**" />
     <EmbeddedResource Remove="Views\Orders\**" />
+    <EmbeddedResource Remove="wwwroot\view-resources\Views\Carts\**" />
+    <EmbeddedResource Remove="wwwroot\view-resources\Views\Orders\**" />
     <None Remove="Models\Carts\**" />
     <None Remove="Models\Orders\**" />
     <None Remove="Views\Carts\**" />
     <None Remove="Views\Orders\**" />
+    <None Remove="wwwroot\view-resources\Views\Carts\**" />
+    <None Remove="wwwroot\view-resources\Views\Orders\**" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Dockerfile">
@@ -61,8 +69,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\products\" />
     <Folder Include="wwwroot\libs\" />
-    <Folder Include="wwwroot\view-resources\Views\Carts\" />
-    <Folder Include="wwwroot\view-resources\Views\Orders\" />
     <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
   </ItemGroup>
   <ItemGroup>

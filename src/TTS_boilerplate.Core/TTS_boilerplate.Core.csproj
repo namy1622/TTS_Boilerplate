@@ -15,6 +15,11 @@
     <EmbeddedResource Include="Localization\SourceFiles\*.xml" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="SimpleTaskApp\**" />
+    <EmbeddedResource Remove="SimpleTaskApp\**" />
+    <None Remove="SimpleTaskApp\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Localization\SourceFiles\TTS_boilerplate-vn.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -27,8 +32,5 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SimpleTaskApp\Task\" />
   </ItemGroup>
 </Project>

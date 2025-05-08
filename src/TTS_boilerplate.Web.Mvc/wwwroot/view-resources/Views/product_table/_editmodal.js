@@ -20,16 +20,6 @@
         //var product = _$form.serializeFormToObject();
         var formData = new FormData(_$form[0]);
 
-        // Handle price formatting for different locales
-        //var priceInput = document.getElementById('price');
-        //if (priceInput) {
-        //    var priceValue = priceInput.value.replace(",", ".");
-        //    formData.set('Price', parseFloat(priceValue).toString());
-        //}
-        //formData.set('Price', parseFloat('#price').toString());
-
-       
-       
         var cateId = $('select[name="CategoryIdss"]').val();
         //var cateId = parseInt($('select[name="CategoryIdss"]').val());
      

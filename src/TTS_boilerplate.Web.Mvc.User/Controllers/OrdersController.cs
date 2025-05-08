@@ -73,7 +73,6 @@ namespace TTS_boilerplate.Web.Controllers
             };
             // Tạo danh sách tạm để lưu sản phẩm và số lượng
             var products = new List<CartItemDto>();
-            //var cartItems = new List<OrderItemDto>();
             // Xử lý danh sách selectedItems
             foreach (var item in selectedItems)
             {
@@ -98,17 +97,16 @@ namespace TTS_boilerplate.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> PlaceOrder(OrderSubmissionModel model)
         {
-            var currentUserId = Convert.ToInt32(AbpSession.GetUserId());
-            foreach (var item in model.Items)
-            {
-                await AddProductToCart(item, currentUserId);
-            }
-           
+            //var currentUserId = Convert.ToInt32(AbpSession.GetUserId());
+            //foreach (var item in model.Items)
+            //{
+            //    await AddProductToConfirmed(item, currentUserId);
+            //}
 
-            return View();
+            return View(model);
         }
 
-        public async System.Threading.Tasks.Task AddProductToCart(OrderItemSubmissionModel item , int currentUserId)
+        public async System.Threading.Tasks.Task AddProductToConfirmed(OrderItemSubmissionModel item , int currentUserId)
         {
             var addProductToOrderInput = new CartInput()
             {

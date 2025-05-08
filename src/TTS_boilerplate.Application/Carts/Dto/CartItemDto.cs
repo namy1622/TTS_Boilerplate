@@ -15,7 +15,7 @@ namespace TTS_boilerplate.Carts.Dto
         public string NameProduct { set; get; }
         
         public decimal Price { set; get; }
-        public int Quantity { set; get; }
+        public int Quantity { set; get; } = 1;
 
         public string DescriptionProduct { set; get; }
         public string ProductImagePath { get; set; }

@@ -1,7 +1,6 @@
 ﻿@model TTS_boilerplate.Web.Models.Orders.OrderItemViewModel;
 @{
     Layout = "~/Views/Shared/Layout/_Layout_Cart.cshtml";
-
 }
 
 @section scripts {
@@ -14,276 +13,372 @@
 }
 
 <div class="container">
-    <form id="orderForm" asp-action="PlaceOrder" asp-controller="Orders"  method="post">
+    <form id="orderForm" asp-action="PlaceOrder" asp-controller="Orders" method="post">
         <div class="product-card">
             <div class="header">
-                <h2>Sản phẩm</h2>
+                <h2 class="section-title">Sản phẩm</h2>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 50%;">Sản phẩm</th>
-                        <th>Đơn giá</th>
-                        <th>Số lượng</th>
-                        <th>Thành tiền</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model?.ProductList != null)
-                    {
-                        @for (int i=0; i < Model.ProductList.Count; i++)
-                                {
-                            var item = Model.ProductList[i];
+            <div class="table-responsive">
+                <table class="table-products">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model?.ProductList != null)
+                        {
+                            @for (int i=0; i < Model.ProductList.Count; i++)
+                            {
+                                var item = Model.ProductList[i];
 
-                            <input type="hidden" name="Items[@i].ProductId" value="@item.ProductId"/>
-                            <input type="hidden" name="Items[@i].CartId" value="@item.CartId"/>
+                                <input type="hidden" name="Items[@i].ProductId" value="@item.ProductId"/>
+                                <input type="hidden" name="Items[@i].CartId" value="@item.CartId"/>
+                                <input type="hidden" name="Items[@i].ImgPath" value="@item.ProductImagePath" />
+                                <input type="hidden" name="Items[@i].NameProduct" value="@item.NameProduct" />
+                                
+                                <input type="hidden" name="Items[@i].Price" value="@item.Price" />
+                                
 
-                            <tr>
-                                <td>
-                                    <div class="product-info">
-                                        <img src="@item.ProductImagePath" alt="Quạt kẹp">
-                                        <div>
-                                            @item.NameProduct
+                                <tr class="product-row">
+                                    <td>
+                                        <div class="product-info">
+                                            <div class="product-image" >
+                                                <img src="@item.ProductImagePath"  alt="@item.NameProduct">
+                                            </div>
+                                            <div class="product-name" >
+                                                @item.NameProduct
+                                            </div>
                                         </div>
+                                    </td>
+                                    <td id="price" class="price-cell" data-price="@item.Price">₫@item.Price.ToString("N0")</td>
+                                    <td>
+                                        <div class="quantity-control d-flex align-items-center" data-product-id="@item.ProductId">
+                                            <button type="button" class="btn btn-quantity btn-minus">−</button>
+                                            <input type="text"
+                                                id="quantity-input"
+                                                name="Items[@i].Quantity"
+                                                class="form-control form-control-sm mx-2 text-center quantity-input"
+                                                value="@item.Quantity "
+                                                min="1"
+                                                data-quantity="@item.Quantity"
+                                                style="width: 50px;">
+                                            <button type="button" class="btn btn-quantity btn-plus">+</button>
+                                        </div>
+                                    </td>
+                                    <td class="total-price">₫158.400</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr class="empty-cart">
+                                <td colspan="4">
+                                    <div class="text-center py-4">
+                                        <i class="fa fa-shopping-cart empty-cart-icon"></i>
+                                        <p>Không có sản phẩm nào</p>
                                     </div>
                                 </td>
-                                <td id="price" data-price="@item.Price">@item.Price</td>
-                                <td>
-                                    <div class="quantity-control d-flex align-items-center" data-product-id="@item.ProductId">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm btn-minus">−</button>
-                                        <input type="text"
-                                               id="quantity-input"
-                                               name="Items[@i].Quantity"
-                                               class="form-control form-control-sm mx-2 text-center quantity-input"
-                                               value="@item.Quantity"
-                                               min="1"
-                                               data-quantity="@item.Quantity"
-                                               style="width: 50px;">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm btn-plus">+</button>
-                                    </div>
-                                </td>
-                                <td class="total-price">₫158.400</td>
                             </tr>
                         }
-                    }
-                    else
-                    {
-                        <tr><td colspan="4">No products available.</td></tr>
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="total-section">
-                <div>
-                    <div>Tổng số tiền (1 sản phẩm): <span class="total-all-product" style="color: #ee4d2d; font-size: 18px; font-weight: bold;">0₫</span></div>
+                <div class="total-amount">
+                    <div>Tổng số tiền (<span class="product-count">1</span> sản phẩm): 
+                        <span class="total-all-product">₫0</span>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="customer-info">
-            <h3>Thông tin người mua</h3>
+            <h3 class="section-title">Thông tin người mua</h3>
             <div class="form-group">
                 <label for="customerName">Họ và tên</label>
-                <input type="text" id="customerName" name="CustomerInfo.Name" placeholder="Nhập họ và tên người mua">
+                <input type="text" id="customerName" name="CustomerInfo.Name" class="form-input" placeholder="Nhập họ và tên người mua">
             </div>
             <div class="form-group">
                 <label for="customerPhone">Số điện thoại</label>
-                <input type="tel" id="customerPhone" name="CustomerInfo.Phone" placeholder="Nhập số điện thoại">
+                <input type="tel" id="customerPhone" name="CustomerInfo.Phone" class="form-input" maxlength="10" placeholder="Nhập số điện thoại">
             </div>
             <div class="form-group">
                 <label for="CustomerAddress">Địa chỉ</label>
-                <input type="text" id="CustomerAddress" name="CustomerInfo.Address" placeholder="Nhập địa chỉ giao hàng">
+                <input type="text" id="CustomerAddress" name="CustomerInfo.Address" class="form-input" placeholder="Nhập địa chỉ giao hàng">
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 20px;">
-            <button type="submit" class="order-btn" style="padding: 12px 40px; font-size: 16px;">Đặt hàng</button>
+        <div class="order-action">
+            <button type="submit" class="order-btn">Đặt hàng</button>
         </div>
     </form>
 </div>
 
-
 <style>
     body {
-        /* font-family: Arial, sans-serif; */
         margin: 0;
         padding: 0;
-        background-color: #f5f5f5;
+        background-color: #f8f9fa;
         color: #333;
-    }
-
-    body, input, button {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        line-height: 1.6;
     }
 
     .container {
         max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
+        margin: 2rem auto;
+        padding: 0 15px;
+    }
+
+    .section-title {
+        color: #2c3e50;
+        margin: 0 0 1.2rem;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+    .section-title::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(to right, #ee4d2d, #ff7e5f);
+        border-radius: 2px;
     }
 
     .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 1.5rem;
     }
 
-    .order-btn {
-        background-color: #ee4d2d;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 2px;
-        cursor: pointer;
-        font-weight: bold;
+    .product-card, .customer-info {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        margin-bottom: 1.5rem;
+        padding: 1.8rem;
+        transition: all 0.3s ease;
     }
 
-    table {
+    .product-card:hover, .customer-info:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table-products {
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: separate;
+        border-spacing: 0;
     }
 
-    th {
+    .table-products th {
         text-align: left;
-        padding: 12px 8px;
-        border-bottom: 1px solid #ddd;
-        color: #666;
-        font-weight: normal;
+        padding: 15px 10px;
+        border-bottom: 1px solid #e0e0e0;
+        color: #6c757d;
+        font-weight: 500;
+        font-size: 0.95rem;
     }
 
-    td {
-        padding: 12px 8px;
-        border-bottom: 1px solid #ddd;
+    .table-products td {
+        padding: 15px 10px;
+        border-bottom: 1px solid #e0e0e0;
+        vertical-align: middle;
+    }
+
+    .product-row:hover {
+        background-color: #f9f9f9;
     }
 
     .product-info {
         display: flex;
         align-items: center;
+        gap: 15px;
     }
 
-        .product-info img {
-            width: 60px;
-            height: 60px;
-            margin-right: 10px;
-            object-fit: cover;
-        }
-
-    .store-badge {
-        display: inline-block;
-        background-color: #f5f5f5;
-        padding: 4px 8px;
-        border-radius: 2px;
-        margin-right: 10px;
+    .product-image {
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .chat-badge {
-        display: inline-block;
-        background-color: #1bb974;
-        color: white;
-        padding: 4px 8px;
-        border-radius: 2px;
-    }
-
-    .insurance-option {
-        margin: 12px 0;
-        display: flex;
-        align-items: center;
-    }
-
-    .voucher-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 20px 0;
-        padding: 12px 0;
-        border-top: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .voucher-badge {
-        background-color: #ee4d2d;
-        color: white;
-        padding: 2px 6px;
-        border-radius: 2px;
-        margin-right: 8px;
-    }
-
-    .voucher-select {
-        color: #1a9cb7;
-        cursor: pointer;
-    }
-
-    .shipping-section {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 0;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .shipping-section-left {
-        flex: 2;
-    }
-
-    .shipping-section-right {
-        flex: 1;
-        text-align: right;
-    }
-
-    .shipping-method {
-        margin-top: 8px;
-    }
-
-    .shipping-date {
-        color: #888;
-        font-size: 14px;
-    }
-
-    textarea {
+    .product-image img {
         width: 100%;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 2px;
-        resize: vertical;
-        margin: 12px 0;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .product-image img:hover {
+        transform: scale(1.05);
+    }
+
+    .product-name {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .price-cell {
+        font-weight: 500;
+        color: #555;
+    }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+        background: white;
+        width: 118px;
+    }
+
+    .btn-quantity {
+        background: #f8f9fa;
+        border: none;
+        color: #555;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .btn-quantity:hover {
+        background: #e9ecef;
+    }
+
+    .btn-minus {
+        border-radius: 25px 0 0 25px;
+    }
+
+    .btn-plus {
+        border-radius: 0 25px 25px 0;
+    }
+
+    .quantity-input {
+        border: none;
+        text-align: center;
+        width: 40px !important;
+        padding: 5px;
+        font-weight: 500;
+        background: white;
+    }
+
+    .total-price {
+        font-weight: 600;
+        color: #ee4d2d;
     }
 
     .total-section {
         display: flex;
         justify-content: flex-end;
-        padding: 12px 0;
-        margin-top: 20px;
+        padding: 15px 0 0;
+        margin-top: 15px;
+        border-top: 1px dashed #e0e0e0;
     }
 
-    .customer-info {
-        margin-top: 20px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+    .total-amount {
+        font-size: 1rem;
+        color: #343a40;
     }
 
-    .product-card {
-        margin-top: 20px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+    .total-all-product {
+        color: #ee4d2d;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-left: 5px;
     }
 
     .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 1.2rem;
     }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #495057;
+    }
 
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 2px;
-        }
+    .form-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        transition: all 0.3s;
+        font-size: 1rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-input:focus {
+        border-color: #ee4d2d;
+        box-shadow: 0 0 0 3px rgba(238, 77, 45, 0.15);
+        outline: none;
+    }
+
+    .form-input::placeholder {
+        color: #adb5bd;
+    }
+
+    .order-action {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+    .order-btn {
+        background: linear-gradient(to right, #ee4d2d, #ff7e5f);
+        color: white;
+        border: none;
+        padding: 14px 40px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 10px rgba(238, 77, 45, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .order-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(238, 77, 45, 0.4);
+        background: linear-gradient(to right, #e64525, #ff6a4a);
+    }
+
+    .order-btn:active {
+        transform: translateY(1px);
+    }
+
+    .empty-cart {
+        color: #6c757d;
+    }
+
+    .empty-cart-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.6;
+    }
+
+    
 </style>
