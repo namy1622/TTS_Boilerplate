@@ -1612,6 +1612,12 @@ namespace TTS_boilerplate.Migrations
                     b.Property<int>("CartId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CustomerInformationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DiscountId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -1627,6 +1633,10 @@ namespace TTS_boilerplate.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CartId");
+
+                    b.HasIndex("CustomerInformationId");
+
+                    b.HasIndex("DiscountId");
 
                     b.HasIndex("ProductId");
 
@@ -1651,6 +1661,90 @@ namespace TTS_boilerplate.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppCategory");
+                });
+
+            modelBuilder.Entity("TTS_boilerplate.Models.CustomerInformation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("UserId1")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("CustomerInformation");
+                });
+
+            modelBuilder.Entity("TTS_boilerplate.Models.Discount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discounts");
+                });
+
+            modelBuilder.Entity("TTS_boilerplate.Models.DiscountOfUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DiscountId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscountId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("DiscountOfUsers");
                 });
 
             modelBuilder.Entity("TTS_boilerplate.Models.Person", b =>
@@ -1713,6 +1807,12 @@ namespace TTS_boilerplate.Migrations
                     b.Property<string>("ProductImagePath")
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
+
+                    b.Property<int?>("QuantityInStock")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SoldQuantity")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -2051,6 +2151,14 @@ namespace TTS_boilerplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TTS_boilerplate.Models.CustomerInformation", "CustomerInformation")
+                        .WithMany()
+                        .HasForeignKey("CustomerInformationId");
+
+                    b.HasOne("TTS_boilerplate.Models.Discount", "Discount")
+                        .WithMany()
+                        .HasForeignKey("DiscountId");
+
                     b.HasOne("TTS_boilerplate.Models.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductId")
@@ -2063,7 +2171,39 @@ namespace TTS_boilerplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("CustomerInformation");
+
+                    b.Navigation("Discount");
+
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("TTS_boilerplate.Models.CustomerInformation", b =>
+                {
+                    b.HasOne("TTS_boilerplate.Authorization.Users.User", "User")
+                        .WithMany("CustomerInformations")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TTS_boilerplate.Models.DiscountOfUser", b =>
+                {
+                    b.HasOne("TTS_boilerplate.Models.Discount", "Discount")
+                        .WithMany()
+                        .HasForeignKey("DiscountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TTS_boilerplate.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Discount");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TTS_boilerplate.Models.Product", b =>
@@ -2170,6 +2310,8 @@ namespace TTS_boilerplate.Migrations
             modelBuilder.Entity("TTS_boilerplate.Authorization.Users.User", b =>
                 {
                     b.Navigation("Claims");
+
+                    b.Navigation("CustomerInformations");
 
                     b.Navigation("Logins");
 
