@@ -67,6 +67,8 @@
     <PackageReference Include="Abp.Castle.Log4Net" Version="9.4.1" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\Discounts\" />
+    <Folder Include="Models\Stocks\" />
     <Folder Include="wwwroot\images\products\" />
     <Folder Include="wwwroot\libs\" />
     <Folder Include="wwwroot\view-resources\Views\_Bundles\" />

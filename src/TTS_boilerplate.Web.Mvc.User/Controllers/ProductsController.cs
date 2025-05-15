@@ -95,5 +95,21 @@ namespace TTS_boilerplate.Web.Controllers
             };
             await _productService.AddProductToCart(addProductToOrderInput);
         }
+
+        public async Task<IActionResult> Detail_Product(int? ProductId)
+        {
+            // Get_CartItem: là lấy thông tin sản phẩm có id ProductId
+            var product = await _productService.GetProduct(ProductId);
+            if (product == null)
+            {
+                return BadRequest("San pham khong ton tai!!!");
+            }
+            var model = new DetailProductModel
+            {
+                DetailProduct = product
+            };
+
+            return View(model);
+        }
     } 
 }

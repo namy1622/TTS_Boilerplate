@@ -43,19 +43,40 @@ namespace TTS_boilerplate.Category
         {
             var allCategory = await _categoryRepository.GetAllAsync();
 
-            var totalCount = await  allCategory.CountAsync();
+            var totalCount = await allCategory.CountAsync();
 
-            var productCounts = await _productRepository.GetAll()
-                   .GroupBy(p => p.CategoryId)
-                   .Select(g => new { CategoryId = g.Key, Count = g.Count() })
-                   .ToDictionaryAsync(g => g.CategoryId, g => g.Count); // chuyển result thành Dictionary<int, int> (key: CategoryId, value: count)
-            
+            Dictionary<int?, int> productCounts = new Dictionary<int?, int>();
+            var products = await _productRepository.GetAllAsync(); //.ToListAsync();
+
+            if (products.Any())
+            {
+                productCounts = products
+                    .Where(p => p.CategoryId != null) // kiểm tra xem có CategoryId không null hay không
+                    .GroupBy(p => p.CategoryId)
+                    .Select(g => new { CategoryId = g.Key, Count = g.Count() })
+                    .ToDictionary(g => g.CategoryId, g => g.Count);
+
+                //foreach (var group in groupedProducts)
+                //{
+                //    int categoryId = (int)group.Key;
+                //    var count = group.Count();
+                //    productCounts[categoryId] = count;
+                //}
+            }
+            else
+            {
+            }
+
+
+
+            Console.Write("LIST PRODUCT -- " + productCounts);
+
             if (input.Sorting != "undefined asc")
             {
                 allCategory = allCategory.OrderBy(input.Sorting);
             }
 
-            var categories =  allCategory
+            var categories = allCategory
                 //.OrderBy(input.Sorting)
                 .PageBy(input)
                 .Select(p => new CategoryDto

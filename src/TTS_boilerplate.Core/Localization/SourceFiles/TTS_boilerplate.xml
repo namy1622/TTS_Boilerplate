@@ -20,6 +20,12 @@
 		
 		<text name="Product List" value="Danh sách sản phẩm" />
 		<text name="Stock" value="Tồn kho" />
+		
+		<text name="Overview" value="Tổng quan" />
+		<text name="Supplier" value="Nhà cung cấp" />
+		<text name="StockIn" value="Nhập kho" />
+		<text name="StockOut" value="Xuất kho" />
+		<text name="ReportStock" value="Báo cáo kho" />
 
 
 		<text name="Products_C" value="Tạo sản phẩm" />
