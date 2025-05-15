@@ -1,0 +1,188 @@
+﻿@using TTS_boilerplate.Web.Models.Products
+<script src="https://cdn.tailwindcss.com"></script>
+
+@model DetailProductModel
+@{
+    Layout = "~/Views/Shared/Layout/_Layout_Cart.cshtml";
+}
+
+@section scripts {
+    <environment names="Development">
+        <script src="~/view-resources/Views/products/detail_product.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/products/detail_product.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<!-- Navigation -->
+<div class="bg-gray-50">
+
+    <!-- Breadcrumb -->
+    <div class="bg-gray-100 py-3">
+        <div class="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8">
+            <div class="flex items-center space-x-2 text-sm">
+                <a href="/" class="text-gray-600 hover:text-blue-600">Trang chủ</a>
+                <span class="text-gray-400">/</span>
+                <a href="#" class="text-gray-600 hover:text-blue-600">Chi tiết sản phẩm - @Model.DetailProduct.NameProduct</a>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Section -->
+    <div class="py-8 px-0 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <input type="hidden" id="productId" value="@Model.DetailProduct.Id" data_product-id="@Model.DetailProduct.Id"/>
+                <!-- Product Gallery -->
+                <div class="w-full lg:w-1/2">
+                    <div class="sticky top-4">
+                        <div class="mb-4 rounded-lg overflow-hidden bg-white p-4 shadow-sm">
+                            <img id="mainImage" src="@Model.DetailProduct.ProductImagePath"
+                                 alt="@Model.DetailProduct.NameProduct"
+                                 class="w-full h-96 object-contain">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="w-full lg:w-1/2">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Còn hàng</span>
+                            <span class="ml-2 text-xs text-gray-500">Mã SP @Model.DetailProduct.Id</span>
+                        </div>
+
+                        <h1 class="text-3xl font-bold text-gray-800 mb-2">@Model.DetailProduct.NameProduct</h1>
+                        <div class="mb-6">
+                            <span class="text-3xl font-bold text-gray-800">@Model.DetailProduct.Price?.ToString("N0") ₫</span>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-gray-700 mb-2">Số lượng</h3>
+                            <div class="flex items-center">
+                                <div class="quantity-input flex mr-4">
+                                    <button class="rounded-l-md" id="decrement">-</button>
+                                    <input type="number" value="1" min="1" max="5" class="focus:ring-2 focus:ring-blue-200 focus:border-blue-500">
+                                    <button class="rounded-r-md" id="increment">+</button>
+                                </div>
+                                <span class="text-sm text-gray-600">Còn lại: <span id="stock">15</span> sản phẩm</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                            <a asp-controller="Orders" asp-action="Index_Order" asp-route-ProductId="@Model.DetailProduct.Id" class="flex-1 flex items-center justify-center gap-2 px-3 py-2 border-2 border-blue-600 text-blue-600 font-medium rounded-full hover:bg-blue-50 transition-colors">
+                                <i class="fas fa-bolt"></i> Mua ngay
+                            </a>
+                            <button id="addCart" class="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-white font-medium rounded-full btn-primary-gradient">
+                                <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                            </button>
+                            <button class="w-12 h-12 flex items-center justify-center border rounded-full text-gray-600 hover:bg-gray-50">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+
+                        <div class="border-t border-gray-200 pt-4">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-truck text-gray-500 mr-2"></i>
+                                <span class="text-sm text-gray-600">Miễn phí vận chuyển cho đơn từ 500.000₫</span>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-undo text-gray-500 mr-2"></i>
+                                <span class="text-sm text-gray-600">Đổi trả trong 7 ngày nếu lỗi</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-shield-alt text-gray-500 mr-2"></i>
+                                <span class="text-sm text-gray-600">Bảo hành 12 tháng chính hãng</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .product-gallery-thumbnail {
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+        .product-gallery-thumbnail:hover, .product-gallery-thumbnail.active {
+            border-color: #3b82f6;
+        }
+
+    .btn-primary-gradient {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary-gradient:hover {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+    .quantity-input button {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #e2e8f0;
+        background-color: white;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .quantity-input input {
+        width: 60px;
+        height: 40px;
+        text-align: center;
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+        border-left: none;
+        border-right: none;
+        font-size: 1rem;
+    }
+
+    .variant-option {
+        transition: all 0.2s ease;
+    }
+
+        .variant-option:hover {
+            transform: scale(1.05);
+        }
+
+        .variant-option.selected {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px #bfdbfe;
+        }
+</style>
+
+<script>
+
+    // Quantity input controls
+    document.getElementById('decrement').addEventListener('click', function () {
+        const input = this.nextElementSibling;
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+        }
+    });
+
+    document.getElementById('increment').addEventListener('click', function () {
+        const input = this.previousElementSibling;
+        const max = parseInt(input.getAttribute('max'));
+        if (parseInt(input.value) < max) {
+            input.value = parseInt(input.value) + 1;
+        }
+    });
+
+
+
+
+</script>

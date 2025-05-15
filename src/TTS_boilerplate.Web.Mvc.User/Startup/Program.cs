@@ -17,7 +17,12 @@ namespace TTS_boilerplate.Web.Startup
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://localhost:44310", "http://0.0.0.0:44310");
+                    //webBuilder.UseUrls("https://localhost:80", "https://0.0.0.0:80");
                 })
+
                 .UseCastleWindsor(IocManager.Instance.IocContainer);
+
+
     }
 }

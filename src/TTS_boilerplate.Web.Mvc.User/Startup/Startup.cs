@@ -29,6 +29,8 @@ namespace TTS_boilerplate.Web.Startup
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IConfigurationRoot _appConfiguration;
 
+
+
         public Startup(IWebHostEnvironment env)
         {
             _hostingEnvironment = env;
@@ -48,6 +50,9 @@ namespace TTS_boilerplate.Web.Startup
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
+
+           
+
 
             services.AddCors(options =>
             {
@@ -94,13 +99,7 @@ namespace TTS_boilerplate.Web.Startup
                 app.UseExceptionHandler("/Error");
             }
 
-            //app.UseRequestLocalization(new RequestLocalizationOptions
-            //{
-            //    DefaultRequestCulture = new RequestCulture("en-US"),
-            //    SupportedCultures = new[] { new CultureInfo("en-US") },
-            //    SupportedUICultures = new[] { new CultureInfo("en-US") }
-            //});
-
+     
             app.UseCors("AllowAdmin");
 
             app.UseStaticFiles();

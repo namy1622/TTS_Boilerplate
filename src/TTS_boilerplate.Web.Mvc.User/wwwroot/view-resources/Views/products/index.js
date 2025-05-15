@@ -121,8 +121,10 @@
             Hiển thị ${startItem} - ${endItem} của ${this._totalItems} sản phẩm
         </div>
         <ul class="pagination justify-content-center" id="pagination">
-            <li class="page-item ${this._currentPage == 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" data-page="${parseInt(this._currentPage) - 1}"><</a>
+            <li class="m-1 page-item ${this._currentPage == 1 ? 'disabled' : ''} ">
+                <a class="page-link px-3 py-1 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-50" href="#" data-page="${parseInt(this._currentPage) - 1}">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
             </li>
     `;
             // Tính toán range trang hiển thị
@@ -133,15 +135,17 @@
             for (var i = startPage; i <= endPage; i++) {
                 var active = i == this._currentPage ? 'active' : '';
                 paginationHtml += `
-            <li class="page-item ${active}">
-                <a class="page-link" href="#" data-page="${i}">${i}</a>
+            <li class="page-item ${active} m-1">
+                <a class="page-link px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50" href="#" data-page="${i}">${i}</a>
             </li>
         `;
             }
             //nút Next
             paginationHtml += `
-            <li class="page-item ${this._currentPage == this._totalPages ? 'disabled' : ''}">
-                <a class="page-link" href="#" data-page="${parseInt(this._currentPage) + 1}">></a>
+            <li class="m-1 page-item ${this._currentPage == this._totalPages ? 'disabled' : ''}">
+                <a class="page-link px-3 py-1 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-50" href="#" data-page="${parseInt(this._currentPage) + 1}">
+                     <i class="fas fa-chevron-right"></i>
+                </a>
             </li>
         </ul>
     `;
@@ -226,21 +230,22 @@
             }
             products.forEach(function (product) {
                 var productHtml = `
-                    <div class="col-lg-2 col-md-3 col-sm-4" >
-                    <div class="card shadow-sm card__product" style="padding:0" data-product-id="${product.id}">
-                        <div class="card-body" style="padding:0px;">
-                            <div>
-                                <img src="${product.productImagePath}" loading="lazy" class="card-img-top card__img" alt="${product.nameProduct}" />
-                                ${product.discount ? `<span class="badge rounded-pill position-absolute top-0 end-0 bg-danger text-white">${product.discount}%</span>` : ''}
-                            </div>
-                            <div class="hi" style="background-color:white">
-                                <div class="row">
-                                    <div class="col-12 text-start d-flex flex-column pl-3 pt-2">
-                                        <h5 class="card-title card__name">${product.nameProduct}</h5>
-                                        <p class="text-muted mb-0">${product.nameCategory}</p>
-                                        <p class="text-muted card__price" style="margin-bottom:0px">${product.price} VND</p>
-                                    </div>
-                                </div>
+
+                <div class="col-lg-2 col-md-3 col-sm-4 mb-3" style="">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden product-card " data-product-id="${product.id}">
+                        <div class="relative overflow-hidden">
+                            <img src="${product.productImagePath}" 
+                                 alt="${product.nameProduct}" 
+                                 class="w-full h-48 object-fit product-image transition-transform duration-300">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-md font-semibold text-gray-800 mb-1 truncate">${product.nameProduct}</h3>
+                            <p class="text-sm text-gray-500 mb-2">${product.nameCategory}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-md font-bold text-blue-600">${product.price.toLocaleString('vi-Vn')}đ</span>
+                                <button id="addCart" class="w-8 h-8 flex items-center justify-center border rounded-full text-gray-500 hover:bg-gray-50">
+                                   <i class="fas fa-cart-plus"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -252,7 +257,7 @@
     };
 
     // hiển thị modal khi bấm vào sản phẩm 
-    _$productList.on('click', '.card__product', function () {
+    _$productList.on('click', '.product-card', function () {
         const productId = $(this).data('product-id');
 
         $('#buyNow').attr('data-product-id', productId);
@@ -300,9 +305,14 @@
             });
     });
 
+    $('#detailProduct').on('click', function () {
+        window.location.href = '/Products/Detail_Product?productId=' + _$addCartId;
+    });
 
 
-    $('#addCart').on('click', function () {
+    $('#addCart').on('click', function (event) {
+        // Ngăn chặn sự kiện click lan tỏa lên các phần tử cha
+        event.stopPropagation();
         //_$idUser = abp.session.userId;
         if (!_$idUser) {
             console.log("-- userId null, chuyen den dang nhap");

@@ -9,17 +9,17 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     @await Html.PartialAsync("_SideBar_user.Logo.cshtml")
     <div class="sidebar  mt-5">
-        <h4>Lọc sản phẩm <hr /></h4>
+         @* <h4>Lọc sản phẩm </h4> *@
 
        <div>
-           <label id="test" class="mb-1" data-test="hmmm" for="category">Lọc theo danh mục</label>
+            <label id="test" class="mb-2 text-light" data-test="hmmm" for="category">Lọc theo danh mục</label>
             @if (categories != null && categories.Any())
             {
                 foreach (var category in categories)
                 {
                     <div class="checkbox-wrapper-47 ml-3">
                         <input type="checkbox" name="cb" id="@category.Id" />
-                        <label id="nameCate" style="font-weight:500"  
+                        <label id="nameCate" style="font-weight:500; color:whitesmoke"  
                             for="@category.Id">@category.NameCategory - @category.Id</label>
                     </div>
                 }
@@ -30,8 +30,8 @@
             }
         </div>
         <hr />
-        <div>
-            <label class="mb-1" for="price-range">Lọc theo giá</label>
+        <div class="mt-1">
+            <label class="mb-3 text-light" for="price-range">Lọc theo giá</label>
             <div class="price-range-container">
                 <input type="range" id="price-range" name="price-range" min="0" max="10000000" step="10000"
                     style="width:90%; margin-left:15px">
@@ -44,7 +44,7 @@
        </div>
        <hr />
 
-       <button class="btn btn-outline-light mt-2 font-weight-bold" id="btnFilter" style="width:90%; margin-left:15px">Lọc</button>
+       <button class="btn btn-outline-light mt-3 font-weight-bold" id="btnFilter" style="width:90%; margin-left:15px">Lọc</button>
     </div>
 </aside>
 
@@ -113,8 +113,9 @@
           top: 0;
           width: 100%;
           height: 2em;
-          background: #b7e6c9;
-          border-color: #2cbc63;
+             /* background: #3baef3; */
+            border-color: #ffff;
+              /* border-color: #2278f1; */
         }
 
         .checkbox-wrapper-47 label,

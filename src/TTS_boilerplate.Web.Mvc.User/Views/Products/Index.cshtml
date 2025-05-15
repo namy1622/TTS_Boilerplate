@@ -7,51 +7,106 @@
     var categories = ViewBag.Categories as List<CategoryDto>;
 }
 <link href="~/css/Product/index_product.css" rel="stylesheet" />
-<div class="products-container">
-    <div class="container product-section">
-        <h2 class="section-title">@L("Product List")</h2>
 
-        <div class="row g-4" id="ProductList">
-            @* render product list *@
+<div class="products-container " >
+    <div class="banner" style="">
+    <div class="carousel-container">
+        <div class="carousel">
+                <div class="carousel-inner rounded-xl">
+                <div class="carousel-item active">
+                        <img src="https://cdn.s99.vn/ss1/prod/product/660770f1aac733387ccee71f7ef5240c.jpg" alt="Banner 1" class="carousel-img object-fit">
+                    
+                </div>
+                <div class="carousel-item">
+                        <img src="https://img.freepik.com/premium-psd/gaming-laptop-sale-promotion-banner_252779-916.jpg?w=740" alt="Banner 2" class="carousel-img object-fit">
+                    
+                </div>
+                <div class="carousel-item">
+                        <img src="https://th.bing.com/th/id/R.5a635f6991c6faaf811b8de9f4c51c1d?rik=17DePTGnx8z5sQ&pid=ImgRaw&r=0" alt="Banner 3" class="carousel-img object-fit">
+                    
+                </div>
+                <div class="carousel-item">
+                        <img src="https://phucanhcdn.com/media/banner/01_Junb1a93082a8fc1aaf43e87714810ec2a2.jpg" alt="Banner 4" class="carousel-img object-fit">
+                   
+                </div>
+            </div>
+            <button class="carousel-control carousel-control-prev">❮</button>
+            <button class="carousel-control carousel-control-next">❯</button>
+        </div>
+        <div class="carousel-indicators" style="background:none">
+            <div class="carousel-indicator active" data-slide-to="0"></div>
+            <div class="carousel-indicator" data-slide-to="1"></div>
+            <div class="carousel-indicator" data-slide-to="2"></div>
+            <div class="carousel-indicator" data-slide-to="3"></div>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="container product-section">
+
+        <div class="text-start mb-10">
+            <h2 class="text-3xl font-bold text-gray-800 relative inline-block pb-2 gradient-underline">
+                @L("Product List")
+            </h2>
         </div>
 
+        <div class="row " id="ProductList">
+            @* render product list *@
+        </div>
+        <!-- Pagination -->
         <div class="pagination-container">
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center" id="pagination">
                 </ul>
             </nav>
         </div>
+        
 
-        @*--- MODAL ---*@
-        <div class="modal" id="modalCard">
-            <div class="modal__overlay"></div>
-            <div class="modal__card">
-                <button class="modal__close" aria-label="Close modal">
-                    <i class="ri-close-large-line"></i>
+        <!-- Modal -->
+        <div class="modal fixed inset-0 flex  items-center justify-center p-4 bg-black bg-opacity-50 z-50" id="modalCard">
+            <div class="modal-overlay absolute  inset-0 bg-black bg-opacity-50"></div>
+            <div class="modal-card bg-white rounded-xl shadow-2xl max-w-4xl w-full relative z-10 overflow-hidden">
+                <button class="modal-close absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
                 </button>
-                <div class="row modal__content">
-                    <div class="col-lg-5 col-md-5 col-sm-12">
-                        <div class="modal__image-container">
-                            <img src="" alt="Product image" id="modalImage" class="modal__img">
+
+                <div class="flex flex-col xl:flex-row">
+                    <div class="w-full md:w-1/2 p-6">
+                        <div class="rounded-lg overflow-hidden shadow-md">
+                            <img src=""
+                                style="width:400px"
+                                 alt="Product image"
+                                 id="modalImage"
+                                 class="w-full h-64 md:h-80 object-fit modal-image transition-transform duration-300">
                         </div>
                     </div>
 
-                    <div class="col-lg-7 col-md-7 col-sm-12 modal__details align-items-start">
-                        <h3 class="modal__name" id="modalName"></h3>
-                        <div class="modal__price-container">
-                            <span class="modal__price" id="modalPrice"></span>
+                    <div class="w-full md:w-1/2 p-6 flex flex-col">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4" id="modalName"></h3>
+
+                        <div class="mb-6">
+                            <span class="text-3xl font-bold text-blue-600" id="modalPrice"></span>
+                            @* <span class="ml-2 bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">20% OFF</span> *@
                         </div>
-                        <div class="modal__description">
-                            <p class="modal__info" id="modalDescription"></p>
+
+                        <div class="mb-6">
+                            <p class="text-gray-600 leading-relaxed" id="modalDescription">
+                            </p>
                         </div>
-                        <div class="modal__buttons">
-                            <a id="buyNow" data-product-id="" class="modal__button modal__button-ghost">
-                                <i class="ri-shopping-bag-line"></i> Buy Now
+                        <div class="mt-auto flex flex-col sm:flex-row gap-4">
+                            <a id="detailProduct"  class="flex-1 flex items-center justify-center gap-2 px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium rounded-full hover:bg-blue-50 transition-colors">
+                                 Chi Tiết Sản Phẩm
                             </a>
-                            <button id="addCart" asp-controller="Carts" data-product-id="0" class="modal__button modal__button-primary">
-                                <i class="ri-shopping-cart-line"></i> Add to Cart
-                            </button>
                         </div>
+                        @* <div class="mt-3 flex flex-col sm:flex-row gap-4">
+                            <button id="buyNow" class="flex-1 flex items-center justify-center gap-2 px-4 py-0 border-2 border-blue-600 text-blue-600 font-medium rounded-full hover:bg-blue-50 transition-colors">
+                                <i class="fas fa-shopping-bag"></i> Mua Ngay
+                            </button>
+                            <button id="addCart" asp-controller="Carts" data-product-id="0" class="flex-1 flex items-center justify-center gap-2 px-4 py-0 text-white font-medium rounded-full btn-primary-gradient">
+                                <i class="fas fa-shopping-cart"></i> Thêm Giỏ Hàng
+                            </button>
+                        </div> *@
                     </div>
                 </div>
             </div>
@@ -74,370 +129,7 @@
         
     </style>
 
-@* <style>
-    :root {
-        --primary-color: #4e73df;
-        --secondary-color: #1cc88a;
-        --accent-color: #f6c23e;
-        --danger-color: #e74a3b;
-        --dark-color: #5a5c69;
-        --light-color: #f8f9fc;
-        --box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        --transition: all 0.3s ease;
-        --border-radius: 0.5rem;
-    }
 
-    /* Main container */
-    .products-container {
-        padding: 3rem 0;
-        background-color: var(--light-color);
-    }
-
-    .product-section {
-        max-width: 1240px;
-        margin: 0 auto;
-    }
-
-    .section-title {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--dark-color);
-        margin-bottom: 2rem;
-        position: relative;
-        display: inline-block;
-        padding-bottom: 0.5rem;
-    }
-
-    .section-title::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 60px;
-        height: 3px;
-        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-        border-radius: 3px;
-    }
-
-    /* Product Card Styling */
-    .card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        height: 330px;
-        border-radius: var(--border-radius);
-        background-color: #fff;
-        box-shadow: var(--box-shadow);
-        transition: var(--transition);
-        overflow: hidden;
-        border: none;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-img-top {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        object-position: center;
-        transition: var(--transition);
-        border-radius: var(--border-radius) var(--border-radius) 0 0;
-    }
-
-    .card:hover .card-img-top {
-        transform: scale(1.05);
-    }
-
-    .card-body {
-        padding: 1.25rem;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-    }
-
-    .card-title {
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: var(--dark-color);
-        font-size: 1.1rem;
-        line-height: 1.4;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-    }
-
-    .card-text {
-        color: #6c757d;
-        margin-bottom: 1rem;
-        font-size: 0.875rem;
-    }
-
-    .card-price {
-        font-weight: 700;
-        color: var(--primary-color);
-        font-size: 1.2rem;
-        margin-top: auto;
-    }
-
-    /* Badge styling */
-    .position-relative {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .badge {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        padding: 0.5rem 0.75rem;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border-radius: 20px;
-        z-index: 2;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .badge-primary {
-        background: linear-gradient(135deg, var(--primary-color), #3a5fcc);
-        color: white;
-    }
-
-    .badge-success {
-        background: linear-gradient(135deg, var(--secondary-color), #16a978);
-        color: white;
-    }
-
-    .badge-warning {
-        background: linear-gradient(135deg, var(--accent-color), #e0b02d);
-        color: white;
-    }
-
-    .badge-danger {
-        background: linear-gradient(135deg, var(--danger-color), #d32a1a);
-        color: white;
-    }
-
-    /* Pagination styling */
-    .pagination-container {
-        margin-top: 3rem;
-    }
-
-    .pagination {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-    }
-
-    .page-item .page-link {
-        color: var(--dark-color);
-        border: none;
-        border-radius: var(--border-radius);
-        padding: 0.5rem 1rem;
-        font-weight: 500;
-        transition: var(--transition);
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .page-item.active .page-link {
-        background-color: var(--primary-color);
-        color: white;
-    }
-
-    .page-item .page-link:hover {
-        background-color: #f1f3ff;
-        color: var(--primary-color);
-    }
-
-    /* Modal styling */
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: grid;
-        align-items: center;
-        justify-items: center;
-        padding: 1rem;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        visibility: hidden;
-        opacity: 0;
-        transition: 0.3s;
-    }
-
-    .modal__overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1;
-    }
-
-    .active-modal {
-        visibility: visible;
-        opacity: 1;
-    }
-
-    .modal__card {
-        position: relative;
-        background-color: white;
-        padding: 2.5rem;
-        border-radius: var(--border-radius);
-        max-width: 900px;
-        width: 100%;
-        z-index: 10;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        transform: scale(0.9);
-        transition: transform 0.3s;
-    }
-
-    .active-modal .modal__card {
-        transform: scale(1);
-    }
-
-    .modal__close {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        font-size: 1.5rem;
-        color: var(--dark-color);
-        cursor: pointer;
-        border: none;
-        background: none;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: var(--transition);
-    }
-
-    .modal__close:hover {
-        background-color: #f1f3ff;
-        color: var(--primary-color);
-    }
-
-    .modal__content {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .modal__image-container {
-        width: 100%;
-        height: 300px;
-        border-radius: var(--border-radius);
-        overflow: hidden;
-        box-shadow: var(--box-shadow);
-    }
-
-    .modal__img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        transition: var(--transition);
-    }
-
-    .modal__img:hover {
-        transform: scale(1.05);
-    }
-
-    .modal__details {
-        display: flex;
-        flex-direction: column;
-        padding: 1rem 0;
-    }
-
-    .modal__name {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--dark-color);
-        margin-bottom: 1rem;
-    }
-
-    .modal__price-container {
-        margin-bottom: 1rem;
-    }
-
-    .modal__price {
-        font-size: 1.75rem;
-        font-weight: 700;
-        color: var(--primary-color);
-    }
-
-    .modal__description {
-        margin-bottom: 1.5rem;
-    }
-
-    .modal__info {
-        font-size: 1rem;
-        color: #6c757d;
-        line-height: 1.6;
-    }
-
-    .modal__buttons {
-        display: flex;
-        gap: 1rem;
-        margin-top: auto;
-    }
-
-    .modal__button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1.5rem;
-        border-radius: 30px;
-        font-weight: 500;
-        transition: var(--transition);
-        cursor: pointer;
-        border: none;
-        font-size: 1rem;
-    }
-
-    .modal__button i {
-        font-size: 1.2rem;
-    }
-
-    .modal__button-ghost {
-        background-color: transparent;
-        border: 2px solid var(--primary-color);
-        color: var(--primary-color);
-        text-decoration: none;
-    }
-
-    .modal__button-ghost:hover {
-        background-color: #f1f3ff;
-        text-decoration: none;
-    }
-
-    .modal__button-primary {
-        background: linear-gradient(135deg, var(--primary-color), #3a5fcc);
-        color: white;
-    }
-
-    .modal__button-primary:hover {
-        background: linear-gradient(135deg, #3a5fcc, var(--primary-color));
-        box-shadow: 0 5px 15px rgba(78, 115, 223, 0.4);
-        transform: translateY(-2px);
-    }
-
-    /* Responsive design */
-    
-</style>
- *@
 <script>
     /*=============== CARD POPUP JS ===============*/
     const modal = document.querySelectorAll('.modal'),
@@ -492,4 +184,94 @@
             e.stopPropagation()
         })
     })
+
+    // -- BANNER --
+    document.addEventListener('DOMContentLoaded', function () {
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const prevButton = document.querySelector('.carousel-control-prev');
+        const nextButton = document.querySelector('.carousel-control-next');
+
+        let currentIndex = 0;
+        let interval;
+
+        // Hàm hiển thị slide
+        function showSlide(index) {
+            // Ẩn tất cả slides
+            carouselItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Gỡ bỏ active từ tất cả indicators
+            indicators.forEach(indicator => {
+                indicator.classList.remove('active');
+            });
+
+            // Hiển thị slide hiện tại
+            carouselItems[index].classList.add('active');
+            indicators[index].classList.add('active');
+
+            currentIndex = index;
+        }
+
+        // Chức năng chuyển đến slide tiếp theo
+        function nextSlide() {
+            let nextIndex = currentIndex + 1;
+            if (nextIndex >= carouselItems.length) {
+                nextIndex = 0;
+            }
+            showSlide(nextIndex);
+        }
+
+        // Chức năng chuyển đến slide trước đó
+        function prevSlide() {
+            let prevIndex = currentIndex - 1;
+            if (prevIndex < 0) {
+                prevIndex = carouselItems.length - 1;
+            }
+            showSlide(prevIndex);
+        }
+
+        // Thiết lập auto chuyển slide
+        function startAutoSlide() {
+            interval = setInterval(nextSlide, 5000); // Chuyển slide mỗi 5 giây
+        }
+
+        // Dừng auto chuyển slide
+        function stopAutoSlide() {
+            clearInterval(interval);
+        }
+
+        // Gán sự kiện cho nút prev
+        prevButton.addEventListener('click', function () {
+            stopAutoSlide();
+            prevSlide();
+            startAutoSlide();
+        });
+
+        // Gán sự kiện cho nút next
+        nextButton.addEventListener('click', function () {
+            stopAutoSlide();
+            nextSlide();
+            startAutoSlide();
+        });
+
+        // Gán sự kiện cho các indicators
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', function () {
+                stopAutoSlide();
+                showSlide(index);
+                startAutoSlide();
+            });
+        });
+
+        // Bắt đầu tự động chuyển slide
+        startAutoSlide();
+
+        // Tạm dừng tự động khi di chuột vào carousel
+        document.querySelector('.carousel').addEventListener('mouseenter', stopAutoSlide);
+
+        // Tiếp tục tự động khi di chuột ra khỏi carousel
+        document.querySelector('.carousel').addEventListener('mouseleave', startAutoSlide);
+    });
 </script>

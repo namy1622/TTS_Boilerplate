@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://localhost:44310/",
+      "applicationUrl": "https://localhost:44320/",
       "sslPort": 44310
     }
   },
@@ -15,12 +15,15 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "TTS_boilerplate.Web": {
+    "TTS_boilerplate.User": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "https://localhost:44310",
+      
+      "launchUrl": "http://localhost:44310",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        
+        "ASPNETCORE_URLS": "http://localhost:44310;http://0.0.0.0:44310"
       }
     }
   }

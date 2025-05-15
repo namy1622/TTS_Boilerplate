@@ -58,7 +58,7 @@ namespace TTS_boilerplate.Web.Startup
                     new MenuItemDefinition(
                         "TaskList",
                         L("TaskList"),
-                        url:"Tasks",
+                        url: "Tasks",
                         icon: "fa fa-tasks",
 
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Products)
@@ -91,6 +91,53 @@ namespace TTS_boilerplate.Web.Startup
 
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Category)
                         )
+                )
+                .AddItem(
+                    new MenuItemDefinition(
+                        "Stock",
+                        L("Stock"),
+                        icon: "fas fa-box"
+                    ).AddItem(
+                        new MenuItemDefinition(
+                            "Overview",
+                            L("Overview"),
+                            url: "Stocks/Index_Stocks",
+                            icon: "fas fa-box",
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Products)
+                        )
+                    ).AddItem(
+                        new MenuItemDefinition(
+                            "Supplier",
+                            L("Supplier"),
+                            url: "Stocks/Index_Stocks",
+                            icon: "fas fa-box",
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Products)
+                        )
+                    ).AddItem(
+                        new MenuItemDefinition(
+                            "StockIn",
+                            L("StockIn"),
+                            url: "Stocks/Index_Stocks",
+                            icon: "fas fa-box",
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Products)
+                        )
+                    ).AddItem(
+                        new MenuItemDefinition(
+                            "StockOut",
+                            L("StockOut"),
+                            url: "Stocks/Index_Stocks",
+                            icon: "fas fa-box",
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Products)
+                        )
+                    ).AddItem(
+                        new MenuItemDefinition(
+                            "ReportStock",
+                            L("ReportStock"),
+                            url: "Stocks/Index_Stocks",
+                            icon: "fas fa-box",
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Products)
+                        )
+                    )
                 )
                 .AddItem( // Menu items below is just for demonstration!
                     new MenuItemDefinition(
