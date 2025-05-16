@@ -15,6 +15,8 @@
     <ProjectReference Include="..\TTS_boilerplate.Core\TTS_boilerplate.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Abp.MailKit" Version="9.0.0" />
+    <PackageReference Include="EPPlus" Version="6.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,6 +26,7 @@
     <PackageReference Include="VNPAY.NET" Version="8.5.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Bg_Work_Job\BackgroundJob\" />
     <Folder Include="Products_table\ChartService\" />
   </ItemGroup>
 </Project>

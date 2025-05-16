@@ -9,11 +9,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using TTS_boilerplate.Authorization;
 using TTS_boilerplate.Controllers;
+using TTS_boilerplate.ExportFile;
 using TTS_boilerplate.Products.Dto;
 using TTS_boilerplate.Products_table;
 using TTS_boilerplate.Products_table.Dto;
 using TTS_boilerplate.Web.Models.Product_table;
 using TTS_boilerplate.Web.Models.Products_table;
+using ProductInput = TTS_boilerplate.Products.Dto.ProductInput;
 
 namespace TTS_boilerplate.Web.Controllers
 {
@@ -21,11 +23,12 @@ namespace TTS_boilerplate.Web.Controllers
     public class Products_tableController : TTS_boilerplateControllerBase
     {
         private readonly IProduct_tableAppService _product_TableAppService;
+        private readonly IExportFileAppService _exportFileAppService;
 
-
-        public Products_tableController(IProduct_tableAppService product_TableAppService)
+        public Products_tableController(IProduct_tableAppService product_TableAppService, IExportFileAppService exportFileAppService)
         {
            _product_TableAppService = product_TableAppService;
+            _exportFileAppService = exportFileAppService;
         }
         [AbpAuthorize(PermissionNames.Products_R)]        
         public async Task<ActionResult> Index()
@@ -92,5 +95,19 @@ namespace TTS_boilerplate.Web.Controllers
                 return StatusCode(500, new { Message = "Internal server error", Detail = ex.Message });
             }
         }
+
+        [HttpGet]
+        public async Task<FileResult> ExportToExcel()
+        {
+            var data = await _product_TableAppService.GetAllProduct_exportExcel();
+
+            var excelBytes = await _exportFileAppService.ExportToExcel(data, "Products");
+
+            return new FileContentResult(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "Products.xlsx"
+            };
+        }
+
     }
 }

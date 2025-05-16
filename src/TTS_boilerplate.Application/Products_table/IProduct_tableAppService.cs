@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TTS_boilerplate.Category.Dto;
 using TTS_boilerplate.Products_table.Dto;
@@ -12,7 +13,7 @@ namespace TTS_boilerplate.Products_table
         Task<ListResultDto<CategoryDto>> GetCategory();
 
         Task<PagedResultDto<ProductDto>> GetAllProductCategory(ProductInput input);
-
+        Task<List<ProductDto>> GetAllProduct_exportExcel();
         Task<ProductDto> GetProduct(int id);
 
         Task DeleteProduct(int id);

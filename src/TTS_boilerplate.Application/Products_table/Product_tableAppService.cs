@@ -109,12 +109,36 @@ namespace TTS_boilerplate.Products_table
 
             return new PagedResultDto<ProductDto> { Items = products, TotalCount = totalCount}; 
         }
+        public async Task<List<ProductDto>> GetAllProduct_exportExcel()
+        {
+            var allProduct = _productRepository.GetAll().Include(t => t.BelongToCategory);
 
+
+            var totalCount = await allProduct.CountAsync();
+            var products = await allProduct
+                                
+                                .Select(p => new ProductDto
+                                {
+                                    Id = p.Id,
+                                    NameProduct = p.NameProduct,
+                                    DescriptionProduct = p.DescriptionProduct,
+                                    Price = p.Price,
+                                    CreationDate = p.CreationDate,
+                                    ExpirationDate = p.ExpirationDate,
+
+                                    ProductImagePath = p.ProductImagePath,
+                                    Stock = p.QuantityInStock,
+                                    CategoryId = p.CategoryId ?? 0,
+                                    NameCategory = p.BelongToCategory != null ? p.BelongToCategory.NameCategory : string.Empty
+                                }).ToListAsync();
+
+            return products;
+        }
         public async Task<ProductDto> GetProduct(int id)
         {
             var product = await _productRepository.FirstOrDefaultAsync(p => p.Id == id);
            
-
+            
             return new ProductDto
             {
                 Id = product.Id,

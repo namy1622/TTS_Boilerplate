@@ -20,26 +20,43 @@ namespace TTS_boilerplate.SendMail.Dto
             _emailSender = emailSender;
         }
 
-        public void Assgin(TaskMail task, PersonMail personmail)
+        public async System.Threading.Tasks.Task Assgin(TaskMail task, PersonMail personmail)
         {
             try { 
             task.AssignedTo = personmail;
-
-            _emailSender.SendAsync(
-                to: personmail.EmailAddress,
-                subject: "Task Assigned",
-                body: $"You have been assigned a new task: {task.Name}.\n\n" +
-                      $"Description: {task.Description}\n\n" +
-                      $"Due Date: {task.DueDate.ToShortDateString()}.\n\n" +
-                      $"Please check your task list for more details.",
-                isBodyHtml: true
+                Console.Write(_emailSender.ToString());
+                //await _emailSender.SendAsync(
+                //    to: personmail.EmailAddress,
+                //    subject: "Task Assigned",
+                //    body: $"You have been assigned a new task: {task.Name}.\n\n" +
+                //          $"Description: {task.Description}\n\n" +
+                //          $"Due Date: {task.DueDate.ToShortDateString()}.\n\n" +
+                //          $"Please check your task list for more details.",
+                //    isBodyHtml: true
+                //    );
+                await _emailSender.SendAsync(
+                    "doantuannam2206.sp@gmail.com", // To
+                    "Test email from ABP",          // Subject
+                    "This is a test email.",        // Body
+                    false                           // isBodyHtml
                 );
-        }
+            }
             catch (Exception ex)
         {
-            throw new UserFriendlyException("Lỗi gửi email: " + ex.Message);
+            throw new UserFriendlyException("Lỗi gửi email: " + ex.ToString());
         }
+
 }
+
+        public async System.Threading.Tasks.Task SendTestEmail()
+        {
+            await _emailSender.SendAsync(
+                "doantuannam2206.sp@gmail.com", // To
+                "Test email from ABP",          // Subject
+                "This is a test email.",        // Body
+                false                           // isBodyHtml
+            );
+        }
 
         public void Send()
         {

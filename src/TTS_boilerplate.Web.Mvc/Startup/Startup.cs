@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using TTS_boilerplate.Products_table;
 
+
 namespace TTS_boilerplate.Web.Startup
 {
     public class Startup
@@ -49,6 +50,8 @@ namespace TTS_boilerplate.Web.Startup
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
+
+            
 
             // thieets laapj PORT
             services.AddScoped<IProduct_tableAppService, Product_tableAppService>();
